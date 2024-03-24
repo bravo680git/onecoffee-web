@@ -8,17 +8,27 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      sm: { max: "640px" },
-      md: { max: "768px" },
-      lg: { max: "1024px" },
-      xl: { max: "1280px" },
       "2xl": { max: "1536px" },
+      xl: { max: "1280px" },
+      lg: { max: "1024px" },
+      md: { max: "768px" },
+      sm: { max: "640px" },
     },
     extend: {
       colors: {
-        primary: {},
-        secondary: {},
-        neutral: {},
+        primary: {
+          500: "#4BAF47",
+        },
+        secondary: {
+          500: "#EEC044",
+        },
+        neutral: {
+          "text-primary": "#1F1E17",
+          "text-secondary": "#878680",
+          bg: "#FFFFFF",
+          "bg-secondary": "#F8F7F0",
+          "bg-footer": "#24231D",
+        },
       },
     },
   },
