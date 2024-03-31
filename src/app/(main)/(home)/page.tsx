@@ -1,3 +1,14 @@
+import Image from "next/image";
+
 export default function Home() {
-  return <h1>Home page</h1>;
+  return (
+    <div>
+      <Image
+        src="/images/home-wallpaper.png"
+        width={1920}
+        height={900}
+        alt=""
+      />
+    </div>
+  );
 }
