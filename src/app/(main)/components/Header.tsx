@@ -125,7 +125,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       <div
         className={clsx(
           "hidden md:flex h-14 p-4 items-center justify-between text-neutral-text-secondary",
-          "transition-all fixed w-full",
+          "transition-all fixed w-full z-10",
           {
             "bg-neutral-bg-footer/90": !onInitScroll,
           }

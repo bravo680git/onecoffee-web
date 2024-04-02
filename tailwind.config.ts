@@ -18,6 +18,7 @@ const config: Config = {
       colors: {
         primary: {
           500: "#4BAF47",
+          100: "#F8F7F0",
         },
         secondary: {
           500: "#EEC044",
