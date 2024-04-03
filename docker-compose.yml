@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  web:
+    image: bravo680/new3t-web
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - BASE_URL=https://jsonplaceholder.typicode.com/todos/1
