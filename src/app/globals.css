@@ -4,6 +4,7 @@
 
 body {
   font-size: 14px;
+  color: theme("colors.neutral.text-primary");
 }
 
 input:focus {
@@ -20,4 +21,28 @@ input:focus {
 ::-webkit-scrollbar-thumb {
   background-color: #24231d44;
   border-radius: 100px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer components {
+  .paginate-btn {
+    @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border 
+     border-slate-200;
+  }
+
+  .ripple {
+    @apply relative overflow-hidden;
+  }
+  .ripple:before {
+    content: "";
+    @apply absolute left-1/2 top-1/2 z-10 h-0 w-0 translate-x-[-50%] translate-y-[-50%] rounded-full 
+    bg-primary-500/10 transition-all duration-300 hover:h-[200%] hover:w-[200%];
+  }
 }

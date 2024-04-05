@@ -31,6 +31,9 @@ const config: Config = {
           "bg-footer": "#24231D",
         },
       },
+      fontFamily: {
+        grace: "var(--font-grace)",
+      },
     },
   },
   plugins: [],

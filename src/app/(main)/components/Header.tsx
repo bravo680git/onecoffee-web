@@ -47,7 +47,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       setSearching(false);
     };
     const scrollHandler = () => {
-      setOnInitScroll(window.scrollY < 200);
+      setOnInitScroll(window.scrollY < 150);
     };
 
     document.body.addEventListener("click", closeSearchInput);

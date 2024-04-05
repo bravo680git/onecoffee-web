@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Covered_By_Your_Grace } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
+const grace = Covered_By_Your_Grace({
+  subsets: ["latin"],
+  variable: "--font-grace",
+  weight: ["400"],
+});
 
 export const metadata: Metadata = {
   title: "New3T",
@@ -16,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={clsx(inter.className, grace.variable)}>{children}</body>
     </html>
   );
 }
