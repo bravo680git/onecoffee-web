@@ -42,7 +42,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       setSearching(false);
     };
     const scrollHandler = () => {
-      setOnInitScroll(window.scrollY < 150);
+      setOnInitScroll(window.scrollY < 128);
     };
 
     document.body.addEventListener("click", closeSearchInput);

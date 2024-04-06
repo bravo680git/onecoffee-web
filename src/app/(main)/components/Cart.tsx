@@ -1,19 +1,17 @@
 "use client";
 
 import Checkbox from "@/components/Checkbox";
+import { path } from "@/config/path";
 import clsx from "clsx";
-import {
-  Add,
-  ArrowLeft,
-  CloseSquare,
-  Minus,
-  ShoppingCart,
-} from "iconsax-react";
+import { Add, ArrowLeft, Minus, ShoppingCart } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useEffect, MouseEvent } from "react";
 import { createPortal } from "react-dom";
 
 function Cart() {
+  const { push } = useRouter();
+
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const items = [1, 2, 3, 4];
@@ -35,6 +33,16 @@ function Cart() {
     }
   };
 
+  const handleOpenCart = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const crrScrollY = window.scrollY;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      setOpen(true);
+    }, crrScrollY / 3);
+  };
+
   useEffect(() => {
     setMounted(true);
 
@@ -51,12 +59,7 @@ function Cart() {
 
   return (
     <>
-      <CartBtn
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpen(true);
-        }}
-      />
+      <CartBtn onClick={handleOpenCart} />
       {mounted &&
         createPortal(
           <div
@@ -110,7 +113,11 @@ function Cart() {
                 </div>
                 <button
                   className="ripple mt-4 flex w-full items-center justify-center gap-2 rounded-md
-                  bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary">
+                  bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary"
+                  onClick={() => {
+                    push(path.checkout);
+                    setOpen(false);
+                  }}>
                   <ShoppingCart />
                   Mua hàng
                 </button>
