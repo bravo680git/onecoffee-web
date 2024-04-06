@@ -6,6 +6,10 @@ body {
   font-size: 14px;
   color: theme("colors.neutral.text-primary");
 }
+body:has([data-dialog-open="true"]) {
+  height: 100vh;
+  overflow: hidden;
+}
 
 input:focus {
   outline: none;
