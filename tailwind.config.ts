@@ -34,6 +34,10 @@ const config: Config = {
       fontFamily: {
         grace: "var(--font-grace)",
       },
+      boxShadow: {
+        primary: "0 0 0 4px #4BAF4744",
+        secondary: "0 0 0 4px #EEC04444",
+      },
     },
   },
   plugins: [],

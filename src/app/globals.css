@@ -43,6 +43,6 @@ input[type="number"] {
   .ripple:before {
     content: "";
     @apply absolute left-1/2 top-1/2 z-10 h-0 w-0 translate-x-[-50%] translate-y-[-50%] rounded-full 
-    bg-primary-500/10 transition-all duration-300 hover:h-[200%] hover:w-[200%];
+    bg-black/5 transition-all duration-300 hover:h-[200%] hover:w-[200%];
   }
 }
