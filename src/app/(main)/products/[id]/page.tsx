@@ -21,7 +21,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
 
   breadcrumbItems[2] = {
-    title: "Sản phẩm " + productId,
+    title: productId,
     url: "",
   };
 

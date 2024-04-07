@@ -1,9 +1,13 @@
+import { path } from "@/config/path";
 import { Star1 } from "iconsax-react";
 import Image from "next/image";
+import Link from "next/link";
 
 function ProductItem() {
   return (
-    <div className="flex w-full cursor-pointer flex-col">
+    <Link
+      className="flex w-full cursor-pointer flex-col"
+      href={`${path.products}/gao-dac-san-st25`}>
       <div className="ripple aspect-[3/2.7] w-full overflow-hidden rounded-md bg-primary-100">
         <div className="relative h-full w-full">
           <Image
@@ -37,7 +41,7 @@ function ProductItem() {
           <Star1 variant="Bold" className="text-secondary-500" size={16} />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
