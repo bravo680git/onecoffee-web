@@ -7,6 +7,7 @@ import {
   ProductFilter,
   ProductFilterBtn,
 } from "./components/ProductFilter";
+import { Suspense } from "react";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -43,7 +44,9 @@ function Products({ searchParams }: PageProps<[], ["sort"]>) {
             </span>
             <div className="ml-auto flex gap-2">
               <ProductFilterBtn />
-              <OrderSelect />
+              <Suspense>
+                <OrderSelect />
+              </Suspense>
             </div>
           </div>
           <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-2">
