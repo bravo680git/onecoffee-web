@@ -1,21 +1,47 @@
+"use client";
+
 import Image from "next/image";
-import { Edit, Edit2, Moneys } from "iconsax-react";
+import { Edit2, Moneys } from "iconsax-react";
 import clsx from "clsx";
+import { transformCurrency } from "@/utils/functions";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { OrderAddressListModal } from "./components/OrderAddressModal";
 
 function Checkout() {
+  const [mounted, setMounted] = useState(false);
+  const [openOrderAddressModal, setOpenOrderAddressModal] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div>
       <div className="flex h-[240px] items-end justify-center bg-neutral-bg-footer/90 pb-8">
-        <h3 className="text-xl font-bold text-white">Xác nhận đơn hàng</h3>
+        {/* <h3 className="text-xl font-bold text-white">Xác nhận đơn hàng</h3> */}
       </div>
       <div className="flex min-h-[calc(100vh-240px)] gap-5 bg-gray-100 px-5 py-10 lg:flex-col">
         <div className="flex grow flex-col gap-5">
           <div className="rounded-md bg-white p-4 shadow-sm">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
               Địa chỉ nhận hàng
-              <i className="ripple cursor-pointer rounded-full p-1 text-neutral-text-secondary hover:opacity-80">
+              <i
+                className="ripple cursor-pointer rounded-full p-1 text-neutral-text-secondary hover:opacity-80"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenOrderAddressModal(true);
+                }}>
                 <Edit2 size={16} />
               </i>
+              {mounted &&
+                createPortal(
+                  <OrderAddressListModal
+                    open={openOrderAddressModal}
+                    onClose={() => setOpenOrderAddressModal(false)}
+                  />,
+                  document.body,
+                )}
             </h3>
             <div>
               <span>Nguyen Van A</span>
@@ -47,7 +73,7 @@ function Checkout() {
                 <Moneys size={20} className="text-neutral-text-secondary" />
                 <span className="font-semibold">Thanh toán khi nhận hàng</span>
                 <div className="relative ml-auto h-5 w-5 rounded-full bg-blue-500">
-                  <div className="absolute left-1/2 top-1/2 h-3/5 w-3/5 translate-x-[-50%] translate-y-[-50%] rounded-full bg-white"></div>
+                  <div className="absolute left-1/2 top-1/2 aspect-square w-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full bg-white"></div>
                 </div>
               </div>
               <p className="mt-4 text-neutral-text-secondary">
@@ -63,20 +89,24 @@ function Checkout() {
                 <span className="text-neutral-text-secondary">
                   Tổng tạm tính
                 </span>
-                <span className="font-semibold">&#8363;20000</span>
+                <span className="font-semibold">
+                  {transformCurrency(20000)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-neutral-text-secondary">
                   Phí vận chuyển
                 </span>
-                <span className="font-semibold">&#8363;16000</span>
+                <span className="font-semibold">
+                  {transformCurrency(16000)}
+                </span>
               </div>
             </div>
             <div className="mt-5">
               <div className="flex items-center justify-between">
                 <span>Tổng cộng</span>
                 <span className="text-lg font-semibold text-primary-500">
-                  &#8363;36000
+                  {transformCurrency(36000)}
                 </span>
               </div>
               <button
@@ -106,10 +136,10 @@ function PItem({ className }: { className?: string }) {
       </div>
       <div className="flex w-36 flex-col sm:w-full sm:flex-row sm:gap-2">
         <span className="text-lg font-bold text-primary-500">
-          &#8363;143000
+          {transformCurrency(143000)}
         </span>
         <span className="text-neutral-text-secondary line-through">
-          &#8363;143000
+          {transformCurrency(143000)}
         </span>
         <span>-52%</span>
       </div>

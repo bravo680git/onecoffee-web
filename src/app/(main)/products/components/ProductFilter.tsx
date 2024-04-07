@@ -42,7 +42,12 @@ function OrderSelect() {
 
   return (
     <div className="w-40">
-      <Select items={orderItems} value={value} onChange={setValue} />
+      <Select
+        items={orderItems}
+        value={value}
+        onChange={setValue}
+        showError={false}
+      />
     </div>
   );
 }

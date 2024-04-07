@@ -5,11 +5,12 @@ import { Add, ArrowDown2, HambergerMenu, SearchNormal1 } from "iconsax-react";
 import Image from "next/image";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import Cart from "./Cart";
+import Link from "next/link";
 
 export type MenuItem = {
   key: string;
   title: string;
-  path?: string;
+  path: string;
   children?: MenuItem[];
 };
 
@@ -70,16 +71,18 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
 
         <ul className="flex items-center gap-4 justify-self-center font-semibold">
           {menuItems.map((item, index) => (
-            <li
-              key={index}
-              className="group relative flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 transition-all hover:bg-primary-500/20">
-              {item.title}
-              {!!item.children?.length && (
-                <ArrowDown2
-                  className="transition-all group-hover:rotate-180"
-                  size={16}
-                />
-              )}
+            <li key={index} className="group relative">
+              <Link
+                href={item.path}
+                className="flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 transition-all hover:bg-primary-500/20">
+                {item.title}
+                {!!item.children?.length && (
+                  <ArrowDown2
+                    className="transition-all group-hover:rotate-180"
+                    size={16}
+                  />
+                )}
+              </Link>
               <ul
                 className={clsx(
                   "invisible absolute left-[50%] top-[calc(100%+4px)] translate-x-[-50%] shadow-lg",
@@ -89,10 +92,12 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
                   },
                 )}>
                 {item.children?.map((child, i) => (
-                  <li
-                    key={i}
-                    className="cursor-pointer whitespace-nowrap rounded-md px-4 py-2 transition-all hover:bg-primary-500/20">
-                    {child.title}
+                  <li key={i}>
+                    <Link
+                      href={child.path}
+                      className="block h-full w-full cursor-pointer whitespace-nowrap rounded-md px-4 py-2 transition-all hover:bg-primary-500/20">
+                      {child.title}
+                    </Link>
                   </li>
                 ))}
               </ul>

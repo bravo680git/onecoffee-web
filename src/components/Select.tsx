@@ -11,9 +11,24 @@ export type SelectProps = {
   placeholder?: string;
   value?: string | number;
   onChange: (v: SelectProps["items"][number]["value"]) => void;
+  className?: string;
+  disabled?: boolean;
+  error?: string;
+  label?: string;
+  showError?: boolean;
 };
 
-function Select({ items = [], placeholder, value, onChange }: SelectProps) {
+function Select({
+  items = [],
+  placeholder,
+  value,
+  onChange,
+  className,
+  disabled,
+  error,
+  label,
+  showError = true,
+}: SelectProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0, w: 0 });
@@ -23,11 +38,12 @@ function Select({ items = [], placeholder, value, onChange }: SelectProps) {
     return label ? (
       <span className="text-neutral-text-secondary">{label}</span>
     ) : (
-      <span className="">{placeholder}</span>
+      <span className="text-neutral-placeholder">{placeholder}</span>
     );
   })();
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.stopPropagation();
 
     setOpen(!open);
@@ -66,26 +82,36 @@ function Select({ items = [], placeholder, value, onChange }: SelectProps) {
 
   return (
     <>
-      <div
-        className="flex h-8 w-full items-center justify-between rounded-md border border-slate-200 px-3"
-        onClick={(e) => handleClick(e)}
-        data-select>
-        {displayValue}
-        <ArrowDown2
+      <div className={clsx("flex flex-col gap-1", className)}>
+        {label && <label> {label}</label>}
+        <div
           className={clsx(
-            "text-neutral-text-secondary transition-all duration-300",
+            "flex h-8 w-full items-center justify-between rounded-md border border-slate-200 px-3",
+            disabled ? "cursor-not-allowed" : "cursor-pointer",
             {
-              "rotate-180": open,
+              "bg-neutral-placeholder/20": disabled,
             },
           )}
-          size={16}
-        />
+          onClick={(e) => handleClick(e)}
+          data-select>
+          {displayValue}
+          <ArrowDown2
+            className={clsx(
+              "text-neutral-text-secondary transition-all duration-300",
+              {
+                "rotate-180": open,
+              },
+            )}
+            size={16}
+          />
+        </div>
+        {showError && <span className="h-4 text-xs text-red-500">{error}</span>}
       </div>
       {mounted &&
         createPortal(
           <div
             className={clsx(
-              "fixed z-10 max-h-40 overflow-y-auto rounded-md bg-white opacity-0 shadow-md duration-300",
+              "fixed z-50 max-h-40 overflow-y-auto rounded-md bg-white opacity-0 shadow-md duration-300",
               "invisible origin-top scale-0 overflow-hidden transition-[width,height,transform,visibility,opacity]",
               {
                 "!visible !scale-100 !opacity-100": open,
@@ -102,6 +128,11 @@ function Select({ items = [], placeholder, value, onChange }: SelectProps) {
                 </li>
               ))}
             </ul>
+            {!items.length && (
+              <div className="py-6 text-center text-neutral-text-secondary">
+                Không có dữ liệu
+              </div>
+            )}
           </div>,
           document?.body,
         )}

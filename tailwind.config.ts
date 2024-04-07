@@ -29,6 +29,7 @@ const config: Config = {
           bg: "#FFFFFF",
           "bg-secondary": "#F8F7F0",
           "bg-footer": "#24231D",
+          placeholder: "#9ca3af",
         },
       },
       fontFamily: {

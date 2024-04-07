@@ -1,12 +1,13 @@
 import React from "react";
 import Footer from "./components/Footer";
 import Header, { type MenuItem } from "./components/Header";
+import { path } from "@/config/path";
 
 const menuItems: MenuItem[] = [
   {
     key: "home",
     title: "Trang chủ",
-    path: "/",
+    path: path.home,
   },
   {
     key: "about",
@@ -16,22 +17,22 @@ const menuItems: MenuItem[] = [
   {
     key: "product",
     title: "Sản phẩm",
-    path: "/products",
+    path: path.products,
     children: [
       {
         key: "rice",
         title: "Gạo",
-        path: "/products/rice",
+        path: `${path.products}?c=gao`,
       },
       {
         key: "cf",
         title: "Cafe",
-        path: "/products/coffee",
+        path: `${path.products}?c=cafe`,
       },
       {
         key: "other",
         title: "Thực phẩm khác",
-        path: "/products/other",
+        path: `${path.products}?c=thuc-pham-khac`,
       },
     ],
   },
