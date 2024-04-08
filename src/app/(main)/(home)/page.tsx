@@ -1,10 +1,10 @@
+import { path } from "@/config/path";
 import Image from "next/image";
+import Link from "next/link";
 import Slider, { SliderItem } from "./components/BannerSlider";
 import { CheckIcon, LabIcon, VegetableCart } from "./components/Icons";
 import NewsSlider, { type NewsItem } from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
-import Link from "next/link";
-import { path } from "@/config/path";
 
 const items: SliderItem[] = [
   {
@@ -56,7 +56,7 @@ const newsItems: NewsItem[] = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="w-full overflow-hidden">
       <section className="relative bg-fixed">

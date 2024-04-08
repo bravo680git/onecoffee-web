@@ -59,7 +59,8 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
     <header>
       <div
         className={clsx(
-          "fixed left-0 top-0 z-20 flex h-32 w-full items-center justify-between border-slate-100 px-10 text-white transition-all md:hidden",
+          "fixed left-0 top-0 z-20 flex h-32 w-full items-center justify-between",
+          "border-slate-100 px-10 text-white transition-all md:hidden",
           {
             "!h-20 bg-neutral-bg-footer/60": !onInitScroll,
           },
@@ -85,8 +86,8 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
               </Link>
               <ul
                 className={clsx(
-                  "invisible absolute left-[50%] top-[calc(100%+4px)] translate-x-[-50%] shadow-lg",
-                  "z-10 scale-75 rounded-md transition-all group-hover:visible group-hover:scale-100",
+                  "invisible absolute left-[50%] top-[calc(100%+4px)] translate-x-[-50%] opacity-0 shadow-lg",
+                  "z-10 scale-75 rounded-md transition-all group-hover:visible group-hover:scale-100 group-hover:!opacity-100",
                   {
                     "bg-neutral-bg-footer/60": !onInitScroll,
                   },
@@ -95,7 +96,8 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
                   <li key={i}>
                     <Link
                       href={child.path}
-                      className="block h-full w-full cursor-pointer whitespace-nowrap rounded-md px-4 py-2 transition-all hover:bg-primary-500/20">
+                      className="block h-full w-full cursor-pointer whitespace-nowrap rounded-md px-4 py-2 
+                        transition-all hover:bg-primary-500/20">
                       {child.title}
                     </Link>
                   </li>

@@ -1,71 +1,55 @@
+import { path } from "@/config/path";
+import { publicApi } from "@/services/api/public";
+import { CATEGORY } from "@/utils/constants";
 import React from "react";
 import Footer from "./components/Footer";
 import Header, { type MenuItem } from "./components/Header";
-import { path } from "@/config/path";
+import { generateMenuItem } from "./helper";
 
-const menuItems: MenuItem[] = [
-  {
-    key: "home",
-    title: "Trang chủ",
-    path: path.home,
-  },
-  {
-    key: "about",
-    title: "Về chúng tôi",
-    path: "/about",
-  },
-  {
-    key: "product",
-    title: "Sản phẩm",
-    path: path.products,
-    children: [
-      {
-        key: "rice",
-        title: "Gạo",
-        path: `${path.products}?c=gao`,
-      },
-      {
-        key: "cf",
-        title: "Cafe",
-        path: `${path.products}?c=cafe`,
-      },
-      {
-        key: "other",
-        title: "Thực phẩm khác",
-        path: `${path.products}?c=thuc-pham-khac`,
-      },
-    ],
-  },
-  {
-    key: "blog",
-    title: "Bài viết",
-    path: "/blogs",
-    children: [
-      {
-        key: "tip",
-        title: "Mẹo vặt",
-        path: "/blogs/tip",
-      },
-      {
-        key: "news",
-        title: "Tin tức",
-        path: "/blogs/news",
-      },
-      {
-        key: "sale",
-        title: "Chương trình ưu đãi",
-        path: "/blogs/sale",
-      },
-    ],
-  },
-  {
-    key: "contact",
-    title: "Liên hệ",
-    path: "/contact",
-  },
-];
+async function MainLayout({ children }: { children: React.ReactNode }) {
+  const categories =
+    (await publicApi
+      .getCategoryList(undefined, { next: { tags: ["category"] } })
+      .then((data) => data.data?.category)
+      .catch()) ?? [];
 
-function MainLayout({ children }: { children: React.ReactNode }) {
+  const productCategories = categories.filter(
+    (item) => item.parentId === CATEGORY.PRODUCT,
+  );
+  const blogCategories = categories.filter(
+    (item) => item.parentId === CATEGORY.BLOG,
+  );
+
+  const menuItems: MenuItem[] = [
+    {
+      key: "home",
+      title: "Trang chủ",
+      path: path.home,
+    },
+    {
+      key: "about",
+      title: "Về chúng tôi",
+      path: "/about",
+    },
+    {
+      key: "product",
+      title: "Sản phẩm",
+      path: path.products,
+      children: generateMenuItem(productCategories),
+    },
+    {
+      key: "blog",
+      title: "Bài viết",
+      path: path.blogs,
+      children: generateMenuItem(blogCategories),
+    },
+    {
+      key: "contact",
+      title: "Liên hệ",
+      path: "/contact",
+    },
+  ];
+
   return (
     <div>
       <Header menuItems={menuItems} />
