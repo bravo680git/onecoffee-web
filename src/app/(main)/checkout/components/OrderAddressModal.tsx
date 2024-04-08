@@ -182,7 +182,6 @@ function CreateOrderAddressModal({
             value={district}
             onChange={setDistrict}
             placeholder="Huyện"
-            disabled
           />
           <Select
             label="Xã(phường)"

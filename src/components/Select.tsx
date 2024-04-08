@@ -44,9 +44,12 @@ function Select({
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
-    e.stopPropagation();
+    if (!open) {
+      setTimeout(() => {
+        setOpen(true);
+      });
+    }
 
-    setOpen(!open);
     let target: HTMLElement = e.target as HTMLElement;
     while (!target?.hasAttribute("data-select")) {
       target = target.parentElement!;
