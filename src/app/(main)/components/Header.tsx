@@ -1,11 +1,18 @@
 "use client";
 
 import clsx from "clsx";
-import { Add, ArrowDown2, HambergerMenu, SearchNormal1 } from "iconsax-react";
+import {
+  Add,
+  ArrowDown2,
+  HambergerMenu,
+  SearchNormal1,
+  UserOctagon,
+} from "iconsax-react";
 import Image from "next/image";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import Cart from "./Cart";
 import Link from "next/link";
+import { path } from "@/config/path";
 
 export type MenuItem = {
   key: string;
@@ -122,6 +129,12 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             <SearchNormal1 size={24} onClick={handleSearch} />
           </div>
           <Cart />
+          <Link href={path.login}>
+            <UserOctagon
+              size={24}
+              className="cursor-pointer hover:text-primary-500"
+            />
+          </Link>
         </div>
       </div>
       <div
@@ -150,6 +163,12 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             <SearchNormal1 size={20} onClick={handleSearch} />
           </div>
           <Cart />
+          <Link href={path.login}>
+            <UserOctagon
+              size={24}
+              className="cursor-pointer hover:text-primary-500"
+            />
+          </Link>
         </div>
         <div
           className={clsx(
@@ -180,7 +199,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
               {menuItems.map((item, index) => (
                 <li key={index} className="cursor-pointer">
                   <span className="flex items-center gap-1 rounded-md px-2 py-1 transition-all hover:bg-primary-500/20">
-                    {item.title}
+                    <Link href={item.path}>{item.title}</Link>
                     {!!item.children?.length && (
                       <ArrowDown2
                         className={clsx("transition-all", {
@@ -204,7 +223,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
                       <li
                         key={i}
                         className="cursor-pointer whitespace-nowrap rounded-md px-4 py-2 transition-all hover:bg-primary-500/20">
-                        {child.title}
+                        <Link href={child.path}>{child.title}</Link>
                       </li>
                     ))}
                   </ul>

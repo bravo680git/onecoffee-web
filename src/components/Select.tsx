@@ -108,7 +108,17 @@ function Select({
             size={16}
           />
         </div>
-        {showError && <span className="h-4 text-xs text-red-500">{error}</span>}
+        {showError && (
+          <span
+            className={clsx(
+              "h-4 text-xs text-red-500 opacity-0 transition-all",
+              {
+                "!opacity-100": !!error,
+              },
+            )}>
+            {error}
+          </span>
+        )}
       </div>
       {mounted &&
         createPortal(

@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import { Eye, EyeSlash } from "iconsax-react";
+import { KeyboardEvent, useState } from "react";
 
 export type InputProps = {
   label?: string;
@@ -6,28 +8,60 @@ export type InputProps = {
   error?: string;
   value: string;
   onChange(v: string): void;
+  onBlur?(): void;
   className?: string;
+  password?: boolean;
+  onEnter?(): void;
 };
 
 function Input({
   onChange,
+  onBlur,
   value,
   error,
   label,
   placeholder,
   className,
+  password,
+  onEnter,
 }: InputProps) {
+  const [hidden, setHidden] = useState(true);
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && onEnter) {
+      onEnter();
+    }
+  };
+
   return (
-    <div className={clsx("flex flex-col gap-1", className)}>
+    <div className={clsx("relative flex flex-col gap-1", className)}>
       {label && <label>{label}</label>}
       <input
-        type="text"
+        type={password && hidden ? "password" : "text"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="h-8 rounded-md border border-slate-200 px-3 transition-all duration-300 focus:shadow-primary"
+        className="h-8 rounded-md border border-slate-200 bg-transparent px-3 transition-all duration-300 focus:shadow-primary"
       />
-      <span className="h-4 text-xs text-red-500">{error}</span>
+      {password && (
+        <i
+          onClick={() => setHidden(!hidden)}
+          className="absolute bottom-[25px] right-2 text-neutral-text-secondary">
+          {hidden ? (
+            <Eye variant="Bold" size={20} />
+          ) : (
+            <EyeSlash variant="Bold" size={20} />
+          )}
+        </i>
+      )}
+      <span
+        className={clsx("h-4 text-xs text-red-500 opacity-0 transition-all", {
+          "!opacity-100": !!error,
+        })}>
+        {error}
+      </span>
     </div>
   );
 }
