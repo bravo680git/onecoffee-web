@@ -12,6 +12,8 @@ export type InputProps = {
   className?: string;
   password?: boolean;
   onEnter?(): void;
+  id?: string;
+  name?: string;
 };
 
 function Input({

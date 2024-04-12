@@ -9,6 +9,8 @@ type ModalProps = {
   content?: string;
   onOk?(): Promise<void>;
   onClose?(): void;
+  className?: string;
+  okCancel?: boolean;
 };
 type ModalType = "error" | "info";
 
@@ -31,8 +33,9 @@ function Modal({
   type = "info",
   open,
   className,
+  okCancel,
   onClose,
-}: ModalProps & { type?: ModalType; open: boolean; className?: string }) {
+}: ModalProps & { type?: ModalType; open: boolean }) {
   const [loading, setLoading] = useState(false);
   const handleOk = () => {
     if (onOk && !loading) {
@@ -71,23 +74,27 @@ function Modal({
         </i>
         {content && <p className="mt-4">{content}</p>}
         <div className="mt-4 flex justify-end gap-2">
-          <button
-            className="ripple rounded-md border border-slate-200 px-3 py-1"
-            onClick={onClose}>
-            Hủy
-          </button>
-          <button
-            onClick={handleOk}
-            disabled={loading}
-            className={clsx(
-              "ripple flex items-center justify-center gap-2 rounded-md px-3 py-1 font-semibold text-white",
-              msgDist[type].btnClass,
-            )}>
-            {loading && (
-              <NotificationCircle size={16} className="animate-spin" />
-            )}
-            OK
-          </button>
+          {okCancel && (
+            <button
+              className="ripple rounded-md border border-slate-200 px-3 py-1"
+              onClick={onClose}>
+              Hủy
+            </button>
+          )}
+          {onOk && (
+            <button
+              onClick={handleOk}
+              disabled={loading}
+              className={clsx(
+                "ripple flex items-center justify-center gap-2 rounded-md px-3 py-1 font-semibold text-white",
+                msgDist[type].btnClass,
+              )}>
+              {loading && (
+                <NotificationCircle size={16} className="animate-spin" />
+              )}
+              OK
+            </button>
+          )}
         </div>
       </div>
     </div>

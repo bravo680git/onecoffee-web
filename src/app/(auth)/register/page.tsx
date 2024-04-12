@@ -1,15 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Input from "@/components/Input";
+import { useModal } from "@/components/Modal";
+import { path } from "@/config/path";
+import { RegisterPayload } from "@/services/api";
 import clsx from "clsx";
 import { NotificationCircle } from "iconsax-react";
-import { RegisterPayload } from "@/services/api";
 import Link from "next/link";
-import { path } from "@/config/path";
+import { useEffect, useState } from "react";
 import { checkPasswordStrongLevel, validate } from "../helper";
+import { register } from "./action";
+import { useRouter } from "next/navigation";
+
+const msgDist = {
+  USERNAME_EXISTS: "Email đã được đăng kí, vui lòng dùng email khác",
+};
 
 function Register() {
+  const { modelApi, modelCtxHoler } = useModal();
+  const { push } = useRouter();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +40,25 @@ function Register() {
       return;
     }
     setLoading(true);
+    register({ email, name, password })
+      .then((res) => {
+        if (res.statusCode === 201) {
+          modelApi.info({
+            title: "Xác nhận email để hoàn tất quá trình đăng ký",
+            content:
+              "Chúng tôi đã gửi cho bạn một email xác nhận, vui lòng kiểm tra và thực hiện xác nhận để hoàn tất quá trình đăng ký.",
+            className: "max-w-[600px]",
+            async onOk() {
+              push(path.home);
+            },
+          });
+        } else if (res.statusCode === 409) {
+          setErrors({ email: msgDist.USERNAME_EXISTS });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -37,73 +66,80 @@ function Register() {
   }, []);
 
   return (
-    <div className="mx-auto flex w-full flex-col gap-2 rounded-md bg-neutral-bg-footer/40 p-5 text-white shadow-md">
-      <h3 className="text-center text-lg font-semibold">Tạo tài khoản</h3>
-      <Input
-        value={name}
-        onChange={setName}
-        label="Họ và tên"
-        placeholder="Nhập họ và tên"
-        error={errors.name}
-        onBlur={() => validate({ name }, setErrors)}
-      />
-      <Input
-        value={email}
-        onChange={setEmail}
-        label="Email"
-        placeholder="Nhập địa chỉ email của bạn"
-        error={errors.email}
-        onBlur={() => validate({ email }, setErrors)}
-      />
-      <div>
+    <>
+      <div className="mx-auto flex w-full flex-col gap-2 rounded-md bg-neutral-bg-footer/40 p-5 text-white shadow-md">
+        <h3 className="text-center text-lg font-semibold">Tạo tài khoản</h3>
         <Input
-          value={password}
-          onChange={handleChangePassword}
-          label="Mật khẩu"
-          placeholder="Nhập mật khẩu"
-          password
-          error={errors.password}
-          onBlur={() => validate({ password }, setErrors)}
+          value={name}
+          onChange={setName}
+          label="Họ và tên"
+          placeholder="Nhập họ và tên"
+          error={errors.name}
+          onBlur={() => validate({ name }, setErrors)}
         />
-        <div className="mt-1 flex h-2 gap-2">
-          <div
-            className={clsx("h-full grow rounded-md bg-white/10", {
-              "!bg-red-500": passwordStrongLevel > 0,
-            })}></div>
-          <div
-            className={clsx("h-full grow rounded-md bg-white/10", {
-              "!bg-orange-500": passwordStrongLevel > 1,
-            })}></div>
-          <div
-            className={clsx("h-full grow rounded-md bg-white/10", {
-              "!bg-green-500": passwordStrongLevel > 2,
-            })}></div>
+        <Input
+          value={email}
+          onChange={setEmail}
+          label="Email"
+          placeholder="Nhập địa chỉ email của bạn"
+          error={errors.email}
+          onBlur={() => validate({ email }, setErrors)}
+          name="email"
+          id="email"
+        />
+        <div>
+          <Input
+            value={password}
+            onChange={handleChangePassword}
+            label="Mật khẩu"
+            placeholder="Nhập mật khẩu"
+            password
+            error={errors.password}
+            onBlur={() => validate({ password }, setErrors)}
+            name="password"
+            id="password"
+          />
+          <div className="mt-1 flex h-2 gap-2">
+            <div
+              className={clsx("h-full grow rounded-md bg-white/10", {
+                "!bg-red-500": passwordStrongLevel > 0,
+              })}></div>
+            <div
+              className={clsx("h-full grow rounded-md bg-white/10", {
+                "!bg-orange-500": passwordStrongLevel > 1,
+              })}></div>
+            <div
+              className={clsx("h-full grow rounded-md bg-white/10", {
+                "!bg-green-500": passwordStrongLevel > 2,
+              })}></div>
+          </div>
+          <p className="mt-2 text-xs text-neutral-text-secondary">
+            Nhập mật khẩu từ 8-16 kí tự, có chứa chữ cái viết hoa, chữ số và kí
+            tự đặc biệt.
+          </p>
         </div>
-        <p className="mt-2 text-xs text-neutral-text-secondary">
-          Nhập mật khẩu từ 8-16 kí tự, có chứa chữ cái viết hoa, chữ số và kí tự
-          đặc biệt.
+        <button
+          className={clsx(
+            "ripple flex items-center justify-center gap-2 rounded-md",
+            "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
+            {
+              "opacity-80": loading,
+            },
+          )}
+          onClick={handleSubmit}
+          disabled={loading}>
+          {loading && <NotificationCircle size={20} className="animate-spin" />}
+          Đăng ký
+        </button>
+        <p className="text-xs text-secondary-500">
+          Bạn đã có tài khoản,{" "}
+          <Link className="text-blue-500 hover:underline" href={path.login}>
+            Đăng nhập ngay
+          </Link>
         </p>
       </div>
-      <button
-        className={clsx(
-          "ripple flex items-center justify-center gap-2 rounded-md",
-          "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-          {
-            "opacity-80": loading,
-          },
-        )}
-        onClick={handleSubmit}
-        disabled={loading}>
-        {loading && <NotificationCircle size={20} className="animate-spin" />}
-        Đăng ký
-      </button>
-      <p className="text-xs text-secondary-500">
-        Bạn đã có tài khoản,{" "}
-        <Link className="text-blue-500 hover:underline" href={path.login}>
-          Đăng nhập ngay
-        </Link>
-      </p>
-    </div>
+      {modelCtxHoler}
+    </>
   );
 }
 
