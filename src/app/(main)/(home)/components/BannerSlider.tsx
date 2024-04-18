@@ -5,11 +5,10 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
+import { Banner } from "@/services/api/public/type";
+import Link from "next/link";
 
-export type SliderItem = {
-  img: string;
-  url?: string;
-};
+export type SliderItem = Banner["banners"][number];
 
 function Slider({ items }: { items: SliderItem[] }) {
   return (
@@ -22,11 +21,17 @@ function Slider({ items }: { items: SliderItem[] }) {
         speed={500}
         autoplay>
         {items.map((item, i) => (
-          <div
+          <Link
             key={i}
-            className="text-center w-full h-[800px] xl:h-[600px] sm:h-[400px] relative mx-auto">
-            <Image src={item.img} alt="" fill className="h-full w-full" />
-          </div>
+            href={item.link}
+            className="relative mx-auto h-[25vw] w-full text-center">
+            <Image
+              src={item.image}
+              alt=""
+              fill
+              className="h-full w-full object-contain"
+            />
+          </Link>
         ))}
       </Slick>
     </div>

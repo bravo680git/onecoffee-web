@@ -1,22 +1,11 @@
 import { path } from "@/config/path";
 import Image from "next/image";
 import Link from "next/link";
-import Slider, { SliderItem } from "./components/BannerSlider";
+import Slider from "./components/BannerSlider";
 import { CheckIcon, LabIcon, VegetableCart } from "./components/Icons";
 import NewsSlider, { type NewsItem } from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
-
-const items: SliderItem[] = [
-  {
-    img: "https://img.freepik.com/free-vector/flat-design-tasty-asian-food-facebook-cover_23-2150052176.jpg?t=st=1711978910~exp=1711982510~hmac=81db7e0d3b7b865ae20bac33ead58cd3775146acfd1099adc60cf07834fe6d06&w=1380",
-  },
-  {
-    img: "https://img.freepik.com/free-vector/flat-design-food-sale-banner_23-2149083220.jpg?t=st=1711978931~exp=1711982531~hmac=12df7c2752473dcc69bf9ecb2ca608c97f0a4b1e5b55b2862b4c41c2c8734abc&w=1380",
-  },
-  {
-    img: "https://img.freepik.com/free-vector/sprouted-white-rice-bowl-with-cereals-wooden-desk_107791-5545.jpg?t=st=1711978951~exp=1711982551~hmac=ea761ce80f2c7ac323e91a8f711c24b785504889fecd4d631dcc5ec02e14f173&w=1380",
-  },
-];
+import { publicApi } from "@/services/api";
 
 const newsItems: NewsItem[] = [
   {
@@ -57,6 +46,12 @@ const newsItems: NewsItem[] = [
 ];
 
 export default async function Home() {
+  const banners =
+    (await publicApi
+      .getBannerList()
+      .then((data) => data.data?.banners)
+      .catch()) ?? [];
+
   return (
     <div className="w-full overflow-hidden">
       <section className="relative bg-fixed">
@@ -172,7 +167,7 @@ export default async function Home() {
       </section>
 
       <div className="w-full pb-10 pt-[100px]">
-        <Slider items={items} />
+        <Slider items={banners} />
       </div>
 
       <section className="relative mt-10 flex h-[400px] w-full items-center justify-center bg-primary-100">

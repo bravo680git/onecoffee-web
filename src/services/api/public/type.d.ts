@@ -5,3 +5,12 @@ export type Category = {
     parentId?: number;
   }[];
 };
+
+type Banner = {
+  banners: {
+    id: number;
+    image: string;
+    caption?: string;
+    link: string;
+  }[];
+};

@@ -9,7 +9,7 @@ import { generateMenuItem } from "./helper";
 async function MainLayout({ children }: { children: React.ReactNode }) {
   const categories =
     (await publicApi
-      .getCategoryList(undefined, { next: { tags: ["category"] } })
+      .getCategoryList()
       .then((data) => data.data?.category)
       .catch()) ?? [];
 
