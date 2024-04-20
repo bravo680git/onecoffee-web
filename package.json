@@ -14,7 +14,8 @@
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-slick": "^0.30.2",
+    "react-loading-skeleton": "^3.4.0",
+    "react-slick": "0.29.0",
     "sharp": "^0.33.3",
     "slick-carousel": "^1.8.1"
   },

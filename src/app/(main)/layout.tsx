@@ -10,7 +10,7 @@ async function MainLayout({ children }: { children: React.ReactNode }) {
   const categories =
     (await publicApi
       .getCategoryList()
-      .then((data) => data.data?.category)
+      .then((data) => data.data?.categories)
       .catch()) ?? [];
 
   const productCategories = categories.filter(
@@ -35,13 +35,13 @@ async function MainLayout({ children }: { children: React.ReactNode }) {
       key: "product",
       title: "Sản phẩm",
       path: path.products,
-      children: generateMenuItem(productCategories),
+      children: generateMenuItem(path.products, productCategories),
     },
     {
       key: "blog",
       title: "Bài viết",
       path: path.blogs,
-      children: generateMenuItem(blogCategories),
+      children: generateMenuItem(path.blogs, blogCategories),
     },
     {
       key: "contact",

@@ -6,37 +6,40 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Checkbox from "@/components/Checkbox";
 import { Setting5 } from "iconsax-react";
 import clsx from "clsx";
+import { OrderType } from "../constants";
+import { Category } from "@/services/api/public/type";
+import { QueryKey } from "@/utils/constants";
 
 const orderItems: SelectProps["items"] = [
   {
     label: "Nổi bật",
-    value: "popular",
+    value: OrderType.popular,
   },
   {
     label: "Mới nhất",
-    value: "newest",
+    value: OrderType.newest,
   },
   {
     label: "Giá thấp đến cao",
-    value: "asc",
+    value: OrderType.priceAsc,
   },
   {
     label: "Giá cao đến thấp",
-    value: "desc",
+    value: OrderType.priceDesc,
   },
 ];
 
 function OrderSelect() {
   const { push } = useRouter();
-  const searchParams = useSearchParams();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [value, setValue] = useState<number | string>(
-    new URLSearchParams(searchParams).get("sort") ?? orderItems[0].value,
+    new URLSearchParams(searchParams).get(QueryKey.sort) ?? orderItems[0].value,
   );
 
   useEffect(() => {
     const search = new URLSearchParams(searchParams.toString());
-    search.set("sort", value.toString());
+    search.set(QueryKey.sort, value.toString());
     push(`${pathname}?${search}`, { scroll: false });
   }, [searchParams, value, pathname, push]);
 
@@ -52,8 +55,23 @@ function OrderSelect() {
   );
 }
 
-function ProductFilter() {
-  const [values, setValues] = useState<number[]>([]);
+function ProductFilter({
+  categories = [],
+}: {
+  categories: Category["categories"];
+}) {
+  const searchParams = useSearchParams();
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const [values, setValues] = useState<number[]>(() => {
+    const result = searchParams.get(QueryKey.category);
+    return result ? result.split(",").map((c) => +c) : [];
+  });
+  const [priceFrom, setPriceFrom] = useState(
+    searchParams.get(QueryKey.from) ?? "",
+  );
+  const [priceTo, setPriceTo] = useState(searchParams.get(QueryKey.to) ?? "");
 
   const handleCheck = (check: boolean, v: number) => {
     if (!check) {
@@ -62,6 +80,27 @@ function ProductFilter() {
       setValues([...values, v]);
     }
   };
+
+  const handleFilter = () => {
+    const search = new URLSearchParams(searchParams);
+    if (!isNaN(Number(priceFrom)) && priceFrom) {
+      search.set(QueryKey.from, priceFrom);
+    } else {
+      search.delete(QueryKey.from);
+    }
+    if (!isNaN(Number(priceTo)) && priceTo) {
+      search.set(QueryKey.to, priceTo);
+    } else {
+      search.delete(QueryKey.to);
+    }
+    if (values.length > 0) {
+      search.set(QueryKey.category, values.join(","));
+    } else {
+      search.delete(QueryKey.category);
+    }
+    push(`${pathname}?${search.toString()}`, { scroll: false });
+  };
+
   return (
     <div className="w-full rounded-md border border-slate-200 bg-white p-4">
       <h3 className="mb-2 text-base font-semibold text-secondary-500">
@@ -72,12 +111,16 @@ function ProductFilter() {
           type="number"
           placeholder="đ Từ"
           className="w-20 rounded-md  border border-slate-200 px-2 py-1 caret-primary-500"
+          value={priceFrom}
+          onChange={(e) => setPriceFrom(e.target.value)}
         />
         <span className="mx-auto w-fit">-</span>
         <input
           type="number"
           placeholder="đ Đến"
           className="w-20 rounded-md border border-slate-200 px-2 py-1 caret-primary-500"
+          value={priceTo}
+          onChange={(e) => setPriceTo(e.target.value)}
         />
       </div>
 
@@ -85,24 +128,30 @@ function ProductFilter() {
         Danh mục
       </h3>
       <div className="flex flex-col gap-2">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
+        {categories.map((item) => (
           <Checkbox
-            key={i}
-            label="San pham"
-            value={values.includes(i)}
-            onChange={(c) => handleCheck(c, i)}
+            key={item.id}
+            label={item.name}
+            value={values.includes(item.id)}
+            onChange={(c) => handleCheck(c, item.id)}
           />
         ))}
       </div>
 
-      <button className="ripple mt-3 rounded-md bg-primary-500 px-4 py-1 font-semibold text-white">
+      <button
+        className="ripple mt-3 rounded-md bg-primary-500 px-4 py-1 font-semibold text-white"
+        onClick={handleFilter}>
         Áp dụng
       </button>
     </div>
   );
 }
 
-function ProductFilterBtn() {
+function ProductFilterBtn({
+  categories = [],
+}: {
+  categories: Category["categories"];
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -138,7 +187,7 @@ function ProductFilterBtn() {
             "!scale-100": open,
           },
         )}>
-        <ProductFilter />
+        <ProductFilter categories={categories} />
       </div>
     </div>
   );

@@ -5,6 +5,14 @@ import { Star1 } from "iconsax-react";
 import ProductPrice from "./components/ProductPrice";
 import ProductRate from "./components/ProductRate";
 import RelateProductSlider from "./components/RelateProductSlider";
+import { publicApi } from "@/services/api";
+import { ProductType } from "@/services/api/public/type";
+import "@/assets/css/quill.css";
+import Link from "next/link";
+import RelatedProducts, {
+  RelatedProductsLoading,
+} from "./components/RelatedProducts";
+import { Suspense } from "react";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -19,9 +27,14 @@ const breadcrumbItems: BreadcrumbItem[] = [
 
 async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
+  const data =
+    (await publicApi
+      .getProductDetail(productId)
+      .then((res) => res.data?.product)
+      .catch()) ?? ({} as ProductType);
 
   breadcrumbItems[2] = {
-    title: productId,
+    title: data.name,
     url: "",
   };
 
@@ -39,12 +52,12 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
       </div>
       <div className="mx-auto my-28 max-w-[1200px] xl:max-w-full xl:px-4">
         <section className="w-full">
-          <div className="flex gap-5 md:flex-col">
+          <div className="flex gap-12 md:flex-col">
             <div className="w-[600px] shrink-0 xl:w-[400px] md:mx-auto sm:w-full">
-              <ProductImageSlider />
+              <ProductImageSlider images={data.images} />
             </div>
             <div className="grow">
-              <h3 className="mb-2 text-lg font-semibold">Apple</h3>
+              <h3 className="mb-2 text-lg font-semibold">{data.name}</h3>
               <div className="flex items-center gap-2">
                 <div className="flex items-center">
                   <Star1
@@ -53,62 +66,38 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
                     className="text-secondary-500"
                   />
                   <span className="font-semibold text-neutral-text-secondary">
-                    3.7
+                    {data.averageRate ?? 0}
                   </span>
                 </div>
-                <span className="cursor-pointer text-xs text-blue-400 hover:opacity-80">
-                  125 đánh giá
-                </span>
+                <Link
+                  href="#reviews"
+                  className="cursor-pointer text-xs text-blue-400 hover:opacity-80">
+                  {data.totalRate ?? 0} đánh giá
+                </Link>
               </div>
               <hr className="mt-2 w-full text-neutral-text-secondary" />
-              <ProductPrice />
+              <ProductPrice data={data} />
             </div>
           </div>
         </section>
 
         <section className="mt-10 w-full">
           <h3 className="mb-2 text-lg font-bold">Chi tiết sản phẩm</h3>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            eos labore eum incidunt facilis dignissimos quod ad rerum nihil
-            eligendi amet nisi molestiae iusto blanditiis laudantium aliquam a
-            sint exercitationem inventore, commodi asperiores repellat
-            consectetur. Veritatis, quasi eum? Asperiores obcaecati harum
-            dolorem modi dignissimos ea illo recusandae qui, aperiam numquam
-            voluptatibus impedit nihil? Incidunt deleniti repellendus ipsa
-            numquam. Ipsa incidunt non illo aperiam quasi, quisquam sit animi
-            similique sed quod explicabo totam laboriosam asperiores beatae,
-            odio maiores tenetur quidem expedita ratione. Suscipit magni
-            voluptas perspiciatis velit exercitationem illum ipsa sed soluta
-            harum quos, laboriosam minima, pariatur facilis, delectus deleniti.
-            Optio.
-          </p>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            eos labore eum incidunt facilis dignissimos quod ad rerum nihil
-            eligendi amet nisi molestiae iusto blanditiis laudantium aliquam a
-            sint exercitationem inventore, commodi asperiores repellat
-            consectetur. Veritatis, quasi eum? Asperiores obcaecati harum
-            dolorem modi dignissimos ea illo recusandae qui, aperiam numquam
-            voluptatibus impedit nihil? Incidunt deleniti repellendus ipsa
-            numquam. Ipsa incidunt non illo aperiam quasi, quisquam sit animi
-            similique sed quod explicabo totam laboriosam asperiores beatae,
-            odio maiores tenetur quidem expedita ratione. Suscipit magni
-            voluptas perspiciatis velit exercitationem illum ipsa sed soluta
-            harum quos, laboriosam minima, pariatur facilis, delectus deleniti.
-            Optio.
-          </p>
+          <div className="ql-snow">
+            <div
+              className="view ql-editor"
+              dangerouslySetInnerHTML={{ __html: data.description }}></div>
+          </div>
         </section>
 
-        <section className="mt-8 w-full">
+        {/* <section className="mt-8 w-full" id="reviews">
           <ProductRate />
-        </section>
+        </section> */}
 
         <section className="mt-8 w-full">
-          <h3 className="mb-4 text-center text-lg font-bold">
-            Sản phẩm liên quan
-          </h3>
-          <RelateProductSlider />
+          <Suspense fallback={<RelatedProductsLoading />}>
+            <RelatedProducts item={data} />
+          </Suspense>
         </section>
       </div>
     </div>

@@ -6,7 +6,7 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function ProductImageSlider() {
+function ProductImageSlider({ images = [] }: { images: string[] }) {
   return (
     <Slider
       dots
@@ -14,13 +14,14 @@ function ProductImageSlider() {
       slidesToScroll={1}
       speed={500}
       autoplay
-      className="h-full w-full">
-      {[1, 2, 3, 4].map((i) => (
+      infinite
+      className="w-full">
+      {images.map((item, i) => (
         <div key={i} className="w-full">
           <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-primary-100">
             <div className="relative h-4/5 w-4/5">
               <Image
-                src="/images/product/apple.png"
+                src={item}
                 alt=""
                 fill
                 className="object-contain object-center"

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  scroll-behavior: smooth;
+}
+
 body {
   font-size: 14px;
   color: theme("colors.neutral.text-primary");

@@ -2,13 +2,16 @@
 
 import Slider from "react-slick";
 import ProductItem from "../../components/ProductItem";
+import { ProductType } from "@/services/api/public/type";
 
-function RelateProductSlider() {
+function RelateProductSlider({ items }: { items: ProductType[] }) {
   return (
     <Slider
       dots
       slidesToShow={4}
       slidesToScroll={4}
+      infinite={false}
+      autoplay
       speed={1000}
       responsive={[
         {
@@ -26,9 +29,9 @@ function RelateProductSlider() {
           },
         },
       ]}>
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+      {items.map((item, i) => (
         <div key={i} className="p-2">
-          <ProductItem />
+          <ProductItem data={item} />
         </div>
       ))}
     </Slider>

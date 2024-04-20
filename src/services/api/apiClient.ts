@@ -7,15 +7,18 @@ const generateUrl = (baseUrl: string, path: string) => {
 };
 
 const generateQueryString = (query?: Record<string, string | undefined>) => {
-  return new URLSearchParams(
-    Object.keys(query ?? {}).reduce<Record<string, string>>((acc, crr) => {
-      const value = query?.[crr];
-      if (value) {
-        acc[crr] = value;
-      }
-      return acc;
-    }, {}),
-  ).toString();
+  return (
+    "?" +
+    new URLSearchParams(
+      Object.keys(query ?? {}).reduce<Record<string, string>>((acc, crr) => {
+        const value = query?.[crr];
+        if (value) {
+          acc[crr] = value;
+        }
+        return acc;
+      }, {}),
+    ).toString()
+  );
 };
 
 export async function protectedApiClient<T = unknown>(
@@ -50,6 +53,7 @@ export async function publicApiClient<T = unknown>(
   const queryString = generateQueryString(config?.query);
 
   const url = generateUrl(process.env.BASE_URL, path);
+
   return fetch(url + queryString, {
     ...config,
   }).then((res) => res.json() as T);

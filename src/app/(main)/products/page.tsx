@@ -8,19 +8,52 @@ import {
   ProductFilterBtn,
 } from "./components/ProductFilter";
 import { Suspense } from "react";
+import { path } from "@/config/path";
+import { publicApi } from "@/services/api";
+import { ProductQueries } from "@/services/api/public/type";
+import { ORDER_TYPE_DIST } from "./constants";
+import ProductList, { ProductListLoading } from "./components/ProductList";
+import { CATEGORY, QueryKey } from "@/utils/constants";
+import { generateProductFilter } from "../helper";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
     title: "Trang chủ",
-    url: "/",
+    url: path.home,
   },
   {
     title: "Sản phẩm",
-    url: "/products",
+    url: path.products,
   },
 ];
 
-function Products({ searchParams }: PageProps<[], ["sort"]>) {
+const PAGE_SIZE = 12;
+
+async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
+  const queries: ProductQueries = {
+    name: searchParams.q,
+    page: searchParams.page ?? "1",
+    limit: PAGE_SIZE.toString(),
+    sort: ORDER_TYPE_DIST[searchParams.sort],
+    filter: generateProductFilter(
+      searchParams.from,
+      searchParams.to,
+      searchParams["cat-id"],
+    ),
+  };
+
+  const key = Object.values(queries).join("");
+
+  const categories =
+    (await publicApi
+      .getCategoryList()
+      .then((res) =>
+        res.data?.categories?.filter(
+          (item) => item.parentId === CATEGORY.PRODUCT,
+        ),
+      )
+      .catch()) ?? [];
+
   return (
     <div className="w-full">
       <div className="relative flex h-[400px] w-full flex-col items-center justify-end gap-8 pb-20 sm:h-[300px]">
@@ -35,43 +68,18 @@ function Products({ searchParams }: PageProps<[], ["sort"]>) {
       </div>
       <section className="mx-auto my-28 flex max-w-[1200px] gap-6 sm:my-10">
         <div className="flex w-[240px] shrink-0 flex-col gap-6 xl:hidden">
-          <ProductFilter />
+          <Suspense>
+            <ProductFilter categories={categories} />
+          </Suspense>
         </div>
-        <div className="grow xl:px-4">
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-neutral-text-secondary sm:order-1 sm:w-full">
-              Hiển thị 1-9 của 10 sản phẩm
-            </span>
-            <div className="ml-auto flex gap-2">
-              <ProductFilterBtn />
-              <Suspense>
-                <OrderSelect />
-              </Suspense>
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-2">
-            {Array(9)
-              .fill(0)
-              .map((_, i) => (
-                <div key={i} className="col-span-1">
-                  <ProductItem />
-                </div>
-              ))}
-            <div className="col-span-3 flex justify-center gap-2 text-neutral-text-secondary sm:col-span-2">
-              <div className="paginate-btn ripple">
-                <ArrowLeft2 variant="Outline" size={16} />
-              </div>
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="paginate-btn ripple font-semibold">
-                  {i}
-                </div>
-              ))}
-              <div className="paginate-btn ripple">
-                <ArrowRight2 variant="Outline" size={16} />
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <Suspense fallback={<ProductListLoading />} key={key}>
+          <ProductList
+            queries={queries}
+            pageSize={PAGE_SIZE}
+            categories={categories}
+          />
+        </Suspense>
       </section>
     </div>
   );
