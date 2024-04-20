@@ -2,9 +2,12 @@ import { publicApiClient, ApiConfig } from "..";
 import {
   Banner,
   Category,
+  District,
   ProductQueries,
   ProductResponse,
   ProductsResponse,
+  Province,
+  Ward,
 } from "./type";
 
 export const publicApi = {
@@ -34,4 +37,36 @@ export const publicApi = {
       next: { tags: [`product:${id}`] },
     });
   },
+  getProvinceList() {
+    return publicApiClient<
+      BaseResponse<{
+        provinces: Province[];
+      }>
+    >("/province");
+  },
+  getDistrictListByProvince(code: number) {
+    return publicApiClient<
+      BaseResponse<{
+        districts: District[];
+      }>
+    >(`/province/district/${code}`);
+  },
+  getWardListByDistrict(code: number) {
+    return publicApiClient<
+      BaseResponse<{
+        wards: Ward[];
+      }>
+    >(`/province/ward/${code}`);
+  },
+};
+
+export type {
+  Banner,
+  Category,
+  District,
+  ProductQueries,
+  ProductResponse,
+  ProductsResponse,
+  Province,
+  Ward,
 };

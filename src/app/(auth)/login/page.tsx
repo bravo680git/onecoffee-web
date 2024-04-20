@@ -12,9 +12,8 @@ import { validate } from "../helper";
 import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
 
-const MSG: Record<string, string> = {
+const MSG = {
   USERNAME_PASSWORD_INCORRECT: "Tài khoản hoặc mật khẩu không đúng",
-  USERNAME_NOT_EXISTS: "Tài khoản không tồn tại",
 };
 
 function Login() {
@@ -44,7 +43,7 @@ function Login() {
             push(path.home);
           }, 500);
         } else {
-          setErrors({ account: MSG[res.message] });
+          setErrors({ account: MSG.USERNAME_PASSWORD_INCORRECT });
         }
       })
       .finally(() => {

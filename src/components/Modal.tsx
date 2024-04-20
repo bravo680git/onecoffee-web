@@ -49,7 +49,7 @@ function Modal({
   return (
     <div
       className={clsx(
-        "invisible fixed bottom-0 left-0 right-0 top-0 z-10 bg-black/20 opacity-0 transition-all duration-300",
+        "invisible fixed bottom-0 left-0 right-0 top-0 z-50 bg-black/20 opacity-0 transition-all duration-300",
         {
           "!visible !opacity-100": open,
         },
@@ -127,7 +127,7 @@ export function useModal() {
     info: (props: ModalProps) => handle({ ...props, type: "info" }),
   };
 
-  return { modelApi: api, modelCtxHoler: ctxHolder };
+  return { modelApi: api, modalCtxHoler: ctxHolder };
 }
 
 export default Modal;

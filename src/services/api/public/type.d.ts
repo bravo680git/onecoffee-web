@@ -35,6 +35,7 @@ type ProductType = {
     values: string[];
   }[];
   variants?: {
+    id: number;
     values: string[];
     price: number;
     stockQuantity: number;
@@ -64,3 +65,10 @@ type ProductQueries = {
   sort?: string;
   filter?: string;
 };
+
+type Province = {
+  name: string;
+  code: number;
+};
+type District = Province;
+type Ward = Province;

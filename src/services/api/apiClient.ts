@@ -1,4 +1,6 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { path as appRoute } from "@/config/path";
 
 export type ApiConfig = Parameters<typeof fetch>[1];
 
@@ -36,10 +38,14 @@ export async function protectedApiClient<T = unknown>(
     ...config,
     headers: {
       ...config?.headers,
-      "access-token": serverToken?.value ? `Bearer ${serverToken.value}` : "",
+      Authorization: serverToken?.value ? `Bearer ${serverToken.value}` : "",
       "Content-Type": "Application/json",
     },
   }).then((res) => {
+    if (res.status === 401) {
+      cookies().delete("_token");
+    }
+
     return res.json() as T;
   });
 }

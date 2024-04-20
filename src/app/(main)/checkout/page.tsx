@@ -7,13 +7,19 @@ import { transformCurrency } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { OrderAddressListModal } from "./components/OrderAddressModal";
+import { storageKey, useCheckoutStore } from "@/store/checkout";
+import { CartItemType } from "@/services/api";
 
 function Checkout() {
+  const { items, setItems } = useCheckoutStore();
+
   const [mounted, setMounted] = useState(false);
   const [openOrderAddressModal, setOpenOrderAddressModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    setItems(JSON.parse(localStorage.getItem(storageKey) ?? "[]"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -58,9 +64,13 @@ function Checkout() {
             </div>
           </div>
           <div className="flex flex-col gap-4 rounded-md bg-white p-4 shadow-sm">
-            <PItem className="border-b border-b-slate-200" />
-            <PItem className="border-b border-b-slate-200" />
-            <PItem />
+            {items.map((item, i) => (
+              <PItem
+                key={i}
+                item={item}
+                className={clsx(i !== 0 ? "border-t border-t-slate-200" : "")}
+              />
+            ))}
           </div>
         </div>
         <div className="w-[400px] shrink-0 lg:w-full">
@@ -122,29 +132,46 @@ function Checkout() {
   );
 }
 
-function PItem({ className }: { className?: string }) {
+function PItem({
+  className,
+  item,
+}: {
+  className?: string;
+  item: CartItemType;
+}) {
   return (
-    <div className={clsx("flex gap-4 pb-2 sm:flex-wrap sm:gap-0", className)}>
+    <div className={clsx("flex gap-4 pt-4 sm:flex-wrap sm:gap-0", className)}>
       <div className="relative h-20 w-20 shrink-0">
-        <Image src="/images/product/apple.png" alt="" fill />
+        <Image src={item.product.images[0]} alt="" fill />
       </div>
       <div className="grow sm:w-[calc(100%-96px)] sm:grow-0">
-        <h4 className="font-semibold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, soluta.
-        </h4>
-        <span className="text-neutral-text-secondary">Đen, M</span>
+        <h4 className="font-semibold">{item.product.name}</h4>
+        {item.variant && (
+          <span className="text-neutral-text-secondary">
+            {item.variant.values.join(", ")}
+          </span>
+        )}
       </div>
       <div className="flex w-36 flex-col sm:w-full sm:flex-row sm:gap-2">
         <span className="text-lg font-bold text-primary-500">
-          {transformCurrency(143000)}
+          {transformCurrency(
+            item.variant ? item.variant.price : item.product.price,
+            item.product.salePercent,
+          )}
         </span>
-        <span className="text-neutral-text-secondary line-through">
-          {transformCurrency(143000)}
-        </span>
-        <span>-52%</span>
+        {item.product.salePercent > 0 && (
+          <>
+            <span className="text-neutral-text-secondary line-through">
+              {transformCurrency(
+                item.variant ? item.variant.price : item.product.price,
+              )}
+            </span>
+            <span>-{item.product.salePercent}%</span>
+          </>
+        )}
       </div>
       <span className="sm:full block w-24 shrink-0">
-        Số lượng: <span className="font-bold">1</span>
+        Số lượng: <span className="font-bold">{item.quantity}</span>
       </span>
     </div>
   );

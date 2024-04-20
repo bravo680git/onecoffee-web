@@ -1,31 +1,50 @@
 "use client";
 
-import { checkLogin } from "@/app/action";
+import { checkLogin, getCartItems, updateCart } from "@/app/action";
 import Checkbox from "@/components/Checkbox";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
+import { CartItemType } from "@/services/api";
+import { useCartStore } from "@/store/cart";
+import { useCheckoutStore } from "@/store/checkout";
+import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
-import { Add, ArrowLeft, Minus, ShoppingCart } from "iconsax-react";
+import { Add, ArrowLeft, Minus, ShoppingCart, Trash } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 function Cart() {
   const { push } = useRouter();
-  const { modelApi, modelCtxHoler } = useModal();
+  const { modelApi, modalCtxHoler } = useModal();
+  const { items, setItems, setItemCount } = useCartStore();
+  const { setItems: setCheckoutItems } = useCheckoutStore();
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
-  const items = [1, 2, 3, 4];
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+  const totalPrice = useMemo(() => {
+    return items.reduce((acc, crr) => {
+      if (!selectedItems.includes(crr.id)) {
+        return acc;
+      }
+      const price = crr.variant
+        ? Number(crr.variant?.price ?? 0)
+        : Number(crr.product.price ?? 0);
+      return (
+        acc + (price * crr.quantity * (100 - crr.product.salePercent)) / 100
+      );
+    }, 0);
+  }, [items, selectedItems]);
 
   const handleSelectItem = (v: number, all = false) => {
     if (all) {
       if (selectedItems.length === items.length) {
         setSelectedItems([]);
       } else {
-        setSelectedItems([...items]);
+        setSelectedItems(items.map((item) => item.id));
       }
       return;
     }
@@ -59,7 +78,29 @@ function Cart() {
     }, crrScrollY / 3);
   };
 
+  const handleCheckout = () => {
+    if (!selectedItems.length) {
+      modelApi.error({
+        title: "Không có sản phẩm",
+        content: "Vui lòng chọn sản phẩm để tiến hành đặt hàng",
+        async onOk() {},
+      });
+
+      return;
+    }
+    setCheckoutItems(items.filter((item) => selectedItems.includes(item.id)));
+    push(path.checkout);
+    setOpen(false);
+  };
+
   useEffect(() => {
+    getCartItems().then((res) => {
+      if (res.data) {
+        setItems(res.data.carts);
+        setItemCount(res.data.carts.length);
+      }
+    });
+
     setMounted(true);
 
     const handleClose = () => {
@@ -71,11 +112,12 @@ function Cart() {
     return () => {
       window.removeEventListener("click", handleClose);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      {modelCtxHoler}
+      {modalCtxHoler}
       <CartBtn onClick={handleOpenCart} />
       {mounted &&
         createPortal(
@@ -104,11 +146,12 @@ function Cart() {
                 <h3 className="text-lg font-bold">Giỏ hàng</h3>
               </div>
               <div className="flex h-[calc(100vh-176px)] flex-col gap-4 overflow-y-auto p-4">
-                {[1, 2, 3, 4].map((i) => (
+                {items.map((item, i) => (
                   <CartItem
                     key={i}
-                    checked={selectedItems.includes(i)}
-                    onCheckedChange={() => handleSelectItem(i)}
+                    item={item}
+                    checked={selectedItems.includes(item.id)}
+                    onCheckedChange={() => handleSelectItem(item.id)}
                   />
                 ))}
               </div>
@@ -124,17 +167,14 @@ function Cart() {
                       Tổng thanh toán
                     </span>
                     <span className="text-lg font-bold text-primary-500">
-                      &#8363;120000
+                      {transformCurrency(totalPrice)}
                     </span>
                   </div>
                 </div>
                 <button
                   className="ripple mt-4 flex w-full items-center justify-center gap-2 rounded-md
                   bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary"
-                  onClick={() => {
-                    push(path.checkout);
-                    setOpen(false);
-                  }}>
+                  onClick={handleCheckout}>
                   <ShoppingCart />
                   Mua hàng
                 </button>
@@ -150,36 +190,89 @@ function Cart() {
 type CartItemProps = {
   checked: boolean;
   onCheckedChange(): void;
+  item: CartItemType;
 };
 
-function CartItem({ checked, onCheckedChange }: CartItemProps) {
+function CartItem({ checked, onCheckedChange, item }: CartItemProps) {
+  const { setItems, items } = useCartStore();
+
+  const handleUpdateCart = (type: "-" | "+") => {
+    let quantity = item.quantity;
+    if (type === "-") {
+      quantity = quantity === 1 ? 1 : quantity - 1;
+    } else {
+      quantity++;
+    }
+    updateCart({
+      productId: item.productId,
+      variantId: item.variantId,
+      quantity,
+    }).then((res) => {
+      if (res.statusCode < 400) {
+        setItems(items.map((c) => (c.id === item.id ? { ...c, quantity } : c)));
+      }
+    });
+  };
+
+  const handleDeleteCart = () => {
+    updateCart({
+      productId: item.productId,
+      variantId: item.variantId,
+      quantity: 0,
+    }).then((res) => {
+      if (res.statusCode < 400) {
+        setItems(items.filter((c) => c.id !== item.id));
+      }
+    });
+  };
+
   return (
-    <div className="flex items-start gap-4 border-b border-slate-200 pb-4">
+    <div className="relative flex items-start gap-4 border-b border-slate-200 pb-4">
+      <button className="absolute right-4 top-2" onClick={handleDeleteCart}>
+        <Trash size={20} className="text-rose-500 hover:opacity-80" />
+      </button>
       <div className="flex shrink-0 items-center gap-1">
         <div className="shrink-0">
           <Checkbox value={checked} onChange={onCheckedChange} />
         </div>
         <div className="relative h-20 w-20 shrink-0">
-          <Image src="/images/product/apple.png" alt="" fill />
+          <Image src={item.product.images[0]} alt="" fill />
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <h4 className="line-clamp-1 overflow-hidden text-ellipsis text-lg font-semibold">
-          Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+          {item.product.name}
         </h4>
-        <span className="text-neutral-text-secondary">Phân loại: Đen, XL</span>
-        <div className="flex gap-2">
-          <span className="font-semibold text-primary-500">&#8363;130.000</span>
-          <span className="text-neutral-text-secondary line-through">
-            &#8363;150.000
+        {item.variant && (
+          <span className="text-neutral-text-secondary">
+            Phân loại: {item.variant.values.join(", ")}
           </span>
+        )}
+        <div className="flex gap-2">
+          <span className="font-semibold text-primary-500">
+            {transformCurrency(
+              item.variant ? item.variant.price : item.product.price,
+              item.product.salePercent,
+            )}
+          </span>
+          {item.product.salePercent > 0 && (
+            <span className="text-neutral-text-secondary line-through">
+              {transformCurrency(
+                item.variant ? item.variant.price : item.product.price,
+              )}
+            </span>
+          )}
         </div>
         <div className="mt-2 flex h-8 w-fit items-stretch divide-x overflow-hidden rounded-md border border-slate-200">
-          <i className="ripple flex cursor-pointer items-center justify-center px-2 text-neutral-text-secondary">
+          <i
+            className="ripple flex cursor-pointer items-center justify-center px-2 text-neutral-text-secondary"
+            onClick={() => handleUpdateCart("-")}>
             <Minus size={16} />
           </i>
-          <span className="px-3 py-1 font-semibold">2</span>
-          <i className="ripple flex cursor-pointer items-center justify-center px-2 text-neutral-text-secondary">
+          <span className="px-3 py-1 font-semibold">{item.quantity}</span>
+          <i
+            className="ripple flex cursor-pointer items-center justify-center px-2 text-neutral-text-secondary"
+            onClick={() => handleUpdateCart("+")}>
             <Add size={16} />
           </i>
         </div>
@@ -193,6 +286,8 @@ function CartBtn({
 }: {
   onClick(e: MouseEvent<HTMLDivElement>): void;
 }) {
+  const { itemCount } = useCartStore();
+
   return (
     <div
       className="relative cursor-pointer transition-all hover:text-primary-500"
@@ -201,7 +296,7 @@ function CartBtn({
       <div
         className="absolute right-[-8px] top-[-8px] flex h-4 w-4 items-center
          justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white">
-        5
+        {itemCount}
       </div>
     </div>
   );

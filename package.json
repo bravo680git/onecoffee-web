@@ -17,7 +17,8 @@
     "react-loading-skeleton": "^3.4.0",
     "react-slick": "0.29.0",
     "sharp": "^0.33.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",

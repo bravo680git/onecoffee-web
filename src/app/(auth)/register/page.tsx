@@ -20,7 +20,7 @@ const msgDist: Record<string, string> = {
 };
 
 function Register() {
-  const { modelApi, modelCtxHoler } = useModal();
+  const { modelApi, modalCtxHoler } = useModal();
   const { msgApi, msgCtxHoler } = useMessage();
   const { push } = useRouter();
 
@@ -147,7 +147,7 @@ function Register() {
           </Link>
         </p>
       </div>
-      {modelCtxHoler}
+      {modalCtxHoler}
       {msgCtxHoler}
     </>
   );
