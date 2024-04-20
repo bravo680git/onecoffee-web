@@ -18,3 +18,8 @@ type LoginData = {
 };
 
 type RegisterData = LoginData;
+
+type VerifyEmailPayload = {
+  token: string;
+};
+type VerifyData = LoginData;

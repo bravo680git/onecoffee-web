@@ -47,9 +47,6 @@ function Login() {
           setErrors({ account: MSG[res.message] });
         }
       })
-      .catch((err) => {
-        console.log(err);
-      })
       .finally(() => {
         setLoading(false);
       });

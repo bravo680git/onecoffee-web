@@ -7,6 +7,10 @@ import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
 import { path } from "@/config/path";
 
+const MSG_DIST: Record<string, string> = {
+  EMAIL_CONFIRMED: "Email đã được xác nhận",
+};
+
 function VerifyPage({ searchParams }: PageProps<[], ["token-id"]>) {
   const idToken = searchParams["token-id"];
 
@@ -19,13 +23,23 @@ function VerifyPage({ searchParams }: PageProps<[], ["token-id"]>) {
     setLoading(true);
 
     verify(idToken)
-      .then(() => {
-        msgApi.success({
-          message: "Xác thực thành công",
-        });
-        setTimeout(() => {
-          push(path.home);
-        }, 1000);
+      .then((res) => {
+        if (res.data) {
+          msgApi.success({
+            message: "Xác thực thành công",
+          });
+          setTimeout(() => {
+            push(path.home);
+          }, 1000);
+        } else {
+          msgApi.error({
+            message: MSG_DIST[res.message],
+          });
+
+          setTimeout(() => {
+            push(path.home);
+          }, 1000);
+        }
       })
       .finally(() => {
         setLoading(false);

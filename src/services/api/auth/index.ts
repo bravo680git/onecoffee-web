@@ -1,5 +1,12 @@
 import { protectedApiClient } from "..";
-import { LoginData, LoginPayload, RegisterData, RegisterPayload } from "./type";
+import {
+  LoginData,
+  LoginPayload,
+  RegisterData,
+  RegisterPayload,
+  VerifyData,
+  VerifyEmailPayload,
+} from "./type";
 
 export const authApi = {
   login(payload: LoginPayload) {
@@ -14,6 +21,18 @@ export const authApi = {
       body: JSON.stringify(payload),
     });
   },
+  verify(payload: VerifyEmailPayload) {
+    return protectedApiClient<BaseResponse<VerifyData>>("/auth/confirm-email", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
-export type { LoginData, LoginPayload, RegisterData, RegisterPayload };
+export type {
+  LoginData,
+  LoginPayload,
+  RegisterData,
+  RegisterPayload,
+  VerifyEmailPayload,
+};

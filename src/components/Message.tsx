@@ -26,7 +26,7 @@ function Message({ title, type }: { title?: string; type: MessageType }) {
   return (
     <div
       className={clsx(
-        "fixed bottom-4 right-4 z-50 translate-y-[100px] rounded-md  p-4  opacity-0",
+        "fixed bottom-4 right-4 z-50 max-w-[400px] translate-y-[100px]  rounded-md  p-4 opacity-0",
         "transition-all duration-300",
         msgDist[type].class,
         {

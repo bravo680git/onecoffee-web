@@ -1,6 +1,8 @@
 "use client";
 
+import { checkLogin } from "@/app/action";
 import Checkbox from "@/components/Checkbox";
+import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import clsx from "clsx";
 import { Add, ArrowLeft, Minus, ShoppingCart } from "iconsax-react";
@@ -11,6 +13,7 @@ import { createPortal } from "react-dom";
 
 function Cart() {
   const { push } = useRouter();
+  const { modelApi, modelCtxHoler } = useModal();
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -33,7 +36,20 @@ function Cart() {
     }
   };
 
-  const handleOpenCart = (e: MouseEvent<HTMLDivElement>) => {
+  const handleOpenCart = async (e: MouseEvent<HTMLDivElement>) => {
+    const isLoggedIn = await checkLogin();
+    if (!isLoggedIn) {
+      modelApi.info({
+        title: "Đăng nhập để tiếp tục",
+        content:
+          "Bạn chưa đăng nhập nên chưa thế sử dụng chức năng này, vui lòng đăng nhập",
+        okCancel: true,
+        async onOk() {
+          push(path.login);
+        },
+      });
+      return;
+    }
     e.stopPropagation();
     const crrScrollY = window.scrollY;
 
@@ -59,6 +75,7 @@ function Cart() {
 
   return (
     <>
+      {modelCtxHoler}
       <CartBtn onClick={handleOpenCart} />
       {mounted &&
         createPortal(

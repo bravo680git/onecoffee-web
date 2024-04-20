@@ -11,13 +11,17 @@ import { useEffect, useState } from "react";
 import { checkPasswordStrongLevel, validate } from "../helper";
 import { register } from "./action";
 import { useRouter } from "next/navigation";
+import { useMessage } from "@/components/Message";
 
-const msgDist = {
+const msgDist: Record<string, string> = {
   USERNAME_EXISTS: "Email đã được đăng kí, vui lòng dùng email khác",
+  CHECK_EMAIL_CONFIRMED:
+    "Tài khoản đã được đăng kí, vui lòng kiểm tra hộp thư đến của bạn để xác nhận email",
 };
 
 function Register() {
   const { modelApi, modelCtxHoler } = useModal();
+  const { msgApi, msgCtxHoler } = useMessage();
   const { push } = useRouter();
 
   const [name, setName] = useState("");
@@ -54,6 +58,10 @@ function Register() {
           });
         } else if (res.statusCode === 409) {
           setErrors({ email: msgDist.USERNAME_EXISTS });
+        } else {
+          msgApi.error({
+            message: msgDist[res.message],
+          });
         }
       })
       .finally(() => {
@@ -98,6 +106,7 @@ function Register() {
             onBlur={() => validate({ password }, setErrors)}
             name="password"
             id="password"
+            onEnter={handleSubmit}
           />
           <div className="mt-1 flex h-2 gap-2">
             <div
@@ -139,6 +148,7 @@ function Register() {
         </p>
       </div>
       {modelCtxHoler}
+      {msgCtxHoler}
     </>
   );
 }
