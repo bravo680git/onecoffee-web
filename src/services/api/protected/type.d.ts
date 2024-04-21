@@ -14,3 +14,35 @@ type CartItemType = {
   product: ProductType;
   variant?: NonNullable<ProductType["variants"]>[number];
 };
+
+type CreateAddressPayload = {
+  name: string;
+  phone: string;
+  address: string;
+  province: string;
+  provinceCode: number;
+  district: string;
+  districtCode: number;
+  ward: string;
+  wardCode: number;
+  zipCode: string;
+  type: string;
+};
+
+type AddressItemType = {
+  id: number;
+} & CreateAddressPayload;
+
+type UserInfo = {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string;
+  addressId?: number;
+};
+
+type UpdateUserInfoPayload = {
+  name: string;
+  addressId: number;
+  avatar?: string;
+};

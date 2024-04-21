@@ -14,6 +14,7 @@ export type InputProps = {
   onEnter?(): void;
   id?: string;
   name?: string;
+  required?: boolean;
 };
 
 function Input({
@@ -26,6 +27,7 @@ function Input({
   className,
   password,
   onEnter,
+  required,
 }: InputProps) {
   const [hidden, setHidden] = useState(true);
 
@@ -37,7 +39,12 @@ function Input({
 
   return (
     <div className={clsx("relative flex flex-col gap-1", className)}>
-      {label && <label>{label}</label>}
+      {label && (
+        <label>
+          {label}
+          {required && <span className="ml-0.5 text-red-500">*</span>}
+        </label>
+      )}
       <input
         type={password && hidden ? "password" : "text"}
         value={value}

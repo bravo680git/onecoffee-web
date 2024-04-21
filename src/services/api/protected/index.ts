@@ -1,5 +1,12 @@
 import { protectedApiClient } from "../apiClient";
-import { CartItemType, UpdateCartItemPayload } from "./type";
+import {
+  CartItemType,
+  CreateAddressPayload,
+  UpdateCartItemPayload,
+  AddressItemType,
+  UserInfo,
+  UpdateUserInfoPayload,
+} from "./type";
 
 export const protectedApi = {
   updateCart(payload: UpdateCartItemPayload) {
@@ -16,6 +23,38 @@ export const protectedApi = {
       "/user/cart",
     );
   },
+  createAddress(payload: CreateAddressPayload) {
+    return protectedApiClient<BaseResponse<{ address: AddressItemType }>>(
+      "/user/address",
+      {
+        method: "POST",
+        body: JSON.stringify(payload),
+      },
+    );
+  },
+  getAddressList() {
+    return protectedApiClient<
+      BaseResponse<{
+        addresses: AddressItemType[];
+      }>
+    >("/user/address");
+  },
+  getUserInfo() {
+    return protectedApiClient<BaseResponse<{ user: UserInfo }>>("/user");
+  },
+  updateUserInfo(payload: UpdateUserInfoPayload) {
+    return protectedApiClient<BaseResponse<{ user: UserInfo }>>("/user", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
-export type { UpdateCartItemPayload, CartItemType };
+export type {
+  UpdateCartItemPayload,
+  CartItemType,
+  CreateAddressPayload,
+  AddressItemType,
+  UserInfo,
+  UpdateUserInfoPayload,
+};

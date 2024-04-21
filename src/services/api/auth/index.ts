@@ -27,6 +27,9 @@ export const authApi = {
       body: JSON.stringify(payload),
     });
   },
+  logout() {
+    return protectedApiClient("/auth/logout");
+  },
 };
 
 export type {

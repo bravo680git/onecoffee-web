@@ -31,7 +31,7 @@ export const validate = (
   };
 
   if (Object.hasOwn(data, "email")) {
-    if (!/^\w+@\w+\.\w+$/.test(data.email ?? "")) {
+    if (!/^[\w\.]+@\w+\.\w+$/.test(data.email ?? "")) {
       result.errors.email = "Định dạng email không đúng";
       result.valid = false;
     }

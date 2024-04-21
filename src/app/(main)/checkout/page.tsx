@@ -1,20 +1,38 @@
 "use client";
 
-import Image from "next/image";
-import { Edit2, Moneys } from "iconsax-react";
-import clsx from "clsx";
+import { useModal } from "@/components/Modal";
+import { CartItemType } from "@/services/api";
+import { useAddressStore } from "@/store/address";
+import { storageKey, useCheckoutStore } from "@/store/checkout";
 import { transformCurrency } from "@/utils/functions";
+import clsx from "clsx";
+import { Edit2, Moneys, NotificationCircle } from "iconsax-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { OrderAddressListModal } from "./components/OrderAddressModal";
-import { storageKey, useCheckoutStore } from "@/store/checkout";
-import { CartItemType } from "@/services/api";
 
 function Checkout() {
   const { items, setItems } = useCheckoutStore();
+  const address = useAddressStore((state) => state.selectedItem);
+  const { modalCtxHoler, modelApi } = useModal();
 
   const [mounted, setMounted] = useState(false);
   const [openOrderAddressModal, setOpenOrderAddressModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = () => {
+    if (!address) {
+      modelApi.error({
+        title: "Thiếu địa chỉ nhận hàng",
+        content:
+          "Vui lòng chọn địa chỉ giao hàng để có thể hoàn thành đơn hàng",
+        async onOk() {
+          setOpenOrderAddressModal(true);
+        },
+      });
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -23,112 +41,127 @@ function Checkout() {
   }, []);
 
   return (
-    <div>
-      <div className="flex h-[240px] items-end justify-center bg-neutral-bg-footer/90 pb-8">
-        {/* <h3 className="text-xl font-bold text-white">Xác nhận đơn hàng</h3> */}
-      </div>
-      <div className="flex min-h-[calc(100vh-240px)] gap-5 bg-gray-100 px-5 py-10 lg:flex-col">
-        <div className="flex grow flex-col gap-5">
-          <div className="rounded-md bg-white p-4 shadow-sm">
-            <h3 className="flex items-center gap-2 text-lg font-semibold">
-              Địa chỉ nhận hàng
-              <i
-                className="ripple cursor-pointer rounded-full p-1 text-neutral-text-secondary hover:opacity-80"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOpenOrderAddressModal(true);
-                }}>
-                <Edit2 size={16} />
-              </i>
-              {mounted &&
-                createPortal(
-                  <OrderAddressListModal
-                    open={openOrderAddressModal}
-                    onClose={() => setOpenOrderAddressModal(false)}
-                  />,
-                  document.body,
-                )}
-            </h3>
-            <div>
-              <span>Nguyen Van A</span>
-              <span className="ml-4">01234567890</span>
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <div className="shrink-0 rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white">
-                  Văn phòng
-                </div>
-                <span>
-                  Xóm ngọc thạnh B, thôn Ngọc Thạnh 1, xã Phước An, huyện Tuy
-                  Phước, tỉnh Bình Định
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 rounded-md bg-white p-4 shadow-sm">
-            {items.map((item, i) => (
-              <PItem
-                key={i}
-                item={item}
-                className={clsx(i !== 0 ? "border-t border-t-slate-200" : "")}
-              />
-            ))}
-          </div>
+    <>
+      {modalCtxHoler}
+      <div>
+        <div className="flex h-[240px] items-end justify-center bg-neutral-bg-footer/90 pb-8">
+          {/* <h3 className="text-xl font-bold text-white">Xác nhận đơn hàng</h3> */}
         </div>
-        <div className="w-[400px] shrink-0 lg:w-full">
-          <div className="rounded-md bg-white p-4 shadow-sm">
-            <h3 className="mb-4 text-lg font-semibold">
-              Phương thức thanh toán
-            </h3>
-            <div className="ripple mt-4 cursor-pointer rounded-md border border-slate-200 p-4">
-              <div className="mt-3 flex gap-2">
-                <Moneys size={20} className="text-neutral-text-secondary" />
-                <span className="font-semibold">Thanh toán khi nhận hàng</span>
-                <div className="relative ml-auto h-5 w-5 rounded-full bg-blue-500">
-                  <div className="absolute left-1/2 top-1/2 aspect-square w-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full bg-white"></div>
+        <div className="flex min-h-[calc(100vh-240px)] gap-5 bg-gray-100 px-5 py-10 lg:flex-col">
+          <div className="flex grow flex-col gap-5">
+            <div className="rounded-md bg-white p-4 shadow-sm">
+              <h3 className="flex items-center gap-2 text-lg font-semibold">
+                Địa chỉ nhận hàng
+                <i
+                  className="ripple cursor-pointer rounded-full p-1 text-neutral-text-secondary hover:opacity-80"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenOrderAddressModal(true);
+                  }}>
+                  <Edit2 size={16} />
+                </i>
+                {mounted &&
+                  createPortal(
+                    <OrderAddressListModal
+                      onCreated={() => setOpenOrderAddressModal(true)}
+                      open={openOrderAddressModal}
+                      onClose={() => setOpenOrderAddressModal(false)}
+                    />,
+                    document.body,
+                  )}
+              </h3>
+              {address ? (
+                <div>
+                  <span>{address.name}</span>
+                  <span className="ml-4">{address.phone}</span>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className="shrink-0 rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white">
+                      {address.type}
+                    </div>
+                    <span>
+                      {`${address.address}-${address.ward}, ${address.district}, ${address.province}`}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <p className="mt-4 text-neutral-text-secondary">
-                Thanh toán khi đơn hàng được giao đến bạn
-              </p>
+              ) : (
+                <span className="text-neutral-text-secondary">
+                  Chưa xác định
+                </span>
+              )}
             </div>
+            <div className="flex flex-col gap-4 rounded-md bg-white p-4 shadow-sm">
+              {items.map((item, i) => (
+                <PItem
+                  key={i}
+                  item={item}
+                  className={clsx(i !== 0 ? "border-t border-t-slate-200" : "")}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="w-[400px] shrink-0 lg:w-full">
+            <div className="rounded-md bg-white p-4 shadow-sm">
+              <h3 className="mb-4 text-lg font-semibold">
+                Phương thức thanh toán
+              </h3>
+              <div className="ripple mt-4 cursor-pointer rounded-md border border-slate-200 p-4">
+                <div className="mt-3 flex gap-2">
+                  <Moneys size={20} className="text-neutral-text-secondary" />
+                  <span className="font-semibold">
+                    Thanh toán khi nhận hàng
+                  </span>
+                  <div className="relative ml-auto h-5 w-5 rounded-full bg-blue-500">
+                    <div className="absolute left-1/2 top-1/2 aspect-square w-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full bg-white"></div>
+                  </div>
+                </div>
+                <p className="mt-4 text-neutral-text-secondary">
+                  Thanh toán khi đơn hàng được giao đến bạn
+                </p>
+              </div>
 
-            <h3 className="mb-4 mt-5 text-lg font-semibold">
-              Tổng kết đơn hàng
-            </h3>
-            <div className="border-b border-slate-200 pb-4">
-              <div className="flex justify-between">
-                <span className="text-neutral-text-secondary">
-                  Tổng tạm tính
-                </span>
-                <span className="font-semibold">
-                  {transformCurrency(20000)}
-                </span>
+              <h3 className="mb-4 mt-5 text-lg font-semibold">
+                Tổng kết đơn hàng
+              </h3>
+              <div className="border-b border-slate-200 pb-4">
+                <div className="flex justify-between">
+                  <span className="text-neutral-text-secondary">
+                    Tổng tạm tính
+                  </span>
+                  <span className="font-semibold">
+                    {transformCurrency(20000)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-neutral-text-secondary">
+                    Phí vận chuyển
+                  </span>
+                  <span className="font-semibold">
+                    {transformCurrency(16000)}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-neutral-text-secondary">
-                  Phí vận chuyển
-                </span>
-                <span className="font-semibold">
-                  {transformCurrency(16000)}
-                </span>
+              <div className="mt-5">
+                <div className="flex items-center justify-between">
+                  <span>Tổng cộng</span>
+                  <span className="text-lg font-semibold text-primary-500">
+                    {transformCurrency(36000)}
+                  </span>
+                </div>
+                <button
+                  className="ripple transition- all mt-4 flex w-full items-center
+                justify-center gap-2 rounded-md bg-primary-500 py-2 font-semibold text-white duration-300 active:shadow-primary"
+                  onClick={handleCheckout}>
+                  {loading && (
+                    <NotificationCircle size={20} className="animate-spin" />
+                  )}
+                  Đặt hàng
+                </button>
               </div>
-            </div>
-            <div className="mt-5">
-              <div className="flex items-center justify-between">
-                <span>Tổng cộng</span>
-                <span className="text-lg font-semibold text-primary-500">
-                  {transformCurrency(36000)}
-                </span>
-              </div>
-              <button
-                className="ripple transition- all mt-4 w-full rounded-md bg-primary-500
-                py-2 font-semibold text-white duration-300 active:shadow-primary">
-                Đặt hàng
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

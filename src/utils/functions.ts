@@ -9,3 +9,25 @@ export const transformCurrency = (price?: number, salePercent?: number) => {
 
   return "₫" + parts.join(".");
 };
+
+export const stringTest = (value: string | number, searchStr?: string) => {
+  if (!value || !searchStr) {
+    return true;
+  }
+
+  const normalizedKeyword = searchStr
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d");
+
+  const normalizedString = value
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d");
+
+  return normalizedString.includes(normalizedKeyword);
+};

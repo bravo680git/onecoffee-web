@@ -13,6 +13,7 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import Cart from "./Cart";
 import Link from "next/link";
 import { path } from "@/config/path";
+import UserMenu from "./UserMenu";
 
 export type MenuItem = {
   key: string;
@@ -114,7 +115,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
           ))}
         </ul>
 
-        <div className="flex w-64 justify-end gap-5 text-neutral-text-secondary xl:w-fit">
+        <div className="flex w-64 items-center justify-end gap-5 text-neutral-text-secondary xl:w-fit">
           <div className="flex cursor-pointer items-center transition-all hover:text-primary-500">
             <input
               ref={inputRef}
@@ -129,12 +130,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             <SearchNormal1 size={24} onClick={handleSearch} />
           </div>
           <Cart />
-          <Link href={path.login}>
-            <UserOctagon
-              size={24}
-              className="cursor-pointer hover:text-primary-500"
-            />
-          </Link>
+          <UserMenu />
         </div>
       </div>
       <div
@@ -148,7 +144,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
         <div>
           <HambergerMenu size={20} onClick={() => setOpen(true)} />
         </div>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <div className="flex items-center">
             <input
               ref={inputRef}
@@ -163,12 +159,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             <SearchNormal1 size={20} onClick={handleSearch} />
           </div>
           <Cart />
-          <Link href={path.login}>
-            <UserOctagon
-              size={24}
-              className="cursor-pointer hover:text-primary-500"
-            />
-          </Link>
+          <UserMenu />
         </div>
         <div
           className={clsx(
