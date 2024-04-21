@@ -194,7 +194,7 @@ type CartItemProps = {
 };
 
 function CartItem({ checked, onCheckedChange, item }: CartItemProps) {
-  const { setItems, items } = useCartStore();
+  const { setItems, items, setItemCount } = useCartStore();
 
   const handleUpdateCart = (type: "-" | "+") => {
     let quantity = item.quantity;
@@ -222,6 +222,7 @@ function CartItem({ checked, onCheckedChange, item }: CartItemProps) {
     }).then((res) => {
       if (res.statusCode < 400) {
         setItems(items.filter((c) => c.id !== item.id));
+        setItemCount(items.length - 1);
       }
     });
   };
