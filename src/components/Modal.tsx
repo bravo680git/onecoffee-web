@@ -57,8 +57,8 @@ function Modal({
       onClick={onClose}>
       <div
         className={clsx(
-          "absolute left-1/2 top-1/2 min-w-[200px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-white p-4",
-          "opacity-0 transition-[opacity] duration-300",
+          "absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] rounded-md bg-white p-4",
+          "max-w-[600px] opacity-0 transition-[opacity] duration-300 md:w-full md:max-w-[80vw]",
           { "!opacity-100": open },
           className,
         )}

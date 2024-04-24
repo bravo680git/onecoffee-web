@@ -7,10 +7,12 @@ import {
   Building,
   Home,
   NotificationCircle,
+  Trash,
 } from "iconsax-react";
 import { useEffect, useState } from "react";
 import {
   createAddress,
+  deleteAddress,
   getAddressList,
   getDistrictsByProvince,
   getProvinces,
@@ -18,12 +20,10 @@ import {
 } from "../action";
 import { CreateAddressPayload } from "@/services/api";
 import { useMessage } from "@/components/Message";
-import {
-  useAddressStore,
-  storageKey as defaultAddressKey,
-} from "@/store/address";
+import { useAddressStore } from "@/store/address";
 import { useUserStore } from "@/store/user";
 import { updateUserInfo } from "@/app/action";
+import { useModal } from "@/components/Modal";
 
 function OrderAddressListModal({
   open,
@@ -34,9 +34,10 @@ function OrderAddressListModal({
   onClose(): void;
   onCreated(): void;
 }) {
-  const { items, setItems, setSelectedItem } = useAddressStore();
+  const { items, setItems, setSelectedItem, selectedItem } = useAddressStore();
   const { userInfo, setUserInfo } = useUserStore();
   const { msgApi, msgCtxHoler } = useMessage();
+  const { modalCtxHoler, modelApi } = useModal();
 
   const [mounted, setMounted] = useState(false);
   const [openCreateModal, setOpenCreateModal] = useState(false);
@@ -72,6 +73,29 @@ function OrderAddressListModal({
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const handleDelete = (id: number) => {
+    if (selectedItem?.id === id) {
+      modelApi.info({
+        title: "Không thể xóa địa chỉ mặc định",
+        content: `Địa chỉ đang được chọn làm địa chỉ giao hàng mặc định, 
+            chọn một địa chỉ khác làm mặc định trước khi xóa địa chỉ này`,
+        async onOk() {},
+      });
+      return;
+    }
+    modelApi.error({
+      title: "Xác nhận xóa địa chỉ",
+      content: "Bạn có chắc chắn muốn xóa địa chỉ này không?",
+      async onOk() {
+        const res = await deleteAddress(id);
+        if (res.statusCode < 400) {
+          msgApi.success({ message: "Xóa địa chỉ thành công" });
+          setItems(items.filter((item) => item.id !== id));
+        }
+      },
+    });
   };
 
   useEffect(() => {
@@ -114,6 +138,7 @@ function OrderAddressListModal({
   return (
     <>
       {msgCtxHoler}
+      {modalCtxHoler}
       <div
         className={clsx(
           "invisible fixed bottom-0 left-0 right-0 top-0 z-20 bg-black/20 transition-all",
@@ -151,8 +176,18 @@ function OrderAddressListModal({
             {items.map((item, i) => (
               <div
                 key={i}
-                className="ripple flex cursor-pointer gap-2 rounded-md border border-slate-200 p-4"
+                className="ripple relative flex cursor-pointer gap-2 rounded-md border border-slate-200 p-4"
                 onClick={() => setSelectedId(item.id)}>
+                {item.id !== selectedId && (
+                  <button
+                    className="absolute right-2 top-2 z-50 rounded-md border border-slate-200 p-1 text-red-500 hover:border-red-500"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(item.id);
+                    }}>
+                    <Trash size={18} />
+                  </button>
+                )}
                 <div
                   className={clsx(
                     "relative h-5 w-5 rounded-full",

@@ -48,6 +48,11 @@ export const protectedApi = {
       body: JSON.stringify(payload),
     });
   },
+  deleteAddress(id: number) {
+    return protectedApiClient<BaseResponse>(`/user/address/${id}`, {
+      method: "DELETE",
+    });
+  },
 };
 
 export type {

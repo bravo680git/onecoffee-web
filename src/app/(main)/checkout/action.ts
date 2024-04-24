@@ -46,3 +46,11 @@ export const getAddressList = async () => {
     return ServerError;
   }
 };
+
+export const deleteAddress = async (id: number) => {
+  try {
+    return await protectedApi.deleteAddress(id);
+  } catch (err) {
+    return ServerError;
+  }
+};
