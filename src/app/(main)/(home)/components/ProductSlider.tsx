@@ -1,26 +1,29 @@
 "use client";
 
+import { Category } from "@/services/api";
 import Image from "next/image";
 import Slider from "react-slick";
 
-function ProductSlider() {
+type ProductSlidersType = Category["categories"];
+
+function ProductSlider({ items = [] }: { items: ProductSlidersType }) {
   return (
-    <div className="max-w-[1200px] xl:max-w-[900px] lg:w-[600px] w-full mx-auto pb-10">
+    <div className="mx-auto w-full max-w-[1200px] pb-10 xl:max-w-[900px] lg:w-[600px]">
       <Slider
-        slidesToShow={4}
+        slidesToShow={Math.min(items.length, 4)}
         slidesToScroll={1}
         responsive={[
           {
             breakpoint: 1280,
             settings: {
-              slidesToShow: 3,
+              slidesToShow: Math.min(items.length, 3),
               dots: true,
             },
           },
           {
             breakpoint: 1024,
             settings: {
-              slidesToShow: 2,
+              slidesToShow: Math.min(items.length, 2),
               dots: true,
             },
           },
@@ -32,23 +35,23 @@ function ProductSlider() {
             },
           },
         ]}>
-        {[1, 2, 3, 4].map((i) => (
+        {items.map((item, i) => (
           <div key={i} className="p-2">
             <div
-              className="w-[270px] h-[430px] rounded-lg flex justify-center items-end pb-6 mx-auto"
+              className="mx-auto flex h-[430px] w-[270px] items-end justify-center rounded-lg pb-6"
               style={{
-                backgroundImage: "url(/images/home/apple-img.png)",
+                backgroundImage: `url(${item.image ?? "/images/home/apple-img.png"})`,
               }}>
-              <div className="bg-white w-[220px] h-[128px] rounded-md p-8 relative flex items-end">
-                <span className="text-xl font-semibold text-center hover:text-primary-500 cursor-pointer">
-                  Agriculture Products
+              <div className="relative flex h-[128px] w-[220px] items-end justify-center rounded-md bg-white/70 p-8">
+                <span className="cursor-pointer text-center text-xl font-semibold hover:text-primary-500">
+                  {item.name}
                 </span>
                 <Image
                   src="/images/home/machine-img.png"
                   alt=""
                   width={70}
                   height={70}
-                  className="absolute top-0 translate-y-[-50%] left-[50%] translate-x-[-50%]"
+                  className="absolute left-[50%] top-0 translate-x-[-50%] translate-y-[-50%]"
                 />
               </div>
             </div>

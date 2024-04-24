@@ -6,6 +6,7 @@ import { CheckIcon, LabIcon, VegetableCart } from "./components/Icons";
 import NewsSlider, { type NewsItem } from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
 import { publicApi } from "@/services/api";
+import { CATEGORY } from "@/utils/constants";
 
 const newsItems: NewsItem[] = [
   {
@@ -50,6 +51,16 @@ export default async function Home() {
     (await publicApi
       .getBannerList()
       .then((data) => data.data?.banners)
+      .catch()) ?? [];
+
+  const categories =
+    (await publicApi
+      .getCategoryList()
+      .then((data) =>
+        data.data?.categories?.filter(
+          (item) => item.parentId === CATEGORY.PRODUCT,
+        ),
+      )
       .catch()) ?? [];
 
   return (
@@ -175,10 +186,10 @@ export default async function Home() {
           <span className="font-grace text-xl font-semibold text-secondary-500">
             Our services
           </span>
-          <h2 className="text-3xl font-bold">What We Offer</h2>
+          <h2 className="mb-5 text-3xl font-bold">What We Offer</h2>
         </div>
         <div className="absolute bottom-[-320px] z-10 flex min-w-[1000px] justify-center gap-5">
-          <ProductSlider />
+          <ProductSlider items={categories} />
         </div>
       </section>
       <section className="pt-[400px]">
