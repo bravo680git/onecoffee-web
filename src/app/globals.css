@@ -15,7 +15,8 @@ body:has([data-dialog-open="true"]) {
   overflow: hidden;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 

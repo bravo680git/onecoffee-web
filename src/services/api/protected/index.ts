@@ -6,6 +6,7 @@ import {
   AddressItemType,
   UserInfo,
   UpdateUserInfoPayload,
+  CreateOrderPayload,
 } from "./type";
 
 export const protectedApi = {
@@ -53,6 +54,12 @@ export const protectedApi = {
       method: "DELETE",
     });
   },
+  createOrder(payload: CreateOrderPayload) {
+    return protectedApiClient<BaseResponse>("/user/order", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 export type {
@@ -62,4 +69,5 @@ export type {
   AddressItemType,
   UserInfo,
   UpdateUserInfoPayload,
+  CreateOrderPayload,
 };

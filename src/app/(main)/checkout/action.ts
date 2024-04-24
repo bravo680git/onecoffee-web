@@ -1,7 +1,12 @@
 "use server";
 
 import { ServerError } from "@/config/response";
-import { CreateAddressPayload, protectedApi, publicApi } from "@/services/api";
+import {
+  CreateAddressPayload,
+  CreateOrderPayload,
+  protectedApi,
+  publicApi,
+} from "@/services/api";
 
 export const getProvinces = async () => {
   try {
@@ -51,6 +56,14 @@ export const deleteAddress = async (id: number) => {
   try {
     return await protectedApi.deleteAddress(id);
   } catch (err) {
+    return ServerError;
+  }
+};
+
+export const createOrder = async (payload: CreateOrderPayload) => {
+  try {
+    return await protectedApi.createOrder(payload);
+  } catch (error) {
     return ServerError;
   }
 };

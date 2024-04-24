@@ -46,3 +46,13 @@ type UpdateUserInfoPayload = {
   addressId: number;
   avatar?: string;
 };
+
+type CreateOrderPayload = {
+  addressId: number;
+  note: string;
+  orderItems: {
+    productId: number;
+    quantity: number;
+    variantId?: number;
+  }[];
+};
