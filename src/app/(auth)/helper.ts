@@ -1,6 +1,12 @@
-import { LoginPayload, RegisterPayload } from "@/services/api";
+import {
+  ChangePasswordPayload,
+  LoginPayload,
+  RegisterPayload,
+} from "@/services/api";
 
-type AuthPayload = Partial<LoginPayload & RegisterPayload>;
+type AuthPayload = Partial<
+  LoginPayload & RegisterPayload & ChangePasswordPayload
+>;
 
 export const checkPasswordStrongLevel = (value?: string) => {
   if (!value) return 0;
@@ -57,6 +63,38 @@ export const validate = (
 
     if (!data.password) {
       result.errors.password = "Vui lòng nhập mật khẩu";
+      result.valid = false;
+    }
+  }
+
+  if (Object.hasOwn(data, "newPassword")) {
+    if (checkPasswordStrong && checkPasswordStrongLevel(data.newPassword) < 3) {
+      result.errors.newPassword = "Mật khẩu yếu";
+      result.valid = false;
+    }
+
+    if (!data.newPassword) {
+      result.errors.newPassword = "Vui lòng nhập mật khẩu mới";
+      result.valid = false;
+    }
+  }
+
+  if (Object.hasOwn(data, "confirmNewPassword")) {
+    if (
+      checkPasswordStrong &&
+      checkPasswordStrongLevel(data.confirmNewPassword) < 3
+    ) {
+      result.errors.confirmNewPassword = "Mật khẩu yếu";
+      result.valid = false;
+    }
+
+    if (data.newPassword !== data.confirmNewPassword) {
+      result.errors.confirmNewPassword = "Mật khẩu xác nhận không trùng khớp";
+      result.valid = false;
+    }
+
+    if (!data.confirmNewPassword) {
+      result.errors.confirmNewPassword = "Vui lòng nhập mật khẩu xác nhận";
       result.valid = false;
     }
   }

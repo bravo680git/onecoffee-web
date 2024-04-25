@@ -6,4 +6,5 @@ export const path = {
   login: "/login",
   register: "/register",
   forgetPassword: "/forget-password",
+  changePassword: "/change-password",
 };

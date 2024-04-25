@@ -1,5 +1,6 @@
 import { protectedApiClient } from "..";
 import {
+  ChangePasswordPayload,
   LoginData,
   LoginPayload,
   RegisterData,
@@ -30,6 +31,12 @@ export const authApi = {
   logout() {
     return protectedApiClient("/auth/logout");
   },
+  changePassword(payload: ChangePasswordPayload) {
+    return protectedApiClient<BaseResponse>("/user/password", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 export type {
@@ -38,4 +45,5 @@ export type {
   RegisterData,
   RegisterPayload,
   VerifyEmailPayload,
+  ChangePasswordPayload,
 };

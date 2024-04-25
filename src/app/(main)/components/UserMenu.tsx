@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { Edit, Key, LogoutCurve, UserOctagon } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function UserMenu() {
@@ -84,6 +85,8 @@ function Menu({
   open: boolean;
   handleLogout(): void;
 }) {
+  const { push } = useRouter();
+
   return (
     <div
       className={clsx(
@@ -106,7 +109,9 @@ function Menu({
           <Edit size={18} />
           Cập nhật thông tin
         </li>
-        <li className="ripple flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-sm px-4 py-1.5 font-semibold">
+        <li
+          className="ripple flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-sm px-4 py-1.5 font-semibold"
+          onClick={() => push(path.changePassword)}>
           <Key size={18} />
           Đổi mật khẩu
         </li>

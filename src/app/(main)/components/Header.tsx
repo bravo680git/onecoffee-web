@@ -14,6 +14,7 @@ import Cart from "./Cart";
 import Link from "next/link";
 import { path } from "@/config/path";
 import UserMenu from "./UserMenu";
+import { usePathname } from "next/navigation";
 
 export type MenuItem = {
   key: string;
@@ -28,6 +29,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
   const [onInitScroll, setOnInitScroll] = useState(true);
   const [expandItems, setExpandItems] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   const handleSearch = (e: MouseEvent<SVGElement>) => {
     e.stopPropagation();
@@ -129,7 +131,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             />
             <SearchNormal1 size={24} onClick={handleSearch} />
           </div>
-          <Cart />
+          {pathname !== path.checkout && <Cart />}
           <UserMenu />
         </div>
       </div>
@@ -158,7 +160,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             />
             <SearchNormal1 size={20} onClick={handleSearch} />
           </div>
-          <Cart />
+          {pathname !== path.checkout && <Cart />}
           <UserMenu />
         </div>
         <div

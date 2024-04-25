@@ -23,3 +23,9 @@ type VerifyEmailPayload = {
   token: string;
 };
 type VerifyData = LoginData;
+
+type ChangePasswordPayload = {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
