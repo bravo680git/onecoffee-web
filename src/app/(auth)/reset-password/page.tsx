@@ -4,44 +4,53 @@ import Input from "@/components/Input";
 import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
-import { RequestResetPasswordPayload } from "@/services/api";
+import { ResetPasswordPayload } from "@/services/api";
 import clsx from "clsx";
 import { NotificationCircle } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { validate } from "../helper";
-import { requestResetPassword } from "./action";
+import { resetPassword } from "./action";
 
 const MSG = {
-  EMAIL_NOT_CONFIRMED: "Địa chỉ email không hợp lệ",
+  TOKEN_INCORRECT: "Token không hợp lệ, vui lòng yêu cầu cấp mật khẩu lại",
 };
 
-function ForgetPassword() {
+function ResetPassword({ searchParams }: PageProps<[], ["token-id"]>) {
+  const tokenId = searchParams["token-id"];
   const { push } = useRouter();
   const { modalCtxHoler, modelApi } = useModal();
   const { msgApi, msgCtxHoler } = useMessage();
-  const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<Partial<RequestResetPasswordPayload>>(
-    {},
-  );
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState<Partial<ResetPasswordPayload>>({});
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!validate({ email }, setErrors)) {
+    if (
+      !validate(
+        { confirmNewPassword: confirmPassword, newPassword },
+        setErrors,
+        true,
+      )
+    ) {
       return;
     }
     setLoading(true);
-    requestResetPassword({ email })
+    resetPassword({
+      confirmNewPassword: confirmPassword,
+      newPassword,
+      token: tokenId,
+    })
       .then((res) => {
         if (res.statusCode < 400) {
           modelApi.info({
-            title: "Gửi yêu cầu đặt lại mật khẩu thành công",
+            title: "Đặt lại mật khẩu thành công",
             content:
-              "Chúng tôi đã gửi đến bạn email khôi phục mật khẩu, vui lòng kiểm tra hộp thư đến và thực hiện theo hướng dẫn",
+              "Mật khẩu của bạn được đặt lại thành công, vui lòng đăng nhập lại",
             async onOk() {
-              setTimeout(() => {
-                push(path.home);
-              }, 500);
+              push(path.login);
             },
           });
         } else {
@@ -58,7 +67,7 @@ function ForgetPassword() {
   };
 
   useEffect(() => {
-    document.title = "Lấy lại mật khẩu";
+    document.title = "Đặt lại mật khẩu";
   }, []);
 
   return (
@@ -66,14 +75,28 @@ function ForgetPassword() {
       {modalCtxHoler}
       {msgCtxHoler}
       <div className="mx-auto flex w-full flex-col gap-2 rounded-md bg-neutral-bg-footer/40 p-5 text-white shadow-md">
-        <h3 className="text-center text-lg font-semibold">Quên mật khẩu</h3>
+        <h3 className="text-center text-lg font-semibold">Đặt lại mật khẩu</h3>
         <Input
-          value={email}
-          onChange={setEmail}
-          label="Email"
-          placeholder="Nhập địa chỉ email của bạn"
-          error={errors.email}
-          onBlur={() => validate({ email }, setErrors)}
+          value={newPassword}
+          onChange={setNewPassword}
+          label="Mật khẩu mới"
+          placeholder="Nhập mật khẩu mới"
+          password
+          error={errors.newPassword}
+          onBlur={() => validate({ newPassword }, setErrors)}
+          onEnter={handleSubmit}
+        />
+        <Input
+          value={confirmPassword}
+          onChange={setConfirmPassword}
+          label="Xác nhận mật khẩu"
+          placeholder="Nhập lại mật khẩu mới"
+          password
+          error={errors.confirmNewPassword}
+          onBlur={() =>
+            validate({ confirmNewPassword: confirmPassword }, setErrors)
+          }
+          onEnter={handleSubmit}
         />
         <button
           className={clsx(
@@ -86,11 +109,11 @@ function ForgetPassword() {
           onClick={handleSubmit}
           disabled={loading}>
           {loading && <NotificationCircle size={20} className="animate-spin" />}
-          Lấy lại mật khẩu
+          Gửi
         </button>
       </div>
     </>
   );
 }
 
-export default ForgetPassword;
+export default ResetPassword;

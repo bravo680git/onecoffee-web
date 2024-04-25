@@ -12,6 +12,7 @@ import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
 import { logout } from "@/app/action";
 import { useUserStore } from "@/store/user";
+import { useModal } from "@/components/Modal";
 
 const MSG = {
   PASSWORD_INCORRECT: "Mật khẩu không đúng",
@@ -20,6 +21,8 @@ const MSG = {
 function Login() {
   const { push } = useRouter();
   const setUserInfo = useUserStore((state) => state.setUserInfo);
+  const { msgApi, msgCtxHoler } = useMessage();
+  const { modalCtxHoler, modelApi } = useModal();
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -33,7 +36,6 @@ function Login() {
     account: "",
   });
   const [loading, setLoading] = useState(false);
-  const { msgApi, msgCtxHoler } = useMessage();
 
   const handleSubmit = async () => {
     if (
@@ -59,13 +61,16 @@ function Login() {
       .then(async (res) => {
         if (res.data) {
           await logout();
-          msgApi.success({
-            message: "Đổi mật khẩu thành công, vui lòng đăng nhập lại",
+          modelApi.info({
+            title: "Đổi mật khẩu thành công",
+            content:
+              "Mật khẩu của bạn đã đổi thành công, vui lòng đăng nhập lại",
+            async onOk() {
+              push(path.login);
+
+              setUserInfo(undefined);
+            },
           });
-          setTimeout(() => {
-            push(path.login);
-          }, 800);
-          setUserInfo(undefined);
         } else {
           setErrors({ account: MSG.PASSWORD_INCORRECT });
         }
@@ -105,7 +110,7 @@ function Login() {
       <Input
         value={confirmPassword}
         onChange={setConfirmPassword}
-        label="xác nhận mật khẩu"
+        label="Xác nhận mật khẩu"
         placeholder="Nhập lại mật khẩu mới"
         password
         error={errors.confirmNewPassword}
@@ -132,6 +137,7 @@ function Login() {
       </button>
 
       {msgCtxHoler}
+      {modalCtxHoler}
     </div>
   );
 }

@@ -5,6 +5,8 @@ import {
   LoginPayload,
   RegisterData,
   RegisterPayload,
+  RequestResetPasswordPayload,
+  ResetPasswordPayload,
   VerifyData,
   VerifyEmailPayload,
 } from "./type";
@@ -37,6 +39,18 @@ export const authApi = {
       body: JSON.stringify(payload),
     });
   },
+  requestResetPassword(payload: RequestResetPasswordPayload) {
+    return protectedApiClient<BaseResponse>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  resetPassword(payload: ResetPasswordPayload) {
+    return protectedApiClient<BaseResponse>("/auth/reset-password", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 export type {
@@ -46,4 +60,6 @@ export type {
   RegisterPayload,
   VerifyEmailPayload,
   ChangePasswordPayload,
+  RequestResetPasswordPayload,
+  ResetPasswordPayload,
 };

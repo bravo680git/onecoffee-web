@@ -29,3 +29,13 @@ type ChangePasswordPayload = {
   newPassword: string;
   confirmNewPassword: string;
 };
+
+type RequestResetPasswordPayload = {
+  email: string;
+};
+
+type ResetPasswordPayload = {
+  token: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
