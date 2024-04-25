@@ -31,7 +31,9 @@ async function ProductList({
     <div className="grow xl:px-4">
       <div className="flex flex-wrap items-center gap-4">
         <span className="text-neutral-text-secondary sm:order-1 sm:w-full">
-          Hiển thị {start}-{end} của {meta?.total} sản phẩm
+          {total > 0
+            ? `Hiển thị ${start}-${end} của ${meta?.total} sản phẩm`
+            : "Không có sản phẩm nào"}
         </span>
         <div className="ml-auto flex gap-2">
           <ProductFilterBtn categories={categories} />

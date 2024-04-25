@@ -18,6 +18,7 @@ export type SelectProps = {
   label?: string;
   showError?: boolean;
   required?: boolean;
+  allowSearch?: boolean;
 };
 
 function Select({
@@ -31,6 +32,7 @@ function Select({
   label,
   showError = true,
   required,
+  allowSearch = true,
 }: SelectProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -148,17 +150,19 @@ function Select({
               },
             )}
             style={{ width: position.w, top: position.y, left: position.x }}>
-            <div className="px-4">
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder="Tìm kiếm..."
-                className="block w-full border-b border-b-slate-200 py-1 caret-primary-500"
-                onClick={(e) => e.stopPropagation()}
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-            </div>
+            {allowSearch && (
+              <div className="px-4">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Tìm kiếm..."
+                  className="block w-full border-b border-b-slate-200 py-1 caret-primary-500"
+                  onClick={(e) => e.stopPropagation()}
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </div>
+            )}
             <ul className="max-h-40 overflow-y-auto">
               {filteredItems.map((item) => (
                 <li

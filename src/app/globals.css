@@ -55,7 +55,7 @@ input[type="number"] {
     bg-black/5 transition-all duration-300 hover:h-[500px] hover:w-[500px];
   }
 }
-
+/* 
 .slick-arrow::before {
   color: theme("colors.neutral.text-secondary") !important;
-}
+} */

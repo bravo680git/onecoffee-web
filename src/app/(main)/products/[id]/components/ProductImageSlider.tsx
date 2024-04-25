@@ -15,19 +15,23 @@ function ProductImageSlider({ images = [] }: { images: string[] }) {
       speed={500}
       autoplay
       infinite
-      className="w-full">
+      className="w-full"
+      dotsClass="slick-dots [&>li]:!w-[unset] [&>li]:!mt-2"
+      customPaging={(index) => (
+        <div key={index} className="relative h-10 w-10">
+          <Image src={images[index]} alt="" fill />
+        </div>
+      )}>
       {images.map((item, i) => (
         <div key={i} className="w-full">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-md bg-primary-100">
-            <div className="relative h-4/5 w-4/5">
-              <Image
-                src={item}
-                alt=""
-                fill
-                className="object-contain object-center"
-                quality={100}
-              />
-            </div>
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden  rounded-lg bg-primary-100">
+            <Image
+              src={item}
+              alt=""
+              fill
+              className="object-contain object-center"
+              quality={100}
+            />
           </div>
         </div>
       ))}

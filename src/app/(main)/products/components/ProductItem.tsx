@@ -12,12 +12,7 @@ function ProductItem({ data }: { data: ProductType }) {
       href={`${path.products}/${data.slug}`}>
       <div className="ripple aspect-[3/2.7] w-full overflow-hidden rounded-md bg-primary-100">
         <div className="relative h-full w-full">
-          <Image
-            src={data.images?.[0]}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={data.images?.[0]} alt="" fill className="object-cover" />
           {data.salePercent > 0 && (
             <div
               className="absolute right-2 top-2 flex h-10 w-10 items-center 

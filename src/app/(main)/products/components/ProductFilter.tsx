@@ -50,6 +50,7 @@ function OrderSelect() {
         value={value}
         onChange={setValue}
         showError={false}
+        allowSearch={false}
       />
     </div>
   );
