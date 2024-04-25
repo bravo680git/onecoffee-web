@@ -6,6 +6,7 @@ import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { ProductType } from "@/services/api/public/type";
 import { useCartStore } from "@/store/cart";
+import { useCheckoutStore } from "@/store/checkout";
 import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
 import { Add, Minus, NotificationCircle } from "iconsax-react";
@@ -17,6 +18,7 @@ function ProductPrice({ data }: { data: ProductType }) {
   const { msgApi, msgCtxHoler } = useMessage();
   const { modelApi, modalCtxHoler } = useModal();
   const { items: cartItems, setItemCount, setItems } = useCartStore();
+  const setCheckoutItems = useCheckoutStore((state) => state.setItems);
 
   const [quantity, setQuantity] = useState(1);
   const [variants, setVariants] = useState<string[]>([]);
@@ -39,7 +41,7 @@ function ProductPrice({ data }: { data: ProductType }) {
     });
   };
 
-  const handleUpdateCart = async () => {
+  const canConduct = async () => {
     const isLoggedIn = await checkLogin();
     if (!isLoggedIn) {
       modelApi.info({
@@ -51,7 +53,7 @@ function ProductPrice({ data }: { data: ProductType }) {
           push(path.login);
         },
       });
-      return;
+      return false;
     }
 
     if (
@@ -62,10 +64,40 @@ function ProductPrice({ data }: { data: ProductType }) {
       msgApi.error({
         message: "Vui lòng chọn một phân loại cho sản phẩm",
       });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleCheckout = async () => {
+    setPurchaseLoading(true);
+    if (!(await canConduct())) {
+      setPurchaseLoading(false);
       return;
     }
 
+    setCheckoutItems([
+      {
+        productId: data.id,
+        quantity,
+        variantId: selectedVariantId,
+        variant: data.variants?.find((item) => item.id === selectedVariantId),
+        product: data,
+        id: 0,
+      },
+    ]);
+    push(path.checkout);
+  };
+
+  const handleUpdateCart = async () => {
     setUpdateCartLoading(true);
+    if (!(await canConduct())) {
+      setUpdateCartLoading(false);
+
+      return;
+    }
+
     updateCart({
       productId: data.id,
       quantity,
@@ -82,7 +114,6 @@ function ProductPrice({ data }: { data: ProductType }) {
               item.productId !== data.id &&
               item.variantId !== selectedVariantId,
           );
-          console.log(res.data);
 
           filterCartItems.push(res.data.cart);
           setItems(filterCartItems);
@@ -162,7 +193,13 @@ function ProductPrice({ data }: { data: ProductType }) {
           </div>
         </div>
         <div className="mt-5 flex gap-2">
-          <button className="ripple rounded-md bg-primary-500 px-3 py-1.5 font-semibold text-white transition-all active:shadow-primary">
+          <button
+            className="ripple flex items-center justify-center rounded-md bg-primary-500 px-3 py-1.5 
+              font-semibold text-white transition-all active:shadow-primary"
+            onClick={handleCheckout}>
+            {purchaseLoading && (
+              <NotificationCircle size={20} className="animate-spin" />
+            )}
             Mua ngay
           </button>
           <button

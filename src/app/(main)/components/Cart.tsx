@@ -158,7 +158,9 @@ function Cart() {
               <div className="p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <div className="flex items-center justify-between">
                   <Checkbox
-                    value={selectedItems.length === items.length}
+                    value={
+                      items.length > 0 && selectedItems.length === items.length
+                    }
                     onChange={() => handleSelectItem(0, true)}
                     label="Tất cả"
                   />
