@@ -1,8 +1,8 @@
 "use client";
 
-import { checkLogin, updateCart } from "@/app/action";
+import { updateCart } from "@/app/action";
+import { useCheckLogin } from "@/app/hooks/useCheckLogin";
 import { useMessage } from "@/components/Message";
-import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { ProductType } from "@/services/api/public/type";
 import { useCartStore } from "@/store/cart";
@@ -16,9 +16,9 @@ import { useState } from "react";
 function ProductPrice({ data }: { data: ProductType }) {
   const { push } = useRouter();
   const { msgApi, msgCtxHoler } = useMessage();
-  const { modelApi, modalCtxHoler } = useModal();
   const { items: cartItems, setItemCount, setItems } = useCartStore();
   const setCheckoutItems = useCheckoutStore((state) => state.setItems);
+  const { checkLoginModalCtxHolder, handleCheckLogin } = useCheckLogin();
 
   const [quantity, setQuantity] = useState(1);
   const [variants, setVariants] = useState<string[]>([]);
@@ -41,18 +41,8 @@ function ProductPrice({ data }: { data: ProductType }) {
     });
   };
 
-  const canConduct = async () => {
-    const isLoggedIn = await checkLogin();
-    if (!isLoggedIn) {
-      modelApi.info({
-        title: "Đăng nhập để tiếp tục",
-        content:
-          "Bạn chưa đăng nhập nên chưa thế sử dụng chức năng này, vui lòng đăng nhập",
-        okCancel: true,
-        async onOk() {
-          push(path.login);
-        },
-      });
+  const canConduct = async (setLoading: (v: boolean) => void) => {
+    if (!(await handleCheckLogin(setLoading))) {
       return false;
     }
 
@@ -72,7 +62,7 @@ function ProductPrice({ data }: { data: ProductType }) {
 
   const handleCheckout = async () => {
     setPurchaseLoading(true);
-    if (!(await canConduct())) {
+    if (!(await canConduct(setPurchaseLoading))) {
       setPurchaseLoading(false);
       return;
     }
@@ -92,7 +82,7 @@ function ProductPrice({ data }: { data: ProductType }) {
 
   const handleUpdateCart = async () => {
     setUpdateCartLoading(true);
-    if (!(await canConduct())) {
+    if (!(await canConduct(setUpdateCartLoading))) {
       setUpdateCartLoading(false);
 
       return;
@@ -131,7 +121,7 @@ function ProductPrice({ data }: { data: ProductType }) {
 
   return (
     <>
-      {modalCtxHoler}
+      {checkLoginModalCtxHolder}
       {msgCtxHoler}
       <div className="mt-5 w-full">
         <span className="text-xl font-bold text-primary-500">

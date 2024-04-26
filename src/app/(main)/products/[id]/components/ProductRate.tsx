@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { Star1 } from "iconsax-react";
+import { Rating, Stars } from "./Rating";
 
 function ProductRate() {
   const rate = 3.5;
@@ -41,9 +42,9 @@ function ProductRate() {
           </div>
           <span className="text-neutral-text-secondary">(7 đánh giá)</span>
           <div className="mt-2 flex flex-col gap-2">
-            {[1, 2, 3, 4, 5].map((v) => (
+            {[5, 4, 3, 2, 1].map((v) => (
               <div key={v} className="flex items-center gap-2">
-                <Stars v={v} />
+                <Stars v={v + 1} />
                 <div className="relative h-2 w-32 overflow-hidden rounded-full bg-neutral-text-secondary/20">
                   <div
                     className="absolute left-0 top-0 h-full bg-teal-500"
@@ -53,6 +54,8 @@ function ProductRate() {
               </div>
             ))}
           </div>
+
+          <Rating />
         </div>
       </div>
 
@@ -75,25 +78,6 @@ function ProductRate() {
             </div>
           ))}
       </div>
-    </div>
-  );
-}
-
-function Stars({ v }: { v: number }) {
-  return (
-    <div className="flex">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <Star1
-          key={i}
-          size={16}
-          variant="Bulk"
-          className={clsx(
-            6 - i >= v
-              ? "text-secondary-500"
-              : "text-neutral-text-secondary/50",
-          )}
-        />
-      ))}
     </div>
   );
 }

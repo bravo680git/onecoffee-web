@@ -1,6 +1,7 @@
 "use client";
 
-import { checkLogin, getCartItems, updateCart } from "@/app/action";
+import { getCartItems, updateCart } from "@/app/action";
+import { useCheckLogin } from "@/app/hooks/useCheckLogin";
 import Checkbox from "@/components/Checkbox";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
@@ -12,7 +13,7 @@ import clsx from "clsx";
 import { Add, ArrowLeft, Minus, ShoppingCart, Trash } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, MouseEvent, useMemo } from "react";
+import { MouseEvent, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 function Cart() {
@@ -20,6 +21,7 @@ function Cart() {
   const { modelApi, modalCtxHoler } = useModal();
   const { items, setItems, setItemCount } = useCartStore();
   const { setItems: setCheckoutItems } = useCheckoutStore();
+  const { checkLoginModalCtxHolder, handleCheckLogin } = useCheckLogin();
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -56,17 +58,7 @@ function Cart() {
   };
 
   const handleOpenCart = async (e: MouseEvent<HTMLDivElement>) => {
-    const isLoggedIn = await checkLogin();
-    if (!isLoggedIn) {
-      modelApi.info({
-        title: "Đăng nhập để tiếp tục",
-        content:
-          "Bạn chưa đăng nhập nên chưa thế sử dụng chức năng này, vui lòng đăng nhập",
-        okCancel: true,
-        async onOk() {
-          push(path.login);
-        },
-      });
+    if (!(await handleCheckLogin())) {
       return;
     }
     e.stopPropagation();
@@ -118,6 +110,7 @@ function Cart() {
   return (
     <>
       {modalCtxHoler}
+      {checkLoginModalCtxHolder}
       <CartBtn onClick={handleOpenCart} />
       {mounted &&
         createPortal(

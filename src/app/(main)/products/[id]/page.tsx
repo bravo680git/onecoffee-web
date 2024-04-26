@@ -90,9 +90,9 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
           </div>
         </section>
 
-        {/* <section className="mt-8 w-full" id="reviews">
+        <section className="mt-8 w-full" id="reviews">
           <ProductRate />
-        </section> */}
+        </section>
 
         <section className="mt-8 w-full">
           <Suspense fallback={<RelatedProductsLoading />}>

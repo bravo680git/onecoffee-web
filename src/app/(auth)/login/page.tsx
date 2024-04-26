@@ -11,6 +11,7 @@ import { path } from "@/config/path";
 import { validate } from "../helper";
 import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
+import { useNavigationStore } from "@/store/navigation";
 
 const MSG = {
   USERNAME_PASSWORD_INCORRECT: "Tài khoản hoặc mật khẩu không đúng",
@@ -18,6 +19,7 @@ const MSG = {
 
 function Login() {
   const { push } = useRouter();
+  const { getLoginRedirectRoute } = useNavigationStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<
@@ -40,7 +42,7 @@ function Login() {
         if (res.data) {
           msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
           setTimeout(() => {
-            push(path.home);
+            push(getLoginRedirectRoute() ?? path.home);
           }, 500);
         } else {
           setErrors({ account: MSG.USERNAME_PASSWORD_INCORRECT });

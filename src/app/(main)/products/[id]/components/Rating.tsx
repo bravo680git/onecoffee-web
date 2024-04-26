@@ -1,0 +1,84 @@
+"use client";
+
+import { useCheckLogin } from "@/app/hooks/useCheckLogin";
+import { useModal } from "@/components/Modal";
+import clsx from "clsx";
+import { NotificationCircle, Star1 } from "iconsax-react";
+import { useState } from "react";
+
+export function Rating() {
+  const { checkLoginModalCtxHolder, handleCheckLogin } = useCheckLogin();
+  const { modalCtxHoler, modelApi } = useModal();
+
+  const [rate, setRate] = useState(5);
+  const [loading, setLoading] = useState(false);
+
+  const handleReview = async () => {
+    if (!(await handleCheckLogin(setLoading))) {
+      return;
+    }
+  };
+
+  return (
+    <>
+      {modalCtxHoler}
+      {checkLoginModalCtxHolder}
+      <div className="mt-5 w-56 rounded-md border border-slate-200 px-4 py-2">
+        <h3 className="mb-2 font-semibold">Đánh giá của bạn</h3>
+        <Stars
+          v={rate}
+          size={24}
+          onChange={(v) => {
+            setRate(v);
+          }}
+        />
+        <textarea
+          className="mt-3 block w-full resize-none rounded-md border border-slate-200 px-3 py-1 
+            transition-all duration-300 focus:shadow-primary"
+          rows={5}
+          placeholder="Nhập nhận xét của bạn về sản phẩm"
+        />
+        <div className="mt-3 flex justify-end">
+          <button
+            className="ripple flex items-center justify-center gap-2 rounded-md bg-primary-500 
+            px-4 py-1.5 font-semibold text-white transition-all duration-300 active:shadow-primary"
+            onClick={handleReview}>
+            {loading && (
+              <NotificationCircle size={20} className="animate-spin" />
+            )}
+            Gửi
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function Stars({
+  v,
+  size = 16,
+  onChange,
+}: {
+  v: number;
+  onChange?(v: number): void;
+  size?: number;
+}) {
+  return (
+    <div className="flex">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <Star1
+          key={i}
+          size={size}
+          variant="Bulk"
+          className={clsx(
+            v > i ? "text-secondary-500" : "text-neutral-text-secondary/50",
+            {
+              "cursor-pointer hover:text-secondary-500": onChange,
+            },
+          )}
+          onClick={onChange ? () => onChange(i + 1) : undefined}
+        />
+      ))}
+    </div>
+  );
+}
