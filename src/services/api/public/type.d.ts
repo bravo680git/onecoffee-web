@@ -1,3 +1,5 @@
+import { UserInfo } from "../protected";
+
 export type Category = {
   categories: {
     id: number;
@@ -41,8 +43,6 @@ type ProductType = {
     price: number;
     stockQuantity: number;
   }[];
-  averageRate: number;
-  totalRate: number;
 };
 
 type ProductsResponse = {
@@ -57,6 +57,8 @@ type ProductsResponse = {
 
 type ProductResponse = {
   product: ProductType;
+  averageRate: number;
+  totalRate: number;
 };
 
 type ProductQueries = {
@@ -73,3 +75,20 @@ type Province = {
 };
 type District = Province;
 type Ward = Province;
+
+type ProductRateType = {
+  id: number;
+  rating: number;
+  comment: string;
+  product: ProductType;
+  variant?: unknown;
+  user: UserInfo;
+  createdAt: string;
+};
+
+type ProductRatesResponse = {
+  rates: ProductRateType[];
+  averageRate: number;
+  totalRate: number;
+  countRate: Record<number, number>;
+};

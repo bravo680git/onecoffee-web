@@ -1,12 +1,13 @@
 import { protectedApiClient } from "../apiClient";
 import {
+  AddressItemType,
   CartItemType,
   CreateAddressPayload,
-  UpdateCartItemPayload,
-  AddressItemType,
-  UserInfo,
-  UpdateUserInfoPayload,
   CreateOrderPayload,
+  CreateRatePayload,
+  UpdateCartItemPayload,
+  UpdateUserInfoPayload,
+  UserInfo,
 } from "./type";
 
 export const protectedApi = {
@@ -60,14 +61,21 @@ export const protectedApi = {
       body: JSON.stringify(payload),
     });
   },
+  createRate(payload: CreateRatePayload) {
+    return protectedApiClient<BaseResponse>("/user/rate", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 export type {
-  UpdateCartItemPayload,
+  AddressItemType,
   CartItemType,
   CreateAddressPayload,
-  AddressItemType,
-  UserInfo,
-  UpdateUserInfoPayload,
   CreateOrderPayload,
+  CreateRatePayload,
+  UpdateCartItemPayload,
+  UpdateUserInfoPayload,
+  UserInfo,
 };

@@ -1,9 +1,11 @@
-import { publicApiClient, ApiConfig } from "..";
+import { ApiConfig, publicApiClient } from "..";
 import {
   Banner,
   Category,
   District,
   ProductQueries,
+  ProductRateType,
+  ProductRatesResponse,
   ProductResponse,
   ProductsResponse,
   Province,
@@ -31,10 +33,9 @@ export const publicApi = {
       next: { tags: ["product"] },
     });
   },
-  getProductDetail(id: string, config?: ApiConfig) {
+  getProductDetail(id: string) {
     return publicApiClient<BaseResponse<ProductResponse>>(`/product/${id}`, {
-      ...config,
-      next: { tags: [`product:${id}`] },
+      next: { tags: [`product-${id}`] },
     });
   },
   getProvinceList() {
@@ -58,6 +59,12 @@ export const publicApi = {
       }>
     >(`/province/ward/${code}`);
   },
+  getProductRates(productId: string) {
+    return publicApiClient<BaseResponse<ProductRatesResponse>>(
+      `/product/rate/${productId}`,
+      { next: { tags: [`rate-${productId}`] } },
+    );
+  },
 };
 
 export type {
@@ -65,6 +72,8 @@ export type {
   Category,
   District,
   ProductQueries,
+  ProductRateType,
+  ProductRatesResponse,
   ProductResponse,
   ProductsResponse,
   Province,

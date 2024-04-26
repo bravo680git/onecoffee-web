@@ -1,18 +1,16 @@
-import Breadcrumb, { BreadcrumbItem } from "@/components/Breadcrumb";
-import Image from "next/image";
-import ProductImageSlider from "./components/ProductImageSlider";
-import { Star1 } from "iconsax-react";
-import ProductPrice from "./components/ProductPrice";
-import ProductRate from "./components/ProductRate";
-import RelateProductSlider from "./components/RelateProductSlider";
-import { publicApi } from "@/services/api";
-import { ProductType } from "@/services/api/public/type";
 import "@/assets/css/quill.css";
+import Breadcrumb, { BreadcrumbItem } from "@/components/Breadcrumb";
+import { publicApi } from "@/services/api";
+import { Star1 } from "iconsax-react";
+import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import ProductImageSlider from "./components/ProductImageSlider";
+import ProductPrice from "./components/ProductPrice";
+import ProductRate, { ProductRateLoading } from "./components/ProductRate";
 import RelatedProducts, {
   RelatedProductsLoading,
 } from "./components/RelatedProducts";
-import { Suspense } from "react";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -27,14 +25,17 @@ const breadcrumbItems: BreadcrumbItem[] = [
 
 async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
-  const data =
-    (await publicApi
-      .getProductDetail(productId)
-      .then((res) => res.data?.product)
-      .catch()) ?? ({} as ProductType);
+  const data = await publicApi
+    .getProductDetail(productId)
+    .then((res) => res.data)
+    .catch();
+  if (!data) {
+    return;
+  }
+  const product = data.product;
 
   breadcrumbItems[2] = {
-    title: data.name,
+    title: product.name,
     url: "",
   };
 
@@ -54,10 +55,10 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
         <section className="w-full">
           <div className="flex gap-12 md:flex-col">
             <div className="w-[600px] shrink-0 xl:w-[400px] md:mx-auto sm:w-full">
-              <ProductImageSlider images={data.images} />
+              <ProductImageSlider images={product.images} />
             </div>
             <div className="grow">
-              <h3 className="mb-2 text-lg font-semibold">{data.name}</h3>
+              <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
               <div className="flex items-center gap-2">
                 <div className="flex items-center">
                   <Star1
@@ -76,7 +77,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
                 </Link>
               </div>
               <hr className="mt-2 w-full text-neutral-text-secondary" />
-              <ProductPrice data={data} />
+              <ProductPrice data={product} />
             </div>
           </div>
         </section>
@@ -86,17 +87,19 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
           <div className="ql-snow">
             <div
               className="view ql-editor"
-              dangerouslySetInnerHTML={{ __html: data.description }}></div>
+              dangerouslySetInnerHTML={{ __html: product.description }}></div>
           </div>
         </section>
 
         <section className="mt-8 w-full" id="reviews">
-          <ProductRate />
+          <Suspense fallback={<ProductRateLoading />}>
+            <ProductRate product={product} />
+          </Suspense>
         </section>
 
         <section className="mt-8 w-full">
           <Suspense fallback={<RelatedProductsLoading />}>
-            <RelatedProducts item={data} />
+            <RelatedProducts item={product} />
           </Suspense>
         </section>
       </div>

@@ -56,3 +56,10 @@ type CreateOrderPayload = {
     variantId?: number;
   }[];
 };
+
+type CreateRatePayload = {
+  rating: number;
+  comment: string;
+  productId: number;
+  variantId?: number;
+};
