@@ -1,19 +1,20 @@
 "use client";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useMessage } from "@/components/Message";
+import { path } from "@/config/path";
 import { LoginPayload } from "@/services/api/auth/type";
+import { useNavigationStore } from "@/store/navigation";
+import { CredentialResponse } from "@react-oauth/google";
 import clsx from "clsx";
 import { NotificationCircle } from "iconsax-react";
-import { useState } from "react";
-import { login, loginWithGoogle } from "./action";
 import Link from "next/link";
-import { path } from "@/config/path";
-import { validate } from "../helper";
-import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
-import { useNavigationStore } from "@/store/navigation";
+import { useState } from "react";
+import { validate } from "../helper";
+import { login, loginWithGoogle } from "./action";
 import LoginGGBtn from "./components/LoginGGBtn";
-import { CredentialResponse } from "@react-oauth/google";
 
 const MSG = {
   USERNAME_PASSWORD_INCORRECT: "Tài khoản hoặc mật khẩu không đúng",
@@ -101,19 +102,9 @@ function Login() {
           </Link>
         </p>
       </div>
-      <button
-        className={clsx(
-          "ripple flex items-center justify-center gap-2 rounded-md",
-          "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-          {
-            "opacity-80": loading,
-          },
-        )}
-        onClick={handleSubmit}
-        disabled={loading}>
-        {loading && <NotificationCircle size={20} className="animate-spin" />}
+      <Button type="primary" onClick={handleSubmit} loading={loading}>
         Đăng nhập
-      </button>
+      </Button>
       <p className="text-center text-xs text-red-500">{errors.account}</p>
       <p className="text-xs text-secondary-500">
         Chưa có tài khoản,{" "}

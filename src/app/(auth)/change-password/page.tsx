@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/app/action";
 import { useUserStore } from "@/store/user";
 import { useModal } from "@/components/Modal";
+import Button from "@/components/Button";
 
 const MSG = {
   PASSWORD_INCORRECT: "Mật khẩu không đúng",
@@ -122,19 +123,9 @@ function Login() {
       <div className="mb-2 text-center text-xs font-semibold text-red-500">
         {errors.account}
       </div>
-      <button
-        className={clsx(
-          "ripple flex items-center justify-center gap-2 rounded-md",
-          "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-          {
-            "opacity-80": loading,
-          },
-        )}
-        onClick={handleSubmit}
-        disabled={loading}>
-        {loading && <NotificationCircle size={20} className="animate-spin" />}
+      <Button type="primary" onClick={handleSubmit} loading={loading}>
         Đổi mật khẩu
-      </button>
+      </Button>
 
       {msgCtxHoler}
       {modalCtxHoler}

@@ -1,17 +1,18 @@
 "use client";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { RegisterPayload } from "@/services/api";
 import clsx from "clsx";
 import { NotificationCircle } from "iconsax-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { checkPasswordStrongLevel, validate } from "../helper";
 import { register } from "./action";
-import { useRouter } from "next/navigation";
-import { useMessage } from "@/components/Message";
 
 const msgDist: Record<string, string> = {
   USERNAME_EXISTS: "Email đã được đăng kí, vui lòng dùng email khác",
@@ -127,19 +128,9 @@ function Register() {
             tự đặc biệt.
           </p>
         </div>
-        <button
-          className={clsx(
-            "ripple flex items-center justify-center gap-2 rounded-md",
-            "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-            {
-              "opacity-80": loading,
-            },
-          )}
-          onClick={handleSubmit}
-          disabled={loading}>
-          {loading && <NotificationCircle size={20} className="animate-spin" />}
+        <Button type="primary" onClick={handleSubmit} loading={loading}>
           Đăng ký
-        </button>
+        </Button>
         <p className="text-xs text-secondary-500">
           Bạn đã có tài khoản,{" "}
           <Link className="text-blue-500 hover:underline" href={path.login}>

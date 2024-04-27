@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { validate } from "../helper";
 import { resetPassword } from "./action";
+import Button from "@/components/Button";
 
 const MSG = {
   TOKEN_INCORRECT: "Token không hợp lệ, vui lòng yêu cầu cấp mật khẩu lại",
@@ -98,19 +99,9 @@ function ResetPassword({ searchParams }: PageProps<[], ["token-id"]>) {
           }
           onEnter={handleSubmit}
         />
-        <button
-          className={clsx(
-            "ripple flex items-center justify-center gap-2 rounded-md",
-            "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-            {
-              "opacity-80": loading,
-            },
-          )}
-          onClick={handleSubmit}
-          disabled={loading}>
-          {loading && <NotificationCircle size={20} className="animate-spin" />}
+        <Button type="primary" onClick={handleSubmit} loading={loading}>
           Gửi
-        </button>
+        </Button>
       </div>
     </>
   );

@@ -24,6 +24,7 @@ import { useAddressStore } from "@/store/address";
 import { useUserStore } from "@/store/user";
 import { updateUserInfo } from "@/app/action";
 import { useModal } from "@/components/Modal";
+import Button from "@/components/Button";
 
 function OrderAddressListModal({
   open,
@@ -216,13 +217,12 @@ function OrderAddressListModal({
             ))}
 
             {items.length > 0 ? (
-              <button
-                className="ripple flex w-full items-center justify-center gap-2 rounded-md
-                bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary"
-                onClick={handleSaveAddress}>
-                {loading && <NotificationCircle size={20} />}
+              <Button
+                type="primary"
+                onClick={handleSaveAddress}
+                loading={loading}>
                 Lưu
-              </button>
+              </Button>
             ) : (
               <p className="text-center text-neutral-text-secondary">
                 Chưa có địa chỉ nào ở đây, vui lòng tạo mới
@@ -479,7 +479,7 @@ function CreateOrderAddressModal({
             <div
               className={clsx(
                 "flex cursor-pointer items-center gap-2 rounded-md border",
-                "border-slate-200 p-5 text-neutral-text-secondary transition-all duration-300",
+                "border-slate-200 p-3 text-neutral-text-secondary transition-all duration-300",
                 {
                   "bg-primary-500/80 text-white": !isOffice,
                 },
@@ -491,7 +491,7 @@ function CreateOrderAddressModal({
             <div
               className={clsx(
                 "flex cursor-pointer items-center gap-2 rounded-md border",
-                "border-slate-200 p-5 text-neutral-text-secondary transition-all duration-300",
+                "border-slate-200 p-3 text-neutral-text-secondary transition-all duration-300",
                 {
                   "bg-primary-500/80 text-white": isOffice,
                 },
@@ -501,21 +501,11 @@ function CreateOrderAddressModal({
               <span className="font-semibold">Văn phòng</span>
             </div>
           </div>
-          <div className="flex justify-end gap-2">
-            <button
-              className="ripple rounded-md border border-slate-200 px-4 py-1.5 text-neutral-text-secondary"
-              onClick={onClose}>
-              Hủy
-            </button>
-            <button
-              className="ripple flex items-center justify-center gap-2 rounded-md bg-primary-500 
-                px-4 py-1.5 font-semibold text-white transition-all duration-300 active:shadow-primary"
-              onClick={handleSubmit}>
-              {loading && (
-                <NotificationCircle size={20} className="animate-spin" />
-              )}
+          <div className="mt-4 flex justify-end gap-2">
+            <Button onClick={onClose}>Hủy</Button>
+            <Button onClick={handleSubmit} loading={loading} type="primary">
               Lưu
-            </button>
+            </Button>
           </div>
         </div>
       </div>

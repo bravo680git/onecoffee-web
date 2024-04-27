@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { createOrder } from "./action";
 import { OrderAddressListModal } from "./components/OrderAddressModal";
+import Button from "@/components/Button";
 
 function Checkout() {
   const { items, setItems } = useCheckoutStore();
@@ -233,15 +234,14 @@ function Checkout() {
                       {transformCurrency(priceTotal + 16000)}
                     </span>
                   </div>
-                  <button
-                    className="ripple transition- all mt-4 flex w-full items-center
-                  justify-center gap-2 rounded-md bg-primary-500 py-2 font-semibold text-white duration-300 active:shadow-primary"
-                    onClick={handleCheckout}>
-                    {loading && (
-                      <NotificationCircle size={20} className="animate-spin" />
-                    )}
+                  <Button
+                    type="primary"
+                    size="lg"
+                    className="mt-4 w-full"
+                    onClick={handleCheckout}
+                    loading={loading}>
                     Đặt hàng
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

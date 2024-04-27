@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
@@ -75,19 +76,9 @@ function ForgetPassword() {
           error={errors.email}
           onBlur={() => validate({ email }, setErrors)}
         />
-        <button
-          className={clsx(
-            "ripple flex items-center justify-center gap-2 rounded-md",
-            "bg-primary-500 py-2 font-semibold text-white transition-all duration-300 active:shadow-primary",
-            {
-              "opacity-80": loading,
-            },
-          )}
-          onClick={handleSubmit}
-          disabled={loading}>
-          {loading && <NotificationCircle size={20} className="animate-spin" />}
+        <Button type="primary" onClick={handleSubmit} loading={loading}>
           Lấy lại mật khẩu
-        </button>
+        </Button>
       </div>
     </>
   );

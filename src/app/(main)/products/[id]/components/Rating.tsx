@@ -1,10 +1,11 @@
 "use client";
 
 import { useCheckLogin } from "@/app/hooks/useCheckLogin";
+import Button from "@/components/Button";
 import { useMessage } from "@/components/Message";
 import { ProductType } from "@/services/api/public/type";
 import clsx from "clsx";
-import { NotificationCircle, Star1 } from "iconsax-react";
+import { Star1 } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createRate, revalidate } from "../action";
@@ -66,15 +67,9 @@ export function Rating({ product }: { product: ProductType }) {
           onChange={(e) => setComment(e.target.value)}
         />
         <div className="mt-3 flex justify-end">
-          <button
-            className="ripple flex items-center justify-center gap-2 rounded-md bg-primary-500 
-            px-4 py-1.5 font-semibold text-white transition-all duration-300 active:shadow-primary"
-            onClick={handleReview}>
-            {loading && (
-              <NotificationCircle size={20} className="animate-spin" />
-            )}
+          <Button type="primary" onClick={handleReview} loading={loading}>
             Gửi
-          </button>
+          </Button>
         </div>
       </div>
     </>

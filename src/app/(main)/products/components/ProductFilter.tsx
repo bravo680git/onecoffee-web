@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Select, { SelectProps } from "@/components/Select";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
-import { Setting5 } from "iconsax-react";
-import clsx from "clsx";
-import { OrderType } from "../constants";
+import Select, { SelectProps } from "@/components/Select";
 import { Category } from "@/services/api/public/type";
 import { QueryKey } from "@/utils/constants";
+import clsx from "clsx";
+import { Setting5 } from "iconsax-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { OrderType } from "../constants";
 
 const orderItems: SelectProps["items"] = [
   {
@@ -139,11 +140,9 @@ function ProductFilter({
         ))}
       </div>
 
-      <button
-        className="ripple mt-3 rounded-md bg-primary-500 px-4 py-1 font-semibold text-white"
-        onClick={handleFilter}>
+      <Button className="mt-3" type="primary" onClick={handleFilter}>
         Áp dụng
-      </button>
+      </Button>
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { updateCart } from "@/app/action";
 import { useCheckLogin } from "@/app/hooks/useCheckLogin";
+import Button from "@/components/Button";
 import { useMessage } from "@/components/Message";
 import { path } from "@/config/path";
 import { ProductType } from "@/services/api/public/type";
@@ -9,7 +10,7 @@ import { useCartStore } from "@/store/cart";
 import { useCheckoutStore } from "@/store/checkout";
 import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
-import { Add, Minus, NotificationCircle } from "iconsax-react";
+import { Add, Minus } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -183,25 +184,18 @@ function ProductPrice({ data }: { data: ProductType }) {
           </div>
         </div>
         <div className="mt-5 flex gap-2">
-          <button
-            className="ripple flex items-center justify-center rounded-md bg-primary-500 px-3 py-1.5 
-              font-semibold text-white transition-all active:shadow-primary"
-            onClick={handleCheckout}>
-            {purchaseLoading && (
-              <NotificationCircle size={20} className="animate-spin" />
-            )}
+          <Button
+            type="primary"
+            onClick={handleCheckout}
+            loading={purchaseLoading}>
             Mua ngay
-          </button>
-          <button
-            className="ripple flex items-center justify-center gap-2 rounded-md bg-secondary-500 
-              px-3 py-1.5 font-semibold text-white transition-all active:shadow-secondary"
+          </Button>
+          <Button
+            type="secondary"
             onClick={handleUpdateCart}
-            disabled={updateCartLoading}>
-            {updateCartLoading && (
-              <NotificationCircle size={20} className="animate-spin" />
-            )}
+            loading={updateCartLoading}>
             Thêm vào giỏ hàng
-          </button>
+          </Button>
         </div>
       </div>
     </>
