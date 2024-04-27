@@ -14,7 +14,8 @@ function Layout({ children }: { children: React.ReactNode }) {
     <div>
       <header className="flex items-center gap-4 bg-neutral-bg-footer/90 p-4">
         <Link href={path.home}>
-        <Image src="/logo.png" width={60} height={60} alt="" /></Link>
+          <Image src="/logo.png" width={60} height={60} alt="" />
+        </Link>
         <h3 className="text-lg font-semibold text-white">New3T Store</h3>
       </header>
       <main>
@@ -25,7 +26,9 @@ function Layout({ children }: { children: React.ReactNode }) {
             alt=""
             className="object-center sm:object-cover"
           />
-          <div className="z-10 w-[400px] sm:w-full sm:px-4">{children}</div>
+          <div className="z-10 w-[400px] sm:mx-auto sm:w-full sm:max-w-[400px] sm:px-4">
+            {children}
+          </div>
           <div className="w-[600px] sm:hidden">
             <div className="relative h-[200px] w-[200px]"></div>
           </div>

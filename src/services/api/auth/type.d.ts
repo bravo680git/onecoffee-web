@@ -39,3 +39,7 @@ type ResetPasswordPayload = {
   newPassword: string;
   confirmNewPassword: string;
 };
+
+type LoginWithGooglePayload = {
+  token: string;
+};

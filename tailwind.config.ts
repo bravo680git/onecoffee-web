@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { breakpoints } from "./src/theme/breakpoints";
 
 const config: Config = {
   content: [
@@ -8,11 +9,11 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      "2xl": { max: "1536px" },
-      xl: { max: "1280px" },
-      lg: { max: "1024px" },
-      md: { max: "768px" },
-      sm: { max: "640px" },
+      "2xl": { max: breakpoints["2xl"] + "px" },
+      xl: { max: breakpoints.xl + "px" },
+      lg: { max: breakpoints.lg + "px" },
+      md: { max: breakpoints.md + "px" },
+      sm: { max: breakpoints.sm + "px" },
     },
     extend: {
       colors: {

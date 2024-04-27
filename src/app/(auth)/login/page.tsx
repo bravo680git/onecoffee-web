@@ -5,13 +5,15 @@ import { LoginPayload } from "@/services/api/auth/type";
 import clsx from "clsx";
 import { NotificationCircle } from "iconsax-react";
 import { useState } from "react";
-import { login } from "./action";
+import { login, loginWithGoogle } from "./action";
 import Link from "next/link";
 import { path } from "@/config/path";
 import { validate } from "../helper";
 import { useMessage } from "@/components/Message";
 import { useRouter } from "next/navigation";
 import { useNavigationStore } from "@/store/navigation";
+import LoginGGBtn from "./components/LoginGGBtn";
+import { CredentialResponse } from "@react-oauth/google";
 
 const MSG = {
   USERNAME_PASSWORD_INCORRECT: "Tài khoản hoặc mật khẩu không đúng",
@@ -51,6 +53,21 @@ function Login() {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const handleLoginWithGoogle = (res: CredentialResponse) => {
+    loginWithGoogle({ token: res.credential ?? "" }).then((res) => {
+      if (res.data) {
+        msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
+        setTimeout(() => {
+          push(getLoginRedirectRoute() ?? path.home);
+        }, 500);
+      } else {
+        msgApi.error({
+          message: "Có lỗi xảy ra, vui lòng thử lại sau",
+        });
+      }
+    });
   };
 
   return (
@@ -110,11 +127,9 @@ function Login() {
         <span>Hoặc</span>
         <hr className="grow" />
       </div>
-      <button
-        className="ripple rounded-md bg-secondary-500 py-2 font-semibold text-white 
-            transition-all duration-300 active:shadow-primary">
-        Đăng nhập với Google
-      </button>
+      <div className="w-full">
+        <LoginGGBtn onSuccess={handleLoginWithGoogle} />
+      </div>
       {msgCtxHoler}
     </div>
   );

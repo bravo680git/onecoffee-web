@@ -3,6 +3,7 @@ import {
   ChangePasswordPayload,
   LoginData,
   LoginPayload,
+  LoginWithGooglePayload,
   RegisterData,
   RegisterPayload,
   RequestResetPasswordPayload,
@@ -51,6 +52,12 @@ export const authApi = {
       body: JSON.stringify(payload),
     });
   },
+  loginWithGoogle(payload: LoginWithGooglePayload) {
+    return protectedApiClient<BaseResponse<LoginData>>("/auth/google-signin", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
 };
 
 export type {
@@ -62,4 +69,5 @@ export type {
   ChangePasswordPayload,
   RequestResetPasswordPayload,
   ResetPasswordPayload,
+  LoginWithGooglePayload,
 };
