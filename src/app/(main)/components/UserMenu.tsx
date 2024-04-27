@@ -8,7 +8,14 @@ import { path } from "@/config/path";
 import { UpdateUserInfoPayload, UserInfo } from "@/services/api";
 import { useUserStore } from "@/store/user";
 import clsx from "clsx";
-import { Add, Edit, Key, LogoutCurve, UserOctagon } from "iconsax-react";
+import {
+  Add,
+  Edit,
+  Key,
+  LogoutCurve,
+  ShoppingCart,
+  UserOctagon,
+} from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,6 +25,7 @@ import { createPortal } from "react-dom";
 function UserMenu() {
   const { msgApi, msgCtxHoler } = useMessage();
   const { setUserInfo, userInfo } = useUserStore();
+  const { push } = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -27,6 +35,9 @@ function UserMenu() {
     msgApi.success({
       message: "Đăng xuất thành công",
     });
+    setTimeout(() => {
+      push(path.home);
+    }, 500);
   };
 
   useEffect(() => {
@@ -113,6 +124,12 @@ function Menu({
           </span>
         </div>
         <ul className="py-2">
+          <li
+            className="ripple flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-sm px-4 py-1.5 font-semibold"
+            onClick={() => push(path.orders)}>
+            <ShoppingCart size={18} />
+            Đơn hàng của tôi
+          </li>
           <li
             className="ripple flex cursor-pointer items-center gap-1 whitespace-nowrap rounded-sm px-4 py-1.5 font-semibold"
             onClick={() => setOpenEditInfoModal(true)}>

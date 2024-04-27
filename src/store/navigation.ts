@@ -9,7 +9,7 @@ export const useNavigationStore = () => {
     },
     getLoginRedirectRoute() {
       const route = sessionStorage.getItem(STORAGE_KEY.loginRedirect);
-      localStorage.removeItem(STORAGE_KEY.loginRedirect);
+      sessionStorage.removeItem(STORAGE_KEY.loginRedirect);
       return route;
     },
   };

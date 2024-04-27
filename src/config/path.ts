@@ -7,4 +7,5 @@ export const path = {
   register: "/register",
   forgetPassword: "/forget-password",
   changePassword: "/change-password",
+  orders: "/orders",
 };

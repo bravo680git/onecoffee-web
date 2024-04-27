@@ -89,7 +89,7 @@ function Checkout() {
                     cartItems.filter((item) => !cartIds.includes(item.id)),
                   );
 
-                  push(path.home);
+                  push(path.products);
                 },
               });
             } else {
@@ -181,6 +181,7 @@ function Checkout() {
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   rows={3}
+                  placeholder="Để lại ghi chú cho chúng tôi về đơn hàng"
                   maxLength={200}
                   className="block w-full resize-none rounded-md border border-slate-200 px-4 py-2 
                     caret-primary-500 transition-all focus:shadow-primary"

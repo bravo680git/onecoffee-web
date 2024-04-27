@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from "@/app/(main)/orders/constants";
 import { ProductType } from "../public/type";
 
 export type UpdateCartItemPayload = {
@@ -69,4 +70,16 @@ type UploadResponse = {
     name: string;
     url: string;
   };
+};
+
+type OrderItemType = {
+  id: number;
+  status: ORDER_STATUS;
+  totalPrice: number;
+  note: string;
+  reason?: string;
+  createdAt: string;
+  updatedAt: string;
+  address: AddressItemType;
+  orderDetails: Omit<CartItemType, ["productId", "variantId"]>[];
 };

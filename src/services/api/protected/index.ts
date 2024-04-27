@@ -5,6 +5,7 @@ import {
   CreateAddressPayload,
   CreateOrderPayload,
   CreateRatePayload,
+  OrderItemType,
   UpdateCartItemPayload,
   UpdateUserInfoPayload,
   UploadResponse,
@@ -74,6 +75,11 @@ export const protectedApi = {
       body: formData,
     });
   },
+  getUserOrderList() {
+    return protectedApiClient<BaseResponse<{ orders: OrderItemType[] }>>(
+      "/user/order",
+    );
+  },
 };
 
 export type {
@@ -85,4 +91,5 @@ export type {
   UpdateCartItemPayload,
   UpdateUserInfoPayload,
   UserInfo,
+  OrderItemType,
 };
