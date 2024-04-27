@@ -138,7 +138,7 @@ function Cart() {
                 </button>
                 <h3 className="text-lg font-bold">Giỏ hàng</h3>
               </div>
-              <div className="flex h-[calc(100vh-176px)] flex-col gap-4 overflow-y-auto p-4">
+              <div className="flex h-[calc(100dvh-176px)] flex-col gap-4 overflow-y-auto p-4">
                 {items.map((item, i) => (
                   <CartItem
                     key={i}

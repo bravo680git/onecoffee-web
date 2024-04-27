@@ -34,12 +34,18 @@ export async function protectedApiClient<T = unknown>(
 
   const url = generateUrl(process.env.BASE_URL, path);
 
+  const requestHeader = config?.headers ?? {};
+
+  if (config?.body && !(config.body instanceof FormData)) {
+    (requestHeader as Record<string, string>)["Content-Type"] =
+      "Application/json";
+  }
+
   return fetch(url + queryString, {
     ...config,
     headers: {
-      ...config?.headers,
+      ...requestHeader,
       Authorization: serverToken?.value ? `Bearer ${serverToken.value}` : "",
-      "Content-Type": "Application/json",
     },
   }).then((res) => {
     if (res.status === 401) {

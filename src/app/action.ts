@@ -57,3 +57,11 @@ export const updateUserInfo = async (payload: UpdateUserInfoPayload) => {
     return ServerError;
   }
 };
+
+export const upload = async (formData: FormData) => {
+  try {
+    return await protectedApi.upload(formData);
+  } catch (error) {
+    return ServerError;
+  }
+};

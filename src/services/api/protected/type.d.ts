@@ -43,7 +43,7 @@ type UserInfo = {
 
 type UpdateUserInfoPayload = {
   name: string;
-  addressId: number;
+  addressId?: number;
   avatar?: string;
 };
 
@@ -62,4 +62,11 @@ type CreateRatePayload = {
   comment: string;
   productId: number;
   variantId?: number;
+};
+
+type UploadResponse = {
+  image: {
+    name: string;
+    url: string;
+  };
 };

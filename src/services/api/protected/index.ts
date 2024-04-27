@@ -7,6 +7,7 @@ import {
   CreateRatePayload,
   UpdateCartItemPayload,
   UpdateUserInfoPayload,
+  UploadResponse,
   UserInfo,
 } from "./type";
 
@@ -65,6 +66,12 @@ export const protectedApi = {
     return protectedApiClient<BaseResponse>("/user/rate", {
       method: "POST",
       body: JSON.stringify(payload),
+    });
+  },
+  upload(formData: FormData) {
+    return protectedApiClient<BaseResponse<UploadResponse>>("/user/upload", {
+      method: "POST",
+      body: formData,
     });
   },
 };
