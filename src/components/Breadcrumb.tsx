@@ -3,7 +3,7 @@ import React from "react";
 
 export type BreadcrumbItem = {
   title: string;
-  url: string;
+  url?: string;
 };
 
 function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
@@ -12,7 +12,7 @@ function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
       {items.map((item, index) =>
         index !== items.length - 1 ? (
           <React.Fragment key={index}>
-            <Link href={item.url} className="transition-all hover:underline">
+            <Link href={item.url!} className="transition-all hover:underline">
               {item.title}
             </Link>
             <span>/</span>

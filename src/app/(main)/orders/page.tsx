@@ -1,7 +1,19 @@
+import { BreadcrumbItem } from "@/components/Breadcrumb";
 import { path } from "@/config/path";
 import { protectedApi } from "@/services/api";
 import Link from "next/link";
+import PageHeader from "../components/PageHeader";
 import OrderItem from "./components/OrderItem";
+
+const breakCrumbItems: BreadcrumbItem[] = [
+  {
+    title: "Trang chủ",
+    url: path.home,
+  },
+  {
+    title: "Đơn hàng",
+  },
+];
 
 async function Orders() {
   const items = (await protectedApi.getUserOrderList()).data?.orders;
@@ -11,9 +23,7 @@ async function Orders() {
 
   return (
     <div>
-      <div className="flex h-[240px] items-end justify-center bg-neutral-bg-footer/90 pb-8">
-        {/* <h3 className="text-xl font-bold text-white">Đơn hàng của tôi</h3> */}
-      </div>
+      <PageHeader title="Đơn hàng của tôi" breadcrumbItems={breakCrumbItems} />
       <div className="bg-gray-100">
         <div className="mx-auto flex min-h-[calc(100vh-240px)] max-w-[800px] flex-col gap-5 px-5 py-10">
           {items.map((item, index) => (

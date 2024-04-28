@@ -1,20 +1,14 @@
-import Breadcrumb, { type BreadcrumbItem } from "@/components/Breadcrumb";
-import Image from "next/image";
-import ProductItem from "./components/ProductItem";
-import { ArrowLeft2, ArrowRight2, Filter, Setting5 } from "iconsax-react";
-import {
-  OrderSelect,
-  ProductFilter,
-  ProductFilterBtn,
-} from "./components/ProductFilter";
-import { Suspense } from "react";
+import { type BreadcrumbItem } from "@/components/Breadcrumb";
 import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
 import { ProductQueries } from "@/services/api/public/type";
-import { ORDER_TYPE_DIST } from "./constants";
-import ProductList, { ProductListLoading } from "./components/ProductList";
 import { CATEGORY, QueryKey } from "@/utils/constants";
+import { Suspense } from "react";
+import PageHeader from "../components/PageHeader";
 import { generateProductFilter } from "../helper";
+import { ProductFilter } from "./components/ProductFilter";
+import ProductList, { ProductListLoading } from "./components/ProductList";
+import { ORDER_TYPE_DIST } from "./constants";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -56,16 +50,7 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
 
   return (
     <div className="w-full">
-      <div className="relative flex h-[400px] w-full flex-col items-center justify-end gap-8 pb-20 sm:h-[300px]">
-        <Image
-          src="/images/page-header-img.png"
-          fill
-          alt=""
-          className="sm:object-cover"
-        />
-        <Breadcrumb items={breadcrumbItems} />
-        <h2 className="z-[1] text-3xl font-bold text-white">Sản phẩm</h2>
-      </div>
+      <PageHeader breadcrumbItems={breadcrumbItems} title="Sản phẩm" />
       <section className="mx-auto my-28 flex max-w-[1200px] gap-6 sm:my-10">
         <div className="flex w-[240px] shrink-0 flex-col gap-6 xl:hidden">
           <Suspense>

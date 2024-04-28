@@ -1,5 +1,7 @@
 "use client";
 
+import { BreadcrumbItem } from "@/components/Breadcrumb";
+import Button from "@/components/Button";
 import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
@@ -9,14 +11,28 @@ import { useCartStore } from "@/store/cart";
 import { storageKey, useCheckoutStore } from "@/store/checkout";
 import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
-import { Edit2, Moneys, NotificationCircle } from "iconsax-react";
+import { Edit2, Moneys } from "iconsax-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import PageHeader from "../components/PageHeader";
 import { createOrder } from "./action";
 import { OrderAddressListModal } from "./components/OrderAddressModal";
-import Button from "@/components/Button";
+
+const breakCrumbItems: BreadcrumbItem[] = [
+  {
+    title: "Trang chủ",
+    url: path.home,
+  },
+  {
+    title: "Sản phẩm",
+    url: path.products,
+  },
+  {
+    title: "Đặt hàng",
+  },
+];
 
 function Checkout() {
   const { items, setItems } = useCheckoutStore();
@@ -116,9 +132,10 @@ function Checkout() {
       {msgCtxHoler}
       {modalCtxHoler}
       <div>
-        <div className="flex h-[240px] items-end justify-center bg-neutral-bg-footer/90 pb-8">
-          {/* <h3 className="text-xl font-bold text-white">Xác nhận đơn hàng</h3> */}
-        </div>
+        <PageHeader
+          breadcrumbItems={breakCrumbItems}
+          title="Xác nhận đơn hàng"
+        />
         <div className="bg-gray-100">
           <div className="mx-auto flex min-h-[calc(100vh-240px)] max-w-[1200px] gap-5 px-5 py-10 lg:flex-col">
             <div className="flex grow flex-col gap-5">

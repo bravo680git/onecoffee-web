@@ -1,10 +1,11 @@
 import "@/assets/css/quill.css";
-import Breadcrumb, { BreadcrumbItem } from "@/components/Breadcrumb";
+import { BreadcrumbItem } from "@/components/Breadcrumb";
+import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
 import { Star1 } from "iconsax-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import PageHeader from "../../components/PageHeader";
 import ProductImageSlider from "./components/ProductImageSlider";
 import ProductPrice from "./components/ProductPrice";
 import ProductRate, { ProductRateLoading } from "./components/ProductRate";
@@ -15,11 +16,11 @@ import RelatedProducts, {
 const breadcrumbItems: BreadcrumbItem[] = [
   {
     title: "Trang chủ",
-    url: "/",
+    url: path.home,
   },
   {
     title: "Sản phẩm",
-    url: "/products",
+    url: path.products,
   },
 ];
 
@@ -41,16 +42,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
 
   return (
     <div className="w-full">
-      <div className="relative flex h-[400px] w-full flex-col items-center justify-end gap-8 pb-20 sm:h-[300px]">
-        <Image
-          src="/images/page-header-img.png"
-          fill
-          alt=""
-          className="sm:object-cover"
-        />
-        <Breadcrumb items={breadcrumbItems} />
-        <h2 className="z-[1] text-3xl font-bold text-white">Sản phẩm</h2>
-      </div>
+      <PageHeader title={product.name} breadcrumbItems={breadcrumbItems} />
       <div className="mx-auto my-28 max-w-[1200px] xl:max-w-full xl:px-4">
         <section className="w-full">
           <div className="flex gap-12 md:flex-col">
