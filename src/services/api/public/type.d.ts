@@ -45,14 +45,16 @@ type ProductType = {
   }[];
 };
 
+type ResponseMeta = {
+  total: number;
+  lastPage: number;
+  perPage: number;
+  currentPage: number;
+};
+
 type ProductsResponse = {
   products: ProductType[];
-  meta: {
-    total: number;
-    lastPage: number;
-    perPage: number;
-    currentPage: number;
-  };
+  meta: ResponseMeta;
 };
 
 type ProductResponse = {
@@ -91,4 +93,35 @@ type ProductRatesResponse = {
   averageRate: number;
   totalRate: number;
   countRate: Record<number, number>;
+};
+
+type BlogType = {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  thumbnail: string;
+  categoryId: number;
+  category: Category["categories"][number];
+  seoKeyword: string;
+  seoDescription: string;
+  updatedAt: string;
+};
+
+type BlogQueries = {
+  page?: string;
+  limit?: string;
+  title?: string;
+  filter?: string;
+};
+
+type BlogsResponse = {
+  blogs: BlogType[];
+  meta: ResponseMeta;
+};
+
+type BlogsByCategoryType = {
+  id: number;
+  name: string;
+  blogs: BlogType[];
 };

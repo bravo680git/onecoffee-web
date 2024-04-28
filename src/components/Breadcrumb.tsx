@@ -8,7 +8,7 @@ export type BreadcrumbItem = {
 
 function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
-    <div className="z-[1] mx-auto flex w-fit gap-2 font-semibold text-white">
+    <div className="z-[1] flex w-fit flex-wrap gap-2 px-4 font-semibold text-white">
       {items.map((item, index) =>
         index !== items.length - 1 ? (
           <React.Fragment key={index}>

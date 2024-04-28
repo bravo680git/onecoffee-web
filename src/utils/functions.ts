@@ -31,3 +31,26 @@ export const stringTest = (value: string | number, searchStr?: string) => {
 
   return normalizedString.includes(normalizedKeyword);
 };
+
+export const fromNow = (dateTime: string) => {
+  const date = new Date(dateTime);
+  const now = new Date();
+  const diff = (now.getTime() - date.getTime()) / 1000;
+
+  if (diff < 60) {
+    return "Gần đây";
+  } else if (diff < 60 * 60) {
+    return `${Math.round(diff / 60)} phút trước`;
+  } else if (diff < 60 * 60 * 24) {
+    return `${Math.round(diff / 60 / 60)} giờ trước`;
+  } else {
+    return date.toLocaleString("vi", {
+      dateStyle: "short",
+      timeStyle: "short",
+    });
+  }
+};
+
+export const getPlainTextFromHtml = (input: string) => {
+  return input.replace(/<[^>]+>|&[^;]+;/g, " ").slice(0, 300) + "...";
+};

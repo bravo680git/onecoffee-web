@@ -1,6 +1,10 @@
 import { ApiConfig, publicApiClient } from "..";
 import {
   Banner,
+  BlogQueries,
+  BlogType,
+  BlogsByCategoryType,
+  BlogsResponse,
   Category,
   District,
   ProductQueries,
@@ -65,6 +69,26 @@ export const publicApi = {
       { next: { tags: [`rate-${productId}`] } },
     );
   },
+  getBlogList(query?: BlogQueries) {
+    return publicApiClient<BaseResponse<BlogsResponse>>("/blog", {
+      next: { tags: ["blog"] },
+      query,
+    });
+  },
+  getBlogDetail(slug: string) {
+    return publicApiClient<BaseResponse<{ blog: BlogType }>>(`/blog/${slug}`, {
+      next: { tags: [`blog-${slug}`] },
+    });
+  },
+  getCategoryBlogs(limit = 3) {
+    return publicApiClient<BaseResponse<{ blogs: BlogsByCategoryType[] }>>(
+      "/blog/category-blog",
+      {
+        query: { limit: limit.toString() },
+        next: { tags: ["blog"] },
+      },
+    );
+  },
 };
 
 export type {
@@ -78,4 +102,7 @@ export type {
   ProductsResponse,
   Province,
   Ward,
+  BlogType,
+  BlogQueries,
+  BlogsByCategoryType,
 };
