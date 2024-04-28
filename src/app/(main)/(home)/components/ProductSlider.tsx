@@ -1,7 +1,10 @@
 "use client";
 
+import { path } from "@/config/path";
 import { Category } from "@/services/api";
+import { QueryKey } from "@/utils/constants";
 import Image from "next/image";
+import Link from "next/link";
 import Slider from "react-slick";
 
 type ProductSlidersType = Category["categories"];
@@ -37,7 +40,8 @@ function ProductSlider({ items = [] }: { items: ProductSlidersType }) {
         ]}>
         {items.map((item, i) => (
           <div key={i} className="p-2">
-            <div
+            <Link
+              href={`${path.products}?${QueryKey.category}=${item.id}`}
               className="mx-auto flex h-[430px] w-[270px] items-end justify-center rounded-lg pb-6"
               style={{
                 backgroundImage: `url(${item.image ?? "/images/home/apple-img.png"})`,
@@ -54,7 +58,7 @@ function ProductSlider({ items = [] }: { items: ProductSlidersType }) {
                   className="absolute left-[50%] top-0 translate-x-[-50%] translate-y-[-50%]"
                 />
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </Slider>

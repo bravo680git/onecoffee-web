@@ -3,65 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "./components/BannerSlider";
 import { CheckIcon, LabIcon, VegetableCart } from "./components/Icons";
-import NewsSlider, { type NewsItem } from "./components/NewsSlider";
+import NewsSlider from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
 import { publicApi } from "@/services/api";
 import { CATEGORY } from "@/utils/constants";
 
-const newsItems: NewsItem[] = [
-  {
-    img: "https://img.freepik.com/free-photo/large-green-rice-field-with-green-rice-plants-rows_181624-28862.jpg?t=st=1712065228~exp=1712068828~hmac=e4c95d8c99f95c08faf1be117b14e9869cb781f39b17733a7ee1f210c99799f1&w=1380",
-    title: "The Future of Farming, Smart Irrigation Solutions",
-    author: "Kevin Martin",
-    date: "2024-01-02",
-    url: "#",
-  },
-  {
-    img: "https://img.freepik.com/free-photo/large-green-rice-field-with-green-rice-plants-rows_181624-28862.jpg?t=st=1712065228~exp=1712068828~hmac=e4c95d8c99f95c08faf1be117b14e9869cb781f39b17733a7ee1f210c99799f1&w=1380",
-    title: "The Future of Farming, Smart Irrigation Solutions",
-    author: "Kevin Martin",
-    date: "2024-01-02",
-    url: "#",
-  },
-  {
-    img: "https://img.freepik.com/free-photo/large-green-rice-field-with-green-rice-plants-rows_181624-28862.jpg?t=st=1712065228~exp=1712068828~hmac=e4c95d8c99f95c08faf1be117b14e9869cb781f39b17733a7ee1f210c99799f1&w=1380",
-    title: "The Future of Farming, Smart Irrigation Solutions",
-    author: "Kevin Martin",
-    date: "2024-01-02",
-    url: "#",
-  },
-  {
-    img: "https://img.freepik.com/free-photo/large-green-rice-field-with-green-rice-plants-rows_181624-28862.jpg?t=st=1712065228~exp=1712068828~hmac=e4c95d8c99f95c08faf1be117b14e9869cb781f39b17733a7ee1f210c99799f1&w=1380",
-    title: "The Future of Farming, Smart Irrigation Solutions",
-    author: "Kevin Martin",
-    date: "2024-01-02",
-    url: "#",
-  },
-  {
-    img: "https://img.freepik.com/free-photo/large-green-rice-field-with-green-rice-plants-rows_181624-28862.jpg?t=st=1712065228~exp=1712068828~hmac=e4c95d8c99f95c08faf1be117b14e9869cb781f39b17733a7ee1f210c99799f1&w=1380",
-    title: "The Future of Farming, Smart Irrigation Solutions",
-    author: "Kevin Martin",
-    date: "2024-01-02",
-    url: "#",
-  },
-];
-
 export default async function Home() {
-  const banners =
-    (await publicApi
-      .getBannerList()
-      .then((data) => data.data?.banners)
-      .catch()) ?? [];
+  const [bannerRes, categoryRes, blogRes] = await Promise.all([
+    publicApi.getBannerList(),
+    publicApi.getCategoryList(),
+    publicApi.getBlogList({ limit: "5" }),
+  ]);
 
+  const banners = bannerRes.data?.banners ?? [];
   const categories =
-    (await publicApi
-      .getCategoryList()
-      .then((data) =>
-        data.data?.categories?.filter(
-          (item) => item.parentId === CATEGORY.PRODUCT,
-        ),
-      )
-      .catch()) ?? [];
+    categoryRes.data?.categories.filter(
+      (item) => item.parentId === CATEGORY.PRODUCT,
+    ) ?? [];
+  const blogItems = blogRes.data?.blogs ?? [];
 
   return (
     <div className="w-full overflow-hidden">
@@ -269,7 +228,7 @@ export default async function Home() {
           From the blog
         </h3>
         <h2 className="mb-8 text-2xl font-bold">News & Articles</h2>
-        <NewsSlider items={newsItems} />
+        <NewsSlider items={blogItems} />
       </section>
       <div className="h-64 w-full bg-primary-100"></div>
     </div>
