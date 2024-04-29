@@ -7,7 +7,6 @@ import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { RegisterPayload } from "@/services/api";
 import clsx from "clsx";
-import { NotificationCircle } from "iconsax-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -9,6 +9,7 @@ import { generateProductFilter } from "../helper";
 import { ProductFilter } from "./components/ProductFilter";
 import ProductList, { ProductListLoading } from "./components/ProductList";
 import { ORDER_TYPE_DIST } from "./constants";
+import { Metadata } from "next";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -22,6 +23,10 @@ const breadcrumbItems: BreadcrumbItem[] = [
 ];
 
 const PAGE_SIZE = 12;
+
+export const metadata: Metadata = {
+  title: "Sản phẩm",
+};
 
 async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
   const queries: ProductQueries = {

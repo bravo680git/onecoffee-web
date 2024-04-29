@@ -7,8 +7,6 @@ import { path } from "@/config/path";
 import { LoginPayload } from "@/services/api/auth/type";
 import { useNavigationStore } from "@/store/navigation";
 import { CredentialResponse } from "@react-oauth/google";
-import clsx from "clsx";
-import { NotificationCircle } from "iconsax-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

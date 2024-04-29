@@ -6,6 +6,7 @@ import BlogList, { BlogListLoading } from "./components/BlogList";
 import BlogsByCategory, {
   BlogsByCategoryLoading,
 } from "./components/BlogsByCategory";
+import { Metadata } from "next";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -16,6 +17,10 @@ const breadcrumbItems: BreadcrumbItem[] = [
     title: "Bài viết",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Bài viết",
+};
 
 function Blogs({ searchParams }: PageProps<[], ["cat-id"]>) {
   const catId = searchParams["cat-id"];

@@ -47,6 +47,10 @@ function VerifyPage({ searchParams }: PageProps<[], ["token-id"]>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    document.title = "Xác nhận tài khoản";
+  }, []);
+
   return (
     <>
       {loading && (

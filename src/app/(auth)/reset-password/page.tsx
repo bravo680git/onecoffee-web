@@ -1,17 +1,15 @@
 "use client";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { ResetPasswordPayload } from "@/services/api";
-import clsx from "clsx";
-import { NotificationCircle } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { validate } from "../helper";
 import { resetPassword } from "./action";
-import Button from "@/components/Button";
 
 const MSG = {
   TOKEN_INCORRECT: "Token không hợp lệ, vui lòng yêu cầu cấp mật khẩu lại",

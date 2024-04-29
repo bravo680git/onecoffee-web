@@ -11,8 +11,17 @@ const grace = Covered_By_Your_Grace({
 });
 
 export const metadata: Metadata = {
-  title: "New3T",
-  description: "",
+  title: {
+    template: "%s | New3T",
+    absolute: "New3T",
+  },
+  description:
+    "New3T store, chuyên cung cấp các loại thực phẩm tươi ngon, bổ dưỡng với giá cả ưu đãi nhất",
+  keywords:
+    "new3t, thuan tat thanh, gao st25, trai cay tuoi, caffe nguyên chất, cà phê",
+  openGraph: {
+    images: "/logo.png",
+  },
 };
 
 export default function RootLayout({

@@ -7,6 +7,11 @@ import NewsSlider from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
 import { publicApi } from "@/services/api";
 import { CATEGORY } from "@/utils/constants";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trang chủ",
+};
 
 export default async function Home() {
   const [bannerRes, categoryRes, blogRes] = await Promise.all([

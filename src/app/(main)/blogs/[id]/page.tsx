@@ -6,6 +6,7 @@ import { publicApi } from "@/services/api";
 import { fromNow } from "@/utils/functions";
 import Image from "next/image";
 import PageHeader from "../../components/PageHeader";
+import { Metadata } from "next";
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
@@ -17,6 +18,22 @@ const breadcrumbItems: BreadcrumbItem[] = [
     url: path.blogs,
   },
 ];
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => {
+  const data = (await publicApi.getBlogDetail(params.id)).data?.blog;
+  return {
+    title: data?.title,
+    description: data?.seoDescription,
+    keywords: data?.seoKeyword,
+    openGraph: {
+      images: data?.thumbnail,
+    },
+  };
+};
 
 async function BlogDetail({ params }: PageProps<["id"], []>) {
   const id = params.id;

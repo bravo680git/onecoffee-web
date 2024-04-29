@@ -3,6 +3,7 @@ import { BreadcrumbItem } from "@/components/Breadcrumb";
 import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
 import { Star1 } from "iconsax-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import PageHeader from "../../components/PageHeader";
@@ -23,6 +24,22 @@ const breadcrumbItems: BreadcrumbItem[] = [
     url: path.products,
   },
 ];
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => {
+  const product = (await publicApi.getProductDetail(params.id)).data?.product;
+  return {
+    title: product?.name,
+    keywords: product?.seoKeyword,
+    description: product?.seoDescription,
+    openGraph: {
+      images: product?.images,
+    },
+  };
+};
 
 async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
