@@ -1,13 +1,13 @@
 import { path } from "@/config/path";
+import { publicApi } from "@/services/api";
+import { CATEGORY } from "@/utils/constants";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "./components/BannerSlider";
 import { CheckIcon, LabIcon, VegetableCart } from "./components/Icons";
 import NewsSlider from "./components/NewsSlider";
 import ProductSlider from "./components/ProductSlider";
-import { publicApi } from "@/services/api";
-import { CATEGORY } from "@/utils/constants";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Trang chủ",

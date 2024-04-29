@@ -41,6 +41,12 @@ const config: Config = {
         secondary: "0 0 0 4px #EEC04444",
       },
     },
+    keyframes: {
+      jump: {
+        "20%": { transform: "translateY(20px)" },
+        "80%": { transform: "translateY(-40px)" },
+      },
+    },
   },
   plugins: [],
 };
