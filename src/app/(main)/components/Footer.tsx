@@ -70,7 +70,9 @@ async function Footer() {
             </div>
           </div>
           <div className="w-[170px] pl-4 xl:w-1/2 md:mt-5 sm:w-full">
-            <h2 className="text-2xl font-semibold text-white">Khám phá</h2>
+            <h2 className="text-2xl font-semibold text-white sm:text-lg">
+              Khám phá
+            </h2>
             <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
             <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-text-secondary">
               {exploreItems.map((item) => (
@@ -85,7 +87,9 @@ async function Footer() {
             </div>
           </div>
           <div className="w-[360px] pl-4 xl:mt-5 xl:w-1/2 sm:w-full">
-            <h2 className="text-2xl font-semibold text-white">Tin mới</h2>
+            <h2 className="text-2xl font-semibold text-white sm:text-lg">
+              Tin mới
+            </h2>
             <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
             <div className="mt-4 flex flex-col gap-4">
               {news.map((item, i) => (
@@ -104,7 +108,9 @@ async function Footer() {
             </div>
           </div>
           <div className="w-[360px]  pl-4 xl:mt-5 xl:w-1/2 sm:w-full">
-            <h2 className="text-2xl font-semibold text-white">Liên hệ</h2>
+            <h2 className="text-2xl font-semibold text-white sm:text-lg">
+              Liên hệ
+            </h2>
             <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
             <div className="mt-4 flex flex-col gap-2 text-neutral-text-secondary">
               <div className="flex items-center gap-2">

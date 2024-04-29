@@ -24,8 +24,8 @@ function ProductItem({ data }: { data: ProductType }) {
       </div>
       <div className="mt-3 flex items-center gap-5">
         <h3
-          className="transition-all\ line-clamp-2 h-14 overflow-hidden text-ellipsis text-lg font-bold
-           hover:text-primary-500 hover:underline">
+          className="line-clamp-2 h-14 overflow-hidden text-ellipsis text-lg font-bold transition-all hover:text-primary-500 hover:underline
+           sm:h-10 sm:text-sm">
           {data.name}
         </h3>
       </div>

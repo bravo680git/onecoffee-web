@@ -68,7 +68,7 @@ export default async function Home() {
       </section>
 
       <section className="mx-auto mt-72 flex max-w-[1200px] xl:flex-col sm:mt-5">
-        <div className="xl:fit relative aspect-square w-1/2 xl:mx-auto">
+        <div className="xl:fit relative aspect-square w-1/2 xl:mx-auto sm:w-4/5">
           <Image
             src="/images/home/home-img-1.png"
             alt=""
@@ -81,17 +81,17 @@ export default async function Home() {
             alt=""
             width={280}
             height={280}
-            className="absolute bottom-[-40px] left-[-40px] rounded-full border-8 border-white"
+            className="absolute bottom-[-40px] left-[-40px] rounded-full border-8 border-white sm:w-56"
           />
         </div>
         <div className="flex w-1/2 flex-col justify-center gap-5 xl:mt-16 xl:w-full xl:items-center xl:text-center sm:px-4">
-          <p className="font-grace text-2xl text-secondary-500">
+          <p className="font-grace text-2xl text-secondary-500 sm:text-lg">
             Our introductions
           </p>
-          <h2 className="text-5xl font-bold">
+          <h2 className="text-5xl font-bold sm:text-xl">
             Agriculture & Organic Product Farm
           </h2>
-          <p className="text-3xl font-semibold text-primary-500">
+          <p className="text-3xl font-semibold text-primary-500 sm:text-lg">
             Agrios is the largest global organic farm.
           </p>
           <p className="text-neutral-text-secondary xl:max-w-[600px]">
@@ -102,20 +102,20 @@ export default async function Home() {
           <div className="flex gap-8 sm:flex-col">
             <div className="flex items-center gap-5">
               <VegetableCart />
-              <span className="text-xl font-semibold">
+              <span className="text-xl font-semibold sm:text-base">
                 Growing fruits vegetables
               </span>
             </div>
             <div className="flex items-center gap-5">
               <LabIcon />
-              <span className="text-xl font-semibold">
+              <span className="text-xl font-semibold sm:text-base">
                 Tips for ripening your fruits
               </span>
             </div>
           </div>
 
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:items-start">
               <i className="text-primary-500">
                 <CheckIcon />
               </i>
@@ -124,7 +124,7 @@ export default async function Home() {
                 Facere, neque?
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:items-start">
               <i className="text-primary-500">
                 <CheckIcon />
               </i>
@@ -150,7 +150,7 @@ export default async function Home() {
           <span className="font-grace text-xl font-semibold text-secondary-500">
             Our services
           </span>
-          <h2 className="mb-5 text-3xl font-bold">What We Offer</h2>
+          <h2 className="mb-5 text-3xl font-bold sm:text-lg">What We Offer</h2>
         </div>
         <div className="absolute bottom-[-320px] z-10 flex min-w-[1000px] justify-center gap-5">
           <ProductSlider items={categories} />
@@ -169,7 +169,9 @@ export default async function Home() {
             <span className="font-grace text-xl font-semibold text-secondary-500">
               Our farm benefits
             </span>
-            <h2 className="text-3xl font-bold">Why choose my store?</h2>
+            <h2 className="text-3xl font-bold sm:text-lg">
+              Why choose my store?
+            </h2>
             <p className="text-neutral-text-secondary">
               There are many variations of passages of lorem ipsum available but
               the majority have suffered alteration in some form by injected
@@ -181,7 +183,7 @@ export default async function Home() {
                 <CheckIcon />
               </i>
               <div>
-                <span className="text-lg font-semibold">
+                <span className="text-lg font-semibold sm:text-base">
                   Quality Organic Food
                 </span>
                 <p className="text-neutral-text-secondary">
@@ -196,7 +198,7 @@ export default async function Home() {
                 <CheckIcon />
               </i>
               <div>
-                <span className="text-lg font-semibold">
+                <span className="text-lg font-semibold sm:text-base">
                   Quality Organic Food
                 </span>
                 <p className="text-neutral-text-secondary">
@@ -211,7 +213,7 @@ export default async function Home() {
                 <CheckIcon />
               </i>
               <div>
-                <span className="text-lg font-semibold">
+                <span className="text-lg font-semibold sm:text-base">
                   Quality Organic Food
                 </span>
                 <p className="text-neutral-text-secondary">
@@ -232,7 +234,7 @@ export default async function Home() {
         <h3 className="font-grace text-xl font-semibold text-secondary-500">
           From the blog
         </h3>
-        <h2 className="mb-8 text-2xl font-bold">News & Articles</h2>
+        <h2 className="mb-8 text-3xl font-bold sm:text-lg">News & Articles</h2>
         <NewsSlider items={blogItems} />
       </section>
       <div className="h-64 w-full bg-primary-100"></div>

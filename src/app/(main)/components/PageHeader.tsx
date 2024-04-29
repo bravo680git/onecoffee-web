@@ -17,7 +17,9 @@ function PageHeader({
         className="object-cover brightness-50"
       />
       <Breadcrumb items={breadcrumbItems} />
-      <h2 className="z-[1] text-3xl font-bold text-white">{title}</h2>
+      <h2 className="z-[1] text-3xl font-bold text-white sm:text-xl">
+        {title}
+      </h2>
     </div>
   );
 }

@@ -51,7 +51,7 @@ async function BlogDetail({ params }: PageProps<["id"], []>) {
     <div>
       <PageHeader title="Lorem 1" breadcrumbItems={breadcrumbItems} />
       <div className="mx-auto my-28 max-w-[1000px] lg:px-4">
-        <h1 className="text-3xl font-bold">{data.title}</h1>
+        <h1 className="text-3xl font-bold sm:text-xl">{data.title}</h1>
         <span className="mt-2 text-xs text-neutral-text-secondary">
           {fromNow(data.updatedAt)}
         </span>

@@ -282,7 +282,7 @@ function PItem({
       <div className="relative h-20 w-20 shrink-0">
         <Image src={item.product.images[0]} alt="" fill />
       </div>
-      <div className="grow sm:w-[calc(100%-96px)] sm:grow-0">
+      <div className="grow sm:ml-4 sm:w-[calc(100%-96px)] sm:grow-0">
         <h4 className="font-semibold">{item.product.name}</h4>
         {item.variant && (
           <span className="text-neutral-text-secondary">
@@ -290,7 +290,7 @@ function PItem({
           </span>
         )}
       </div>
-      <div className="flex w-36 flex-col sm:w-full sm:flex-row sm:gap-2">
+      <div className="flex w-36 flex-col sm:mt-2 sm:w-full sm:flex-row sm:gap-2">
         <span className="text-lg font-bold text-primary-500">
           {transformCurrency(
             item.variant ? item.variant.price : item.product.price,

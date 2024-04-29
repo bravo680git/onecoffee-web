@@ -40,11 +40,11 @@ const config: Config = {
         primary: "0 0 0 4px #4BAF4744",
         secondary: "0 0 0 4px #EEC04444",
       },
-    },
-    keyframes: {
-      jump: {
-        "20%": { transform: "translateY(20px)" },
-        "80%": { transform: "translateY(-40px)" },
+      keyframes: {
+        jump: {
+          "20%": { transform: "translateY(20px)" },
+          "80%": { transform: "translateY(-40px)" },
+        },
       },
     },
   },
