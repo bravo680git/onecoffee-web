@@ -14,7 +14,8 @@ import Cart from "./Cart";
 import Link from "next/link";
 import { path } from "@/config/path";
 import UserMenu from "./UserMenu";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { QueryKey } from "@/utils/constants";
 
 export type MenuItem = {
   key: string;
@@ -24,20 +25,10 @@ export type MenuItem = {
 };
 
 function Header({ menuItems }: { menuItems: MenuItem[] }) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [searching, setSearching] = useState(false);
   const [onInitScroll, setOnInitScroll] = useState(true);
   const [expandItems, setExpandItems] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-
-  const handleSearch = (e: MouseEvent<SVGElement>) => {
-    e.stopPropagation();
-    if (!searching) {
-      setSearching(true);
-      inputRef.current?.focus();
-    }
-  };
 
   const toggleExpand = (e: MouseEvent<SVGElement>, key: string) => {
     e.stopPropagation();
@@ -49,18 +40,13 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
   };
 
   useEffect(() => {
-    const closeSearchInput = () => {
-      setSearching(false);
-    };
     const scrollHandler = () => {
       setOnInitScroll(window.scrollY < 128);
     };
 
-    document.body.addEventListener("click", closeSearchInput);
     window.addEventListener("scroll", scrollHandler);
 
     return () => {
-      document.body.removeEventListener("click", closeSearchInput);
       window.removeEventListener("scroll", scrollHandler);
     };
   }, []);
@@ -118,19 +104,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
         </ul>
 
         <div className="flex w-64 items-center justify-end gap-5 text-neutral-text-secondary xl:w-fit">
-          <div className="flex cursor-pointer items-center transition-all hover:text-primary-500">
-            <input
-              ref={inputRef}
-              placeholder="Tìm kiếm gì đó..."
-              className={clsx(
-                "w-0 border-b-2 border-primary-500 bg-transparent text-white caret-primary-500 transition-all",
-                {
-                  "!w-40": searching,
-                },
-              )}
-            />
-            <SearchNormal1 size={24} onClick={handleSearch} />
-          </div>
+          <SearchBtn />
           {pathname !== path.checkout && <Cart />}
           <UserMenu />
         </div>
@@ -147,19 +121,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
           <HambergerMenu size={20} onClick={() => setOpen(true)} />
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center">
-            <input
-              ref={inputRef}
-              placeholder="Tìm kiếm gì đó..."
-              className={clsx(
-                "w-0 border-b-2 border-primary-500 bg-transparent text-white caret-primary-500 transition-all",
-                {
-                  "!w-40": searching,
-                },
-              )}
-            />
-            <SearchNormal1 size={20} onClick={handleSearch} />
-          </div>
+          <SearchBtn />
           {pathname !== path.checkout && <Cart />}
           <UserMenu />
         </div>
@@ -227,6 +189,63 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
         </div>
       </div>
     </header>
+  );
+}
+
+function SearchBtn() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [searching, setSearching] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const { push } = useRouter();
+
+  const handleSearch = (e?: MouseEvent<SVGElement>) => {
+    e?.stopPropagation();
+    if (!searching) {
+      setSearching(true);
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 400);
+    } else {
+      push(`${path.products}?${QueryKey.q}=${searchValue}`);
+    }
+  };
+
+  useEffect(() => {
+    const closeSearchInput = () => {
+      if (inputRef.current?.value) {
+        return;
+      }
+      setSearching(false);
+    };
+    window.addEventListener("click", closeSearchInput);
+
+    return () => {
+      window.removeEventListener("click", closeSearchInput);
+    };
+  }, []);
+
+  return (
+    <div className="flex cursor-pointer items-center transition-all hover:text-primary-500">
+      <input
+        ref={inputRef}
+        placeholder="Tìm kiếm sản phẩm"
+        className={clsx(
+          "w-0 border-b-2 border-primary-500 bg-transparent text-white caret-primary-500 transition-all",
+          {
+            "!w-40 pl-2": searching,
+          },
+        )}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
+      />
+      <SearchNormal1 size={24} onClick={handleSearch} />
+    </div>
   );
 }
 
