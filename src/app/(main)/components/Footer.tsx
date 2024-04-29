@@ -1,3 +1,6 @@
+import { path } from "@/config/path";
+import { publicApi } from "@/services/api";
+import { fromNow } from "@/utils/functions";
 import {
   Facebook,
   Youtube,
@@ -15,16 +18,12 @@ const exploreItems = [
     url: "#",
   },
   {
-    title: "Dịch vụ",
-    url: "#",
-  },
-  {
     title: "Sản phẩm",
-    url: "#",
+    url: path.products,
   },
   {
-    title: "Tin tức",
-    url: "#",
+    title: "Bài viết",
+    url: path.blogs,
   },
   {
     title: "Liên hệ",
@@ -32,84 +31,82 @@ const exploreItems = [
   },
 ];
 
-const news = [
-  {
-    title: "Bạn đã biết cách bảo quản thực phẩm đúng cách?",
-    url: "#",
-    date: "12/03/2024",
-  },
-  {
-    title: "Bạn đã biết cách bảo quản thực phẩm đúng cách?",
-    url: "#",
-    date: "12/03/2024",
-  },
-];
+async function Footer() {
+  const news =
+    (await publicApi.getBlogList({ limit: "2" })).data?.blogs?.slice(0, 2) ??
+    [];
 
-function Footer() {
   return (
     <footer>
-      <div className="bg-neutral-bg-footer py-28 xl:py-10 min-h-[510px]">
-        <div className="max-w-[1200px] flex flex-wrap mx-auto xl:px-4">
+      <div className="min-h-[510px] bg-neutral-bg-footer py-28 xl:py-10">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap xl:px-4">
           <div className="w-[300px] xl:w-1/2 sm:w-full">
-            <div className="w-full h-10 flex gap-2 items-center">
+            <div className="flex h-10 w-full items-center gap-2">
               <Image src="/logo.png" alt="" height={40} width={40} />
-              <h1 className="text-3xl text-white font-bold">New3T</h1>
+              <h1 className="text-3xl font-bold text-white">New3T</h1>
             </div>
-            <p className="text-neutral-text-secondary mt-2">
+            <p className="mt-2 text-neutral-text-secondary">
               Cung cấp những sản phẩm chất lượng với giá cả ưu đãi nhất.
             </p>
             <div className="mt-4 flex gap-4">
               <Link
                 href="#"
-                className="w-14 h-14 rounded-full bg-black/50 text-white flex items-center
-                   justify-center hover:bg-primary-500/30 transition-all">
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                   text-white transition-all hover:bg-primary-500/30">
                 <Facebook width={20} height={20} />
               </Link>
               <Link
                 href="#"
-                className="w-14 h-14 rounded-full bg-black/50 text-white flex items-center
-                   justify-center hover:bg-primary-500/30 transition-all">
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                   text-white transition-all hover:bg-primary-500/30">
                 <Youtube width={20} height={20} />
               </Link>
               <Link
                 href="#"
-                className="w-14 h-14 rounded-full bg-black/50 text-white flex items-center
-                   justify-center hover:bg-primary-500/30 transition-all">
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                   text-white transition-all hover:bg-primary-500/30">
                 <Instagram width={20} height={20} />
               </Link>
             </div>
           </div>
-          <div className="pl-4 w-[170px] xl:w-1/2 sm:w-full md:mt-5">
-            <h2 className="text-white font-semibold text-2xl">Khám phá</h2>
-            <div className="w-20 h-1.5 bg-primary-500 rounded-full"></div>
-            <div className="flex flex-col gap-2 text-neutral-text-secondary text-sm mt-4">
+          <div className="w-[170px] pl-4 xl:w-1/2 md:mt-5 sm:w-full">
+            <h2 className="text-2xl font-semibold text-white">Khám phá</h2>
+            <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
+            <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-text-secondary">
               {exploreItems.map((item) => (
                 <Link
                   href={item.url}
                   key={item.title}
-                  className="flex items-center gap-2 font-semibold hover:text-primary-500 transition-all">
+                  className="flex items-center gap-2 font-semibold transition-all hover:text-primary-500">
                   <LeafIcon />
                   <h3>{item.title}</h3>
                 </Link>
               ))}
             </div>
           </div>
-          <div className="pl-4 w-[360px] xl:w-1/2 sm:w-full xl:mt-5">
-            <h2 className="text-white font-semibold text-2xl">Tin mới</h2>
-            <div className="w-20 h-1.5 bg-primary-500 rounded-full"></div>
+          <div className="w-[360px] pl-4 xl:mt-5 xl:w-1/2 sm:w-full">
+            <h2 className="text-2xl font-semibold text-white">Tin mới</h2>
+            <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
             <div className="mt-4 flex flex-col gap-4">
               {news.map((item, i) => (
-                <Link key={i} href={item.url} className="px-16 md:px-0">
-                  <h3 className="font-semibold text-white">{item.title}</h3>
-                  <span className="text-secondary-500">{item.date}</span>
+                <Link
+                  key={i}
+                  href={`${path.blogs}/${item.slug}`}
+                  className="px-16 md:px-0">
+                  <h3 className="line-clamp-2 font-semibold text-white hover:underline">
+                    {item.title}
+                  </h3>
+                  <span className="text-secondary-500">
+                    {fromNow(item.updatedAt)}
+                  </span>
                 </Link>
               ))}
             </div>
           </div>
-          <div className="pl-4  w-[360px] xl:w-1/2 sm:w-full xl:mt-5">
-            <h2 className="text-white font-semibold text-2xl">Liên hệ</h2>
-            <div className="w-20 h-1.5 bg-primary-500 rounded-full"></div>
-            <div className="flex flex-col gap-2 mt-4 text-neutral-text-secondary">
+          <div className="w-[360px]  pl-4 xl:mt-5 xl:w-1/2 sm:w-full">
+            <h2 className="text-2xl font-semibold text-white">Liên hệ</h2>
+            <div className="h-1.5 w-20 rounded-full bg-primary-500"></div>
+            <div className="mt-4 flex flex-col gap-2 text-neutral-text-secondary">
               <div className="flex items-center gap-2">
                 <Call size={16} className="text-secondary-500" />
                 <span>0388 070 776</span>
@@ -124,13 +121,13 @@ function Footer() {
                   14 Đinh Tiên Hoàng, phường 6, quận 10, TP Hồ Chí Minh
                 </span>
               </div>
-              <form className="w-full h-14 rounded-md overflow-hidden flex">
+              <form className="flex h-14 w-full overflow-hidden rounded-md">
                 <input
                   type="text"
                   placeholder="Địa chỉ email của bạn"
                   className="grow pl-4 caret-primary-500"
                 />
-                <button className="h-full w-20 bg-primary-500 flex items-center justify-center text-white cursor-pointer">
+                <button className="flex h-full w-20 cursor-pointer items-center justify-center bg-primary-500 text-white">
                   <Send2 />
                 </button>
               </form>
@@ -140,8 +137,8 @@ function Footer() {
       </div>
       <div className="bg-[#1F1E17]">
         <div
-          className="max-w-[1200px] xl:px-5 mx-auto flex items-center justify-between 
-        text-neutral-text-secondary min-h-[70px] sm:flex-col md:items-center md:py-4">
+          className="mx-auto flex min-h-[70px] max-w-[1200px] items-center justify-between 
+        text-neutral-text-secondary xl:px-5 md:items-center md:py-4 sm:flex-col">
           <span>&copy; 2024 by bravo680</span>
           <span>
             <Link className="underline" href="#">
