@@ -91,7 +91,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
           </div>
         </section>
 
-        <section className="mt-10 w-full">
+        <section className="mt-14 w-full">
           <h3 className="mb-2 text-lg font-bold">Chi tiết sản phẩm</h3>
           <div className="ql-snow">
             <div

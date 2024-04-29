@@ -56,7 +56,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       <div
         className={clsx(
           "fixed left-0 top-0 z-20 flex h-32 w-full items-center justify-between",
-          "border-slate-100 px-10 text-white transition-all md:hidden",
+          "border-slate-100 px-10 text-white transition-all lg:hidden",
           {
             "!h-20 bg-neutral-bg-footer/60": !onInitScroll,
           },
@@ -111,7 +111,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       </div>
       <div
         className={clsx(
-          "hidden h-14 items-center justify-between p-4 text-neutral-text-secondary md:flex",
+          "hidden h-14 items-center justify-between p-4 text-neutral-text-secondary lg:flex",
           "fixed z-10 w-full transition-all",
           {
             "bg-neutral-bg-footer/90": !onInitScroll,

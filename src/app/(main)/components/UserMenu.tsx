@@ -109,7 +109,7 @@ function Menu({
     <>
       <div
         className={clsx(
-          "fixed right-5 top-[100px] rounded-md bg-white text-neutral-text-primary shadow-md md:top-[60px]",
+          "fixed right-5 top-[100px] rounded-md bg-white text-neutral-text-primary shadow-md lg:top-[60px]",
           "invisible translate-x-[400px] opacity-0 transition-[transform,opacity,visibility] duration-300",
           {
             "!visible !translate-x-0 !opacity-100": open,
