@@ -24,12 +24,12 @@ function Slider({ items }: { items: SliderItem[] }) {
           <Link
             key={i}
             href={item.link}
-            className="relative mx-auto h-[25vw] w-full text-center">
+            className="relative mx-auto h-[450px] w-full text-center sm:h-[200px]">
             <Image
               src={item.image}
               alt=""
               fill
-              className="h-full w-full object-contain"
+              className="h-full w-full object-cover object-center"
             />
           </Link>
         ))}

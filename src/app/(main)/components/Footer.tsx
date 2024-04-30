@@ -41,29 +41,31 @@ async function Footer() {
       <div className="min-h-[510px] bg-neutral-bg-footer py-28 xl:py-10">
         <div className="mx-auto flex max-w-[1200px] flex-wrap xl:px-4">
           <div className="w-[300px] xl:w-1/2 sm:w-full">
-            <div className="flex h-10 w-full items-center gap-2">
+            <Link
+              href={path.home}
+              className="flex h-10 w-full items-center gap-2">
               <Image src="/logo.png" alt="" height={40} width={40} />
-              <h1 className="text-3xl font-bold text-white">New3T</h1>
-            </div>
+              <h1 className="text-2xl font-bold text-white">New3T</h1>
+            </Link>
             <p className="mt-2 text-neutral-text-secondary">
               Cung cấp những sản phẩm chất lượng với giá cả ưu đãi nhất.
             </p>
             <div className="mt-4 flex gap-4">
               <Link
                 href="#"
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
                 <Facebook width={20} height={20} />
               </Link>
               <Link
                 href="#"
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
                 <Youtube width={20} height={20} />
               </Link>
               <Link
                 href="#"
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-black/50
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
                 <Instagram width={20} height={20} />
               </Link>
@@ -127,7 +129,7 @@ async function Footer() {
                   14 Đinh Tiên Hoàng, phường 6, quận 10, TP Hồ Chí Minh
                 </span>
               </div>
-              <form className="flex h-14 w-full overflow-hidden rounded-md">
+              {/* <form className="flex h-14 w-full overflow-hidden rounded-md">
                 <input
                   type="text"
                   placeholder="Địa chỉ email của bạn"
@@ -136,7 +138,7 @@ async function Footer() {
                 <button className="flex h-full w-20 cursor-pointer items-center justify-center bg-primary-500 text-white">
                   <Send2 />
                 </button>
-              </form>
+              </form> */}
             </div>
           </div>
         </div>

@@ -61,10 +61,12 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
             "!h-20 bg-neutral-bg-footer/60": !onInitScroll,
           },
         )}>
-        <div className="flex h-16 w-64 items-center gap-2 xl:w-16">
+        <Link
+          href={path.home}
+          className="flex h-16 w-64 items-center gap-2 xl:w-16">
           <Image src="/logo.png" width={64} height={64} alt="" />
           <h2 className="text-lg font-bold xl:invisible">New3T store</h2>
-        </div>
+        </Link>
 
         <ul className="flex items-center gap-4 justify-self-center font-semibold">
           {menuItems.map((item, index) => (
