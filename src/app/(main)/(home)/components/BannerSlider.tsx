@@ -30,6 +30,7 @@ function Slider({ items }: { items: SliderItem[] }) {
               alt=""
               fill
               className="h-full w-full object-cover object-center"
+              quality={100}
             />
           </Link>
         ))}

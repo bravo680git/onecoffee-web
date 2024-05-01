@@ -18,7 +18,7 @@ export async function POST(
       headers: {
         "Access-Control-Allow-Origin": process.env.ADMIN_DOMAIN,
         "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, token",
+        "Access-Control-Allow-Headers": "Content-Type, token, authorization",
       },
     },
   );
@@ -30,7 +30,7 @@ export async function OPTIONS() {
     headers: {
       "Access-Control-Allow-Origin": process.env.ADMIN_DOMAIN,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, token",
+      "Access-Control-Allow-Headers": "Content-Type, token, authorization",
     },
   });
 }
