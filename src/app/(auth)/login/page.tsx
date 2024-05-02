@@ -1,5 +1,127 @@
+"use client";
+
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import { useMessage } from "@/components/Message";
+import { path } from "@/config/path";
+import { LoginPayload } from "@/services/api/auth/type";
+import { useNavigationStore } from "@/store/navigation";
+import { CredentialResponse } from "@react-oauth/google";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { validate } from "../helper";
+import { login, loginWithGoogle } from "./action";
+import LoginGGBtn from "./components/LoginGGBtn";
+
+const MSG = {
+  USERNAME_PASSWORD_INCORRECT: "Tài khoản hoặc mật khẩu không đúng",
+};
+
 function Login() {
-  return <h1>Login page</h1>;
+  const { push } = useRouter();
+  const { getLoginRedirectRoute } = useNavigationStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<
+    Partial<LoginPayload & { account: string }>
+  >({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const { msgApi, msgCtxHoler } = useMessage();
+
+  const handleSubmit = async () => {
+    if (!validate({ email, password }, setErrors)) {
+      return;
+    }
+    setLoading(true);
+
+    login({ email, password })
+      .then((res) => {
+        if (res.data) {
+          msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
+          setTimeout(() => {
+            push(getLoginRedirectRoute() ?? path.home);
+          }, 500);
+        } else {
+          setErrors({ account: MSG.USERNAME_PASSWORD_INCORRECT });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleLoginWithGoogle = (res: CredentialResponse) => {
+    loginWithGoogle({ token: res.credential ?? "" }).then((res) => {
+      if (res.data) {
+        msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
+        setTimeout(() => {
+          push(getLoginRedirectRoute() ?? path.home);
+        }, 500);
+      } else {
+        msgApi.error({
+          message: "Có lỗi xảy ra, vui lòng thử lại sau",
+        });
+      }
+    });
+  };
+
+  return (
+    <div className="mx-auto flex w-full flex-col gap-2 rounded-md bg-neutral-bg-footer/40 p-5 text-white shadow-md">
+      <h3 className="text-center text-lg font-semibold">Đăng nhập ứng dụng</h3>
+      <Input
+        value={email}
+        onChange={setEmail}
+        label="Email"
+        placeholder="Nhập địa chỉ email của bạn"
+        error={errors.email}
+        onBlur={() => validate({ email }, setErrors)}
+        onEnter={handleSubmit}
+      />
+      <div>
+        <Input
+          value={password}
+          onChange={setPassword}
+          label="Mật khẩu"
+          placeholder="Nhập mật khẩu"
+          password
+          error={errors.password}
+          onBlur={() => validate({ password }, setErrors)}
+          onEnter={handleSubmit}
+        />
+        <p className="text-right">
+          <Link
+            className="text-xs text-blue-500 hover:underline"
+            href={path.forgetPassword}>
+            Quên mật khẩu
+          </Link>
+        </p>
+      </div>
+      <Button type="primary" onClick={handleSubmit} loading={loading}>
+        Đăng nhập
+      </Button>
+      <p className="text-center text-xs text-red-500">{errors.account}</p>
+      <p className="text-xs text-secondary-500">
+        Chưa có tài khoản,{" "}
+        <Link className="text-blue-500 hover:underline" href={path.register}>
+          Đăng ký tại đây
+        </Link>
+      </p>
+
+      <div className="flex items-center gap-2 text-neutral-text-secondary">
+        <hr className="grow" />
+        <span>Hoặc</span>
+        <hr className="grow" />
+      </div>
+      <div className="w-full">
+        <LoginGGBtn onSuccess={handleLoginWithGoogle} />
+      </div>
+      {msgCtxHoler}
+    </div>
+  );
 }
 
 export default Login;

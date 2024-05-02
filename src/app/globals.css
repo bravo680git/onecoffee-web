@@ -2,6 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  scroll-behavior: smooth;
+}
+
 body {
   font-size: 14px;
+  color: theme("colors.neutral.text-primary");
 }
+body:has([data-dialog-open="true"]) {
+  height: 100vh;
+  overflow: hidden;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #24231d44;
+  border-radius: 100px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer components {
+  .paginate-btn {
+    @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border 
+     border-slate-200;
+  }
+
+  .ripple {
+    @apply relative overflow-hidden;
+  }
+  .ripple:before {
+    content: "";
+    @apply absolute left-1/2 top-1/2 z-10 h-0 w-0 translate-x-[-50%] translate-y-[-50%] rounded-full 
+    bg-black/5 transition-all duration-300 hover:h-[500px] hover:w-[500px];
+  }
+}
+/* 
+.slick-arrow::before {
+  color: theme("colors.neutral.text-secondary") !important;
+} */

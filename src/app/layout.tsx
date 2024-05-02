@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Covered_By_Your_Grace } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
+const grace = Covered_By_Your_Grace({
+  subsets: ["latin"],
+  variable: "--font-grace",
+  weight: ["400"],
+});
 
 export const metadata: Metadata = {
-  title: "New3T",
-  description: "",
+  title: {
+    template: "%s | New3T",
+    absolute: "New3T",
+  },
+  description:
+    "New3T store, chuyên cung cấp các loại thực phẩm tươi ngon, bổ dưỡng với giá cả ưu đãi nhất",
+  keywords:
+    "new3t, thuan tat thanh, gao st25, trai cay tuoi, caffe nguyên chất, cà phê",
+  openGraph: {
+    images: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -16,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={clsx(inter.className, grace.variable)}>{children}</body>
     </html>
   );
 }
