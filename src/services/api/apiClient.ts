@@ -1,6 +1,4 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { path as appRoute } from "@/config/path";
 
 export type ApiConfig = Parameters<typeof fetch>[1];
 
@@ -52,7 +50,7 @@ export async function protectedApiClient<T = unknown>(
       cookies().delete("_token");
     }
 
-    return res.json() as T;
+    return res.ok ? (res.json() as T) : undefined;
   });
 }
 
@@ -68,5 +66,5 @@ export async function publicApiClient<T = unknown>(
 
   return fetch(url + queryString, {
     ...config,
-  }).then((res) => res.json() as T);
+  }).then((res) => (res.ok ? (res.json() as T) : undefined));
 }
