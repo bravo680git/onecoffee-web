@@ -18,18 +18,18 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          500: "#4BAF47",
+          500: "#000000",
           100: "#F8F7F0",
         },
         secondary: {
-          500: "#EEC044",
+          500: "#F0A500",
         },
         neutral: {
           "text-primary": "#1F1E17",
           "text-secondary": "#878680",
           bg: "#FFFFFF",
           "bg-secondary": "#F8F7F0",
-          "bg-footer": "#24231D",
+          "bg-footer": "#000000D9",
           placeholder: "#9ca3af",
         },
       },
@@ -37,8 +37,8 @@ const config: Config = {
         grace: "var(--font-grace)",
       },
       boxShadow: {
-        primary: "0 0 0 4px #4BAF4744",
-        secondary: "0 0 0 4px #EEC04444",
+        primary: "0 0 0 4px #00000044",
+        secondary: "0 0 0 4px #F0A50044",
       },
       keyframes: {
         jump: {

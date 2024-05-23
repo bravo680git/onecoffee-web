@@ -3,6 +3,7 @@ import { QueryKey } from "@/utils/constants";
 
 export const generateMenuItem = (path: string, data: Category["categories"]) =>
   data.map((item) => ({
+    ...item,
     key: item.id.toString(),
     title: item.name,
     path: `${path}?${QueryKey.category}=${item.id}`,

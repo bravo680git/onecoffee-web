@@ -12,7 +12,7 @@ const grace = Covered_By_Your_Grace({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | New3T",
+    template: "%s | ONe Coffee",
     absolute: "New3T",
   },
   description:
