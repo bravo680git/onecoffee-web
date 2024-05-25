@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { OrderSelect, ProductFilterBtn } from "./ProductFilter";
-import ProductItem from "./ProductItem";
+import ProductItem from "../../components/ProductItem";
 import { publicApi } from "@/services/api";
 import { Category } from "@/services/api/public/type";
 import Skeleton from "react-loading-skeleton";

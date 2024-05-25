@@ -1,7 +1,7 @@
 "use client";
 
 import Slider from "react-slick";
-import ProductItem from "../../components/ProductItem";
+import ProductItem from "../../../components/ProductItem";
 import { ProductType } from "@/services/api/public/type";
 
 function RelateProductSlider({ items }: { items: ProductType[] }) {
