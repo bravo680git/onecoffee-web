@@ -19,7 +19,7 @@ async function ProductList({
   const { products, meta } =
     (await publicApi
       .getProductList(queries)
-      .then((res) => res.data)
+      .then((res) => res?.data)
       .catch()) ?? {};
 
   const start = ((meta?.currentPage ?? 1) - 1) * pageSize + 1;

@@ -1,26 +1,12 @@
-import { type BreadcrumbItem } from "@/components/Breadcrumb";
-import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
 import { ProductQueries } from "@/services/api/public/type";
 import { CATEGORY, QueryKey } from "@/utils/constants";
+import { Metadata } from "next";
 import { Suspense } from "react";
-import PageHeader from "../components/PageHeader";
 import { generateProductFilter } from "../helper";
 import { ProductFilter } from "./components/ProductFilter";
 import ProductList, { ProductListLoading } from "./components/ProductList";
 import { ORDER_TYPE_DIST } from "./constants";
-import { Metadata } from "next";
-
-const breadcrumbItems: BreadcrumbItem[] = [
-  {
-    title: "Trang chủ",
-    url: path.home,
-  },
-  {
-    title: "Sản phẩm",
-    url: path.products,
-  },
-];
 
 const PAGE_SIZE = 12;
 
@@ -47,7 +33,7 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
     (await publicApi
       .getCategoryList()
       .then((res) =>
-        res.data?.categories?.filter(
+        res?.data?.categories?.filter(
           (item) => item.parentId === CATEGORY.PRODUCT,
         ),
       )
@@ -55,8 +41,7 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
 
   return (
     <div className="w-full">
-      <PageHeader breadcrumbItems={breadcrumbItems} title="Sản phẩm" />
-      <section className="mx-auto my-28 flex max-w-[1200px] gap-6 sm:my-10">
+      <section className="mx-auto my-60 flex max-w-[1200px] gap-6 sm:my-10">
         <div className="flex w-[240px] shrink-0 flex-col gap-6 xl:hidden">
           <Suspense>
             <ProductFilter categories={categories} />

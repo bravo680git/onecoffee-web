@@ -44,6 +44,10 @@ type ProductType = {
     stockQuantity: number;
   }[];
   averageRate: number;
+  extraOptions: {
+    name: string;
+    price: number;
+  }[];
 };
 
 type ResponseMeta = {

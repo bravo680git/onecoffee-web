@@ -16,9 +16,14 @@ function ProductItem({
     <Link
       className={clsx("flex w-full cursor-pointer flex-col", className)}
       href={`${path.products}/${data.slug}`}>
-      <div className="ripple bg aspect-square w-full overflow-hidden rounded-md bg-neutral-bg-footer p-4">
+      <div className="ripple bg aspect-square w-full overflow-hidden rounded-md  p-4">
         <div className="relative h-full w-full">
-          <Image src={data.images?.[0]} alt="" fill className="object-cover" />
+          <Image
+            src={data.images?.[0]}
+            alt=""
+            fill
+            className="rounded-md object-cover"
+          />
           {data.salePercent > 0 && (
             <div
               className="absolute right-2 top-2 flex h-10 w-10 items-center 

@@ -59,3 +59,16 @@ input[type="number"] {
 .slick-arrow::before {
   color: theme("colors.neutral.text-secondary") !important;
 } */
+
+.product-detail-img-slider .slick-dots li > div {
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+.product-detail-img-slider .slick-dots li.slick-active > div {
+  opacity: 100;
+  background-color: #00000011;
+  border-radius: 8px;
+}
+.related-products-slider .slick-track {
+  margin-left: 0;
+}

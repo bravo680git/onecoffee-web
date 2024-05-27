@@ -66,10 +66,7 @@ function ProductFilter({
   const { push } = useRouter();
   const pathname = usePathname();
 
-  const [values, setValues] = useState<number[]>(() => {
-    const result = searchParams.get(QueryKey.category);
-    return result ? result.split(",").map((c) => +c) : [];
-  });
+  const [values, setValues] = useState<number[]>([]);
   const [priceFrom, setPriceFrom] = useState(
     searchParams.get(QueryKey.from) ?? "",
   );
@@ -102,6 +99,11 @@ function ProductFilter({
     }
     push(`${pathname}?${search.toString()}`, { scroll: false });
   };
+
+  useEffect(() => {
+    const result = searchParams.get(QueryKey.category);
+    setValues(result ? result.split(",").map((c) => +c) : []);
+  }, [searchParams]);
 
   return (
     <div className="w-full rounded-md border border-slate-200 bg-white p-4">

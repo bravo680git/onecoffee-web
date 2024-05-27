@@ -13,26 +13,30 @@ async function MainLayout({ children }: { children: React.ReactNode }) {
       .then((data) => data?.data?.categories)
       .catch()) ?? [];
 
-  const productCategories = categories.filter(
-    (item) => item.parentId === CATEGORY.PRODUCT,
+  const productCategories = generateMenuItem(
+    path.products,
+    categories.filter((item) => item.parentId === CATEGORY.PRODUCT),
   );
-  const blogCategories = categories.filter(
-    (item) => item.parentId === CATEGORY.BLOG,
+  const blogCategories = generateMenuItem(
+    path.blogs,
+    categories.filter((item) => item.parentId === CATEGORY.BLOG),
   );
 
   const menuItems: MenuItem[] = [
+    ...productCategories.slice(0, 2),
     {
       key: "product",
       title: "Sản phẩm",
       path: path.products,
-      children: generateMenuItem(path.products, productCategories),
+      children: productCategories,
     },
     {
       key: "blog",
       title: "Bài viết",
       path: path.blogs,
-      children: generateMenuItem(path.blogs, blogCategories),
+      children: blogCategories,
     },
+    ...blogCategories.slice(0, 2),
   ];
 
   return (

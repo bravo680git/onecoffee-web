@@ -1,13 +1,11 @@
 "use client";
 
 import { path } from "@/config/path";
-import { QueryKey } from "@/utils/constants";
 import clsx from "clsx";
-import { Add, ArrowDown2, HambergerMenu, SearchNormal1 } from "iconsax-react";
+import { Add, ArrowDown2, HambergerMenu } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 export type MenuItem = {
   key: string;
@@ -78,32 +76,34 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
                   />
                 )}
               </Link>
-              <div
-                className={clsx(
-                  "invisible absolute left-0 top-full z-10 w-screen bg-white/80 opacity-0 shadow-lg backdrop-blur-sm duration-700",
-                  "translate-y-[40px] transition-all group-hover:visible group-hover:translate-y-0 group-hover:!opacity-100",
-                )}>
-                <ul className="mx-auto flex max-w-[1200px] justify-center gap-8 pb-8 pt-2">
-                  {item.children?.map((child, i) => (
-                    <li key={i}>
-                      <Link
-                        href={child.path}
-                        className="flex h-full w-full cursor-pointer items-end gap-2 whitespace-nowrap
+              {!!item.children?.length && (
+                <div
+                  className={clsx(
+                    "invisible absolute left-0 top-full z-10 w-screen bg-white/80 opacity-0 shadow-lg backdrop-blur-sm duration-700",
+                    "translate-y-[40px] transition-all group-hover:visible group-hover:translate-y-0 group-hover:!opacity-100",
+                  )}>
+                  <ul className="mx-auto flex max-w-[1200px] justify-center gap-8 pb-8 pt-2">
+                    {item.children?.map((child, i) => (
+                      <li key={i}>
+                        <Link
+                          href={child.path}
+                          className="flex h-full w-full cursor-pointer items-end gap-2 whitespace-nowrap
                           rounded-md px-4 py-2 underline transition-all hover:text-secondary-500">
-                        {child.image && (
-                          <Image
-                            src={child.image}
-                            alt=""
-                            width={40}
-                            height={40}
-                          />
-                        )}
-                        {child.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                          {child.image && (
+                            <Image
+                              src={child.image}
+                              alt=""
+                              width={40}
+                              height={40}
+                            />
+                          )}
+                          {child.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </li>
           ))}
         </ul>

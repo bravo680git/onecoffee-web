@@ -14,23 +14,12 @@ import RelatedProducts, {
   RelatedProductsLoading,
 } from "./components/RelatedProducts";
 
-const breadcrumbItems: BreadcrumbItem[] = [
-  {
-    title: "Trang chủ",
-    url: path.home,
-  },
-  {
-    title: "Sản phẩm",
-    url: path.products,
-  },
-];
-
 export const generateMetadata = async ({
   params,
 }: {
   params: { id: string };
 }): Promise<Metadata> => {
-  const product = (await publicApi.getProductDetail(params.id)).data?.product;
+  const product = (await publicApi.getProductDetail(params.id))?.data?.product;
   return {
     title: product?.name,
     keywords: product?.seoKeyword,
@@ -45,22 +34,16 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
   const data = await publicApi
     .getProductDetail(productId)
-    .then((res) => res.data)
+    .then((res) => res?.data)
     .catch();
   if (!data) {
     return;
   }
   const product = data.product;
 
-  breadcrumbItems[2] = {
-    title: product.name,
-    url: "",
-  };
-
   return (
     <div className="w-full">
-      <PageHeader title={product.name} breadcrumbItems={breadcrumbItems} />
-      <div className="mx-auto my-28 max-w-[1200px] xl:max-w-full xl:px-4">
+      <div className="mx-auto my-60 max-w-[1200px] xl:max-w-full xl:px-4">
         <section className="w-full">
           <div className="flex gap-12 md:flex-col">
             <div className="w-[600px] shrink-0 xl:w-[400px] md:mx-auto sm:w-full">
@@ -68,7 +51,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
             </div>
             <div className="grow">
               <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2 ">
                 <div className="flex items-center">
                   <Star1
                     size={20}
@@ -84,7 +67,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
                   className="cursor-pointer text-xs text-blue-400 hover:opacity-80">
                   {data.totalRate ?? 0} đánh giá
                 </Link>
-              </div>
+              </div> */}
               <hr className="mt-2 w-full text-neutral-text-secondary" />
               <ProductPrice data={product} />
             </div>
@@ -100,11 +83,11 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
           </div>
         </section>
 
-        <section className="mt-8 w-full" id="reviews">
+        {/* <section className="mt-8 w-full" id="reviews">
           <Suspense fallback={<ProductRateLoading />}>
             <ProductRate product={product} />
           </Suspense>
-        </section>
+        </section> */}
 
         <section className="mt-8 w-full">
           <Suspense fallback={<RelatedProductsLoading />}>

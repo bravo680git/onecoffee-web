@@ -31,20 +31,12 @@ export default async function Home() {
         <Slider items={banners} />
       </section>
 
-      <div className="mx-auto max-w-[1200px] xl:px-4">
+      <div className="mx-auto mt-10 max-w-[1200px] xl:px-4">
+        <h3 className="text-2xl font-bold">ONe HOT</h3>
+        <div className="mb-6 h-[1px] w-3/5 bg-neutral-text-secondary"></div>
         {products.length > 0 && (
           <section className="mt-8 grid grid-cols-4 gap-8 lg:grid-cols-3 sm:grid-cols-2">
-            <ProductItem data={products[0]} className="sm:order-1" />
-            <div className="relative col-span-2 aspect-video overflow-hidden rounded-lg">
-              <Image
-                src={THUMBNAIL_1}
-                alt=""
-                fill
-                className="object-cover object-center"
-              />
-            </div>
-
-            {products.slice(1).map((item) => (
+            {products.map((item) => (
               <ProductItem key={item.id} data={item} />
             ))}
           </section>
@@ -53,9 +45,7 @@ export default async function Home() {
         <section className="relative my-12 aspect-video w-full">
           <Link className="h-full w-full" href={""}>
             <Image
-              src={
-                "https://file.hstatic.net/1000075078/file/banner_app_f2a5895397a14c4f9d2eb65f7d998990.jpg"
-              }
+              src={THUMBNAIL_1}
               alt=""
               fill
               className="rounded-2xl object-cover object-center"

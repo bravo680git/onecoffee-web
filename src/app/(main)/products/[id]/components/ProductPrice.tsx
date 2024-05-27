@@ -1,8 +1,6 @@
 "use client";
 
-import { updateCart } from "@/app/action";
 import { useCheckLogin } from "@/app/hooks/useCheckLogin";
-import Button from "@/components/Button";
 import { useMessage } from "@/components/Message";
 import { path } from "@/config/path";
 import { ProductType } from "@/services/api/public/type";
@@ -10,7 +8,6 @@ import { useCartStore } from "@/store/cart";
 import { useCheckoutStore } from "@/store/checkout";
 import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
-import { Add, Minus } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -27,6 +24,11 @@ function ProductPrice({ data }: { data: ProductType }) {
   const [selectedVariantId, setSelectedVariantId] = useState<number>();
   const [updateCartLoading, setUpdateCartLoading] = useState(false);
   const [purchaseLoading, setPurchaseLoading] = useState(false);
+  const [extraOptions, setExtraOptions] = useState<ProductType["extraOptions"]>(
+    [],
+  );
+
+  const extraPrice = extraOptions.reduce((acc, crr) => acc + crr.price, 0);
 
   const handleSelectVariant = (value: string, index: number) => {
     const newVariants = [...variants];
@@ -40,6 +42,18 @@ function ProductPrice({ data }: { data: ProductType }) {
         return true;
       }
     });
+  };
+
+  const handleSelectExtraOption = (
+    item: ProductType["extraOptions"][number],
+  ) => {
+    let newItems: ProductType["extraOptions"];
+    if (extraOptions.includes(item)) {
+      newItems = extraOptions.filter((e) => e !== item);
+    } else {
+      newItems = [...extraOptions, item];
+    }
+    setExtraOptions(newItems);
   };
 
   const canConduct = async (setLoading: (v: boolean) => void) => {
@@ -81,44 +95,44 @@ function ProductPrice({ data }: { data: ProductType }) {
     push(path.checkout);
   };
 
-  const handleUpdateCart = async () => {
-    setUpdateCartLoading(true);
-    if (!(await canConduct(setUpdateCartLoading))) {
-      setUpdateCartLoading(false);
+  // const handleUpdateCart = async () => {
+  //   setUpdateCartLoading(true);
+  //   if (!(await canConduct(setUpdateCartLoading))) {
+  //     setUpdateCartLoading(false);
 
-      return;
-    }
+  //     return;
+  //   }
 
-    updateCart({
-      productId: data.id,
-      quantity,
-      variantId: selectedVariantId,
-    })
-      .then((res) => {
-        if (res.statusCode < 400 && res.data) {
-          msgApi.success({
-            message: "Cập nhật giỏ hàng thành công",
-          });
+  //   updateCart({
+  //     productId: data.id,
+  //     quantity,
+  //     variantId: selectedVariantId,
+  //   })
+  //     .then((res) => {
+  //       if (res.statusCode < 400 && res.data) {
+  //         msgApi.success({
+  //           message: "Cập nhật giỏ hàng thành công",
+  //         });
 
-          const filterCartItems = cartItems.filter(
-            (item) =>
-              item.productId !== data.id &&
-              item.variantId !== selectedVariantId,
-          );
+  //         const filterCartItems = cartItems.filter(
+  //           (item) =>
+  //             item.productId !== data.id &&
+  //             item.variantId !== selectedVariantId,
+  //         );
 
-          filterCartItems.push(res.data.cart);
-          setItems(filterCartItems);
-          setItemCount(filterCartItems.length);
-        } else {
-          msgApi.error({
-            message: res.message,
-          });
-        }
-      })
-      .finally(() => {
-        setUpdateCartLoading(false);
-      });
-  };
+  //         filterCartItems.push(res.data.cart);
+  //         setItems(filterCartItems);
+  //         setItemCount(filterCartItems.length);
+  //       } else {
+  //         msgApi.error({
+  //           message: res.message,
+  //         });
+  //       }
+  //     })
+  //     .finally(() => {
+  //       setUpdateCartLoading(false);
+  //     });
+  // };
 
   return (
     <>
@@ -126,19 +140,19 @@ function ProductPrice({ data }: { data: ProductType }) {
       {msgCtxHoler}
       <div className="mt-5 w-full">
         <span className="text-xl font-bold text-primary-500">
-          {transformCurrency(price, data.salePercent)}
+          {transformCurrency(price + extraPrice, data.salePercent)}
         </span>
         <div className="text-neutral-text-secondary">
           {data.salePercent > 0 && (
             <>
-              <span className="line-through">
-                {transformCurrency(data.price || data.minPrice)}
-              </span>
+              <span className="line-through">{transformCurrency(price)}</span>
               <span className="ml-2 font-semibold">-{data.salePercent}%</span>
             </>
           )}
         </div>
-        <hr className="mt-5 text-neutral-text-secondary" />
+        {(!!data.variantProps?.length || data.extraOptions.length > 0) && (
+          <hr className="mt-5 text-neutral-text-secondary" />
+        )}
         <div className="mt-5 flex flex-col gap-2">
           {data.variantProps?.map((item, index) => (
             <div key={index}>
@@ -163,8 +177,30 @@ function ProductPrice({ data }: { data: ProductType }) {
               </div>
             </div>
           ))}
-        </div>
 
+          {data.extraOptions.length > 0 && (
+            <div className="flex flex-col gap-3">
+              <span className="font-semibold text-neutral-text-secondary">
+                Tùy chọn thêm
+              </span>
+              {data.extraOptions.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSelectExtraOption(item)}
+                  className={clsx(
+                    "ripple w-fit rounded-md border border-slate-200 px-3 py-1.5 transition-all duration-300",
+                    {
+                      "border-2 !border-primary-500":
+                        extraOptions.includes(item),
+                    },
+                  )}>
+                  {item.name}(+{transformCurrency(item.price)})
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        {/* 
         <div className="mt-5 flex items-center gap-8">
           <span className="font-semibold text-neutral-text-secondary">
             Số lượng
@@ -182,8 +218,8 @@ function ProductPrice({ data }: { data: ProductType }) {
               <Add size={16} />
             </i>
           </div>
-        </div>
-        <div className="mt-5 flex gap-2">
+        </div> */}
+        {/* <div className="mt-5 flex gap-2">
           <Button
             type="primary"
             onClick={handleCheckout}
@@ -196,7 +232,7 @@ function ProductPrice({ data }: { data: ProductType }) {
             loading={updateCartLoading}>
             Thêm vào giỏ hàng
           </Button>
-        </div>
+        </div> */}
       </div>
     </>
   );

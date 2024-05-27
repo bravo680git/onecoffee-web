@@ -1,22 +1,21 @@
-import { ProductType } from "@/services/api/public/type";
-import RelateProductSlider from "./RelateProductSlider";
 import { publicApi } from "@/services/api";
-import { QueryKey } from "@/utils/constants";
+import { ProductType } from "@/services/api/public/type";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import RelateProductSlider from "./RelateProductSlider";
 
 async function RelatedProducts({ item }: { item: ProductType }) {
   const items =
     (await publicApi
       .getProductList({
-        filter: `${QueryKey.category}:[${item.category.id}]`,
+        filter: `category:[${item.category.id}]`,
       })
-      .then((res) => res.data?.products?.filter((p) => p.id !== item.id))
+      .then((res) => res?.data?.products?.filter((p) => p.id !== item.id))
       .catch()) ?? [];
 
   return (
     <>
-      <h3 className="mb-4 text-center text-lg font-bold">Sản phẩm liên quan</h3>
+      <h3 className="mb-4 text-lg font-bold">Sản phẩm liên quan</h3>
       <RelateProductSlider items={items} />
     </>
   );
