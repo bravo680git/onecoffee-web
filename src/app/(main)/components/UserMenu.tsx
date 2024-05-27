@@ -42,7 +42,7 @@ function UserMenu() {
 
   useEffect(() => {
     getUserInfo().then((res) => {
-      if (res.data) {
+      if (res?.data) {
         setUserInfo(res.data.user);
       }
     });
@@ -192,7 +192,7 @@ function UpdateUserInfoModal({
         formData.append("file", file);
         const uploadRes = await upload(formData);
 
-        if (uploadRes.statusCode < 400) {
+        if (uploadRes?.statusCode && uploadRes.statusCode < 400) {
           avatar = uploadRes.data?.image?.url;
         } else {
           return Promise.reject();
@@ -204,7 +204,7 @@ function UpdateUserInfoModal({
         avatar,
         addressId: userInfo.addressId,
       });
-      if (res.statusCode < 400) {
+      if (res?.statusCode && res.statusCode < 400) {
         setUserInfo(res.data?.user);
         msgApi.success({
           message: "Cập nhật thông tin thành công",

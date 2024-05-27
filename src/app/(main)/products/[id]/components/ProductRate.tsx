@@ -6,7 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Rating, Stars } from "./Rating";
 
 async function ProductRate({ product }: { product: ProductType }) {
-  const rateData = (await publicApi.getProductRates(product.slug)).data;
+  const rateData = (await publicApi.getProductRates(product.slug))?.data;
   if (!rateData) {
     return;
   }

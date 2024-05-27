@@ -1,19 +1,17 @@
 "use client";
 
-import Input from "@/components/Input";
-import { ChangePasswordPayload, LoginPayload } from "@/services/api/auth/type";
-import clsx from "clsx";
-import { NotificationCircle } from "iconsax-react";
-import { useEffect, useState } from "react";
-import { changePassword } from "./action";
-import { path } from "@/config/path";
-import { validate } from "../helper";
-import { useMessage } from "@/components/Message";
-import { useRouter } from "next/navigation";
 import { logout } from "@/app/action";
-import { useUserStore } from "@/store/user";
-import { useModal } from "@/components/Modal";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
+import { useMessage } from "@/components/Message";
+import { useModal } from "@/components/Modal";
+import { path } from "@/config/path";
+import { ChangePasswordPayload } from "@/services/api/auth/type";
+import { useUserStore } from "@/store/user";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { validate } from "../helper";
+import { changePassword } from "./action";
 
 const MSG = {
   PASSWORD_INCORRECT: "Mật khẩu không đúng",
@@ -60,7 +58,7 @@ function Login() {
       confirmNewPassword: confirmPassword,
     })
       .then(async (res) => {
-        if (res.data) {
+        if (res?.data) {
           await logout();
           modelApi.info({
             title: "Đổi mật khẩu thành công",

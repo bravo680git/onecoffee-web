@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 export const login = async (payload: LoginPayload) => {
   try {
     const data = await authApi.login(payload);
-    if (data.statusCode < 400 && data.data?.accessToken) {
+    if (data?.statusCode && data.statusCode < 400 && data.data?.accessToken) {
       cookies().set("_token", data.data.accessToken);
       data.data = {
         user: data.data.user,
@@ -24,7 +24,7 @@ export const login = async (payload: LoginPayload) => {
 export const loginWithGoogle = async (payload: LoginWithGooglePayload) => {
   try {
     const data = await authApi.loginWithGoogle(payload);
-    if (data.statusCode < 400 && data.data?.accessToken) {
+    if (data?.statusCode && data.statusCode < 400 && data.data?.accessToken) {
       cookies().set("_token", data.data.accessToken);
       data.data = {
         user: data.data.user,

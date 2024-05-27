@@ -24,7 +24,7 @@ function VerifyPage({ searchParams }: PageProps<[], ["token-id"]>) {
 
     verify(idToken)
       .then((res) => {
-        if (res.data) {
+        if (res?.data) {
           msgApi.success({
             message: "Xác thực thành công",
           });
@@ -33,7 +33,7 @@ function VerifyPage({ searchParams }: PageProps<[], ["token-id"]>) {
           }, 1000);
         } else {
           msgApi.error({
-            message: MSG_DIST[res.message],
+            message: MSG_DIST[res!.message],
           });
 
           setTimeout(() => {

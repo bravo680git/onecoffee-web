@@ -6,8 +6,6 @@ import { useMessage } from "@/components/Message";
 import { useModal } from "@/components/Modal";
 import { path } from "@/config/path";
 import { RequestResetPasswordPayload } from "@/services/api";
-import clsx from "clsx";
-import { NotificationCircle } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { validate } from "../helper";
@@ -34,7 +32,7 @@ function ForgetPassword() {
     setLoading(true);
     requestResetPassword({ email })
       .then((res) => {
-        if (res.statusCode < 400) {
+        if (res?.statusCode && res.statusCode < 400) {
           modelApi.info({
             title: "Gửi yêu cầu đặt lại mật khẩu thành công",
             content:
@@ -48,7 +46,7 @@ function ForgetPassword() {
         } else {
           msgApi.error({
             message:
-              MSG[res.message as keyof typeof MSG] ??
+              MSG[res!.message as keyof typeof MSG] ??
               "Có lỗi xảy ra, vui lòng thử lại",
           });
         }

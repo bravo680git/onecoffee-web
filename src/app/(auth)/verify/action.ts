@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 export const verify = async (idToken: string) => {
   try {
     const data = await authApi.verify({ token: idToken });
-    if (data.statusCode === 200 && data.data?.accessToken) {
+    if (data?.statusCode === 200 && data.data?.accessToken) {
       cookies().set("_token", data.data?.accessToken);
       data.data = {
         user: data.data.user,

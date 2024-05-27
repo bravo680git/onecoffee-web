@@ -16,7 +16,7 @@ const breakCrumbItems: BreadcrumbItem[] = [
 ];
 
 async function Orders() {
-  const items = (await protectedApi.getUserOrderList()).data?.orders;
+  const items = (await protectedApi.getUserOrderList())?.data?.orders;
   if (!items) {
     return;
   }

@@ -10,7 +10,7 @@ import {
 
 export const getProvinces = async () => {
   try {
-    return (await publicApi.getProvinceList()).data?.provinces ?? [];
+    return (await publicApi.getProvinceList())?.data?.provinces ?? [];
   } catch {
     return [];
   }
@@ -19,7 +19,7 @@ export const getProvinces = async () => {
 export const getDistrictsByProvince = async (code: number) => {
   try {
     return (
-      (await publicApi.getDistrictListByProvince(code)).data?.districts ?? []
+      (await publicApi.getDistrictListByProvince(code))?.data?.districts ?? []
     );
   } catch {
     return [];
@@ -28,7 +28,7 @@ export const getDistrictsByProvince = async (code: number) => {
 
 export const getWardsByDistrict = async (code: number) => {
   try {
-    return (await publicApi.getWardListByDistrict(code)).data?.wards ?? [];
+    return (await publicApi.getWardListByDistrict(code))?.data?.wards ?? [];
   } catch {
     return [];
   }

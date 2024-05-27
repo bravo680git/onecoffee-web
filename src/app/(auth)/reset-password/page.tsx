@@ -43,7 +43,7 @@ function ResetPassword({ searchParams }: PageProps<[], ["token-id"]>) {
       token: tokenId,
     })
       .then((res) => {
-        if (res.statusCode < 400) {
+        if (res?.statusCode && res.statusCode < 400) {
           modelApi.info({
             title: "Đặt lại mật khẩu thành công",
             content:
@@ -55,7 +55,7 @@ function ResetPassword({ searchParams }: PageProps<[], ["token-id"]>) {
         } else {
           msgApi.error({
             message:
-              MSG[res.message as keyof typeof MSG] ??
+              MSG[res!.message as keyof typeof MSG] ??
               "Có lỗi xảy ra, vui lòng thử lại",
           });
         }

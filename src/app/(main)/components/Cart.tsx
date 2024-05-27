@@ -87,7 +87,7 @@ function Cart() {
 
   useEffect(() => {
     getCartItems().then((res) => {
-      if (res.data) {
+      if (res?.data) {
         setItems(res.data.carts);
         setItemCount(res.data.carts.length);
       }
@@ -203,7 +203,7 @@ function CartItem({ checked, onCheckedChange, item }: CartItemProps) {
       variantId: item.variantId,
       quantity,
     }).then((res) => {
-      if (res.statusCode < 400) {
+      if (res?.statusCode && res.statusCode < 400) {
         setItems(items.map((c) => (c.id === item.id ? { ...c, quantity } : c)));
       }
     });
@@ -215,7 +215,7 @@ function CartItem({ checked, onCheckedChange, item }: CartItemProps) {
       variantId: item.variantId,
       quantity: 0,
     }).then((res) => {
-      if (res.statusCode < 400) {
+      if (res?.statusCode && res.statusCode < 400) {
         setItems(items.filter((c) => c.id !== item.id));
         setItemCount(items.length - 1);
       }

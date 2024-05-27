@@ -40,7 +40,7 @@ function Login() {
 
     login({ email, password })
       .then((res) => {
-        if (res.data) {
+        if (res?.data) {
           msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
           setTimeout(() => {
             push(getLoginRedirectRoute() ?? path.home);
@@ -56,7 +56,7 @@ function Login() {
 
   const handleLoginWithGoogle = (res: CredentialResponse) => {
     loginWithGoogle({ token: res.credential ?? "" }).then((res) => {
-      if (res.data) {
+      if (res?.data) {
         msgApi.success({ message: `Xin chào, ${res.data.user.name}` });
         setTimeout(() => {
           push(getLoginRedirectRoute() ?? path.home);

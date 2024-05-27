@@ -26,7 +26,7 @@ export function Rating({ product }: { product: ProductType }) {
 
     createRate({ comment, productId: product.id, rating: rate })
       .then((res) => {
-        if (res.statusCode < 400) {
+        if (res?.statusCode && res.statusCode < 400) {
           msgApi.success({
             message: "Thêm đánh giá thành công",
           });

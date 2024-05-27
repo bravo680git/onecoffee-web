@@ -93,7 +93,7 @@ function Checkout() {
         setLoading(true);
         createOrder(payload)
           .then((res) => {
-            if (res.statusCode < 400) {
+            if (res?.statusCode && res.statusCode < 400) {
               modelApi.info({
                 title: "Đặt hàng thành công",
                 content:

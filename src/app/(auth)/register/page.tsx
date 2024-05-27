@@ -46,7 +46,7 @@ function Register() {
     setLoading(true);
     register({ email, name, password })
       .then((res) => {
-        if (res.statusCode === 201) {
+        if (res?.statusCode === 201) {
           modelApi.info({
             title: "Xác nhận email để hoàn tất quá trình đăng ký",
             content:
@@ -56,11 +56,11 @@ function Register() {
               push(path.home);
             },
           });
-        } else if (res.statusCode === 409) {
+        } else if (res?.statusCode === 409) {
           setErrors({ email: msgDist.USERNAME_EXISTS });
         } else {
           msgApi.error({
-            message: msgDist[res.message],
+            message: msgDist[res!.message],
           });
         }
       })

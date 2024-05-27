@@ -62,7 +62,7 @@ function OrderAddressListModal({
       addressId: selectedId,
     })
       .then((res) => {
-        if (res.statusCode < 400) {
+        if (res?.statusCode && res.statusCode < 400) {
           setSelectedItem(items.find((item) => item.id === selectedId)!);
           setUserInfo({ ...userInfo, addressId: selectedId });
           msgApi.success({
@@ -91,7 +91,7 @@ function OrderAddressListModal({
       content: "Bạn có chắc chắn muốn xóa địa chỉ này không?",
       async onOk() {
         const res = await deleteAddress(id);
-        if (res.statusCode < 400) {
+        if (res?.statusCode && res.statusCode < 400) {
           msgApi.success({ message: "Xóa địa chỉ thành công" });
           setItems(items.filter((item) => item.id !== id));
         }
@@ -101,7 +101,7 @@ function OrderAddressListModal({
 
   useEffect(() => {
     getAddressList().then((res) => {
-      if (res.data) {
+      if (res?.data) {
         setItems(res.data.addresses);
         const defaultAddress = res.data.addresses.find(
           (item) => item.id === userInfo?.addressId,
@@ -334,7 +334,7 @@ function CreateOrderAddressModal({
     };
     createAddress(payload)
       .then((res) => {
-        if (res.statusCode < 400 && res.data) {
+        if (res?.statusCode && res.statusCode < 400 && res.data) {
           msgApi.success({
             message: "Thêm địa chỉ nhận hàng thành công",
           });
