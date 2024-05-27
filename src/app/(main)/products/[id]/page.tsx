@@ -42,8 +42,8 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
   const product = data.product;
 
   return (
-    <div className="w-full">
-      <div className="mx-auto my-60 max-w-[1200px] xl:max-w-full xl:px-4">
+    <div className="w-full py-60 lg:py-20">
+      <div className="mx-auto max-w-[1200px] xl:max-w-full xl:px-4">
         <section className="w-full">
           <div className="flex gap-12 md:flex-col">
             <div className="w-[600px] shrink-0 xl:w-[400px] md:mx-auto sm:w-full">

@@ -111,15 +111,15 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
       <div
         className={clsx(
           "hidden h-14 items-center justify-between bg-white/20 p-4 backdrop-blur-sm lg:flex",
-          "fixed z-10 w-full transition-all",
+          "fixed z-20 w-full transition-all",
           { "border-b": !onInitScroll },
         )}>
         <div>
           <HambergerMenu size={24} onClick={() => setOpen(true)} />
         </div>
-        <div>
+        <Link href={path.home}>
           <Image src="/logo-full.png" alt="" width={120} height={80} />
-        </div>
+        </Link>
 
         <div
           className={clsx(

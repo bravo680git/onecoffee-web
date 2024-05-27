@@ -7,13 +7,13 @@ import { path } from "@/config/path";
 import { QueryKey } from "@/utils/constants";
 
 async function BlogsByCategory() {
-  const items = (await publicApi.getCategoryBlogs()).data?.blogs;
+  const items = (await publicApi.getCategoryBlogs())?.data?.blogs;
   if (!items) {
     return <NotFound />;
   }
 
   return (
-    <div className="col-span-1 flex flex-col gap-5 md:hidden">
+    <div className="col-span-1 flex flex-col gap-5 lg:hidden">
       {items.map((item, index) => (
         <div key={index}>
           <Link
@@ -35,7 +35,7 @@ async function BlogsByCategory() {
 
 export function BlogsByCategoryLoading() {
   return (
-    <div className="col-span-1 flex flex-col gap-5 md:hidden">
+    <div className="col-span-1 flex flex-col gap-5 lg:hidden">
       {[1, 2].map((i) => (
         <div key={i}>
           <Skeleton width={200} height={16} />

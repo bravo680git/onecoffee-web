@@ -45,8 +45,11 @@ export const fromNow = (dateTime: string) => {
     return `${Math.round(diff / 60 / 60)} giờ trước`;
   } else {
     return date.toLocaleString("vi", {
-      dateStyle: "short",
-      timeStyle: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   }
 };

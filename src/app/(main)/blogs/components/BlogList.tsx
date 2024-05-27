@@ -14,16 +14,17 @@ async function BlogList({ catId }: { catId?: string }) {
       limit: PAGE_SIZE.toString(),
       page: "1",
     })
-  ).data;
+  )?.data;
 
   if (!data || !data.blogs.length) {
     return <NotFound />;
   }
+
   const firstItem = data.blogs[0];
   const items = data.blogs.slice(1);
 
   return (
-    <div className="col-span-2 md:col-span-3">
+    <div className="col-span-2 lg:col-span-3">
       {catId && (
         <>
           <span className="text-xl font-semibold text-neutral-text-secondary">
@@ -33,10 +34,16 @@ async function BlogList({ catId }: { catId?: string }) {
         </>
       )}
 
-      <LargeItem data={firstItem} />
-      <hr className="my-5 text-neutral-text-secondary" />
+      {!catId && (
+        <>
+          <LargeItem data={firstItem} />
+          <hr className="my-5 text-neutral-text-secondary" />
+        </>
+      )}
       <BlogListPagination
-        firstPageItems={items}
+        key={catId}
+        showCategory={!catId}
+        firstPageItems={!catId ? items : data.blogs}
         size={PAGE_SIZE}
         total={data.meta.total}
       />
@@ -46,7 +53,7 @@ async function BlogList({ catId }: { catId?: string }) {
 
 export function BlogListLoading() {
   return (
-    <div className="col-span-2 md:col-span-3">
+    <div className="col-span-2 lg:col-span-3">
       <Skeleton height={16} width={200} className="mb-3" />
 
       <div className="flex w-full flex-col gap-2">

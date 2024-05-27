@@ -10,10 +10,12 @@ function BlogListPagination({
   firstPageItems,
   size,
   total,
+  showCategory,
 }: {
   firstPageItems: BlogType[];
   size: number;
   total: number;
+  showCategory?: boolean;
 }) {
   const [items, setItems] = useState(firstPageItems);
   const [page, setPage] = useState(1);
@@ -35,7 +37,7 @@ function BlogListPagination({
   return (
     <div className="flex flex-col gap-4">
       {items.map((item, index) => (
-        <MediumItem key={index} data={item} />
+        <MediumItem key={index} data={item} showCategory={showCategory} />
       ))}
       {items.length < total - 1 && (
         <div className="mt-4">

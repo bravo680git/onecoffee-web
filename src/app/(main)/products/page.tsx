@@ -40,8 +40,8 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
       .catch()) ?? [];
 
   return (
-    <div className="w-full">
-      <section className="mx-auto my-60 flex max-w-[1200px] gap-6 sm:my-10">
+    <div className="w-full py-60 lg:py-20">
+      <section className="mx-auto flex max-w-[1200px] gap-6">
         <div className="flex w-[240px] shrink-0 flex-col gap-6 xl:hidden">
           <Suspense>
             <ProductFilter categories={categories} />

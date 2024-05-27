@@ -1,20 +1,10 @@
-import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 function Loading() {
   return (
-    <div className="w-full">
-      <div className="relative flex h-[400px] w-full flex-col items-center justify-end gap-8 pb-20 sm:h-[300px]">
-        <Image
-          src="/images/page-header-img.png"
-          fill
-          alt=""
-          className="sm:object-cover"
-        />
-        <h2 className="z-[1] text-3xl font-bold text-white">Sản phẩm</h2>
-      </div>
-      <div className="mx-auto my-28 max-w-[1200px] xl:max-w-full xl:px-4">
+    <div className="w-full py-60 lg:py-20">
+      <div className="mx-auto max-w-[1200px] xl:max-w-full xl:px-4">
         <section className="w-full">
           <div className="flex gap-12 md:flex-col">
             <div className="w-[600px] shrink-0 xl:w-[400px] md:mx-auto sm:w-full">

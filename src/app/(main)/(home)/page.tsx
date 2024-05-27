@@ -42,8 +42,8 @@ export default async function Home() {
           </section>
         )}
 
-        <section className="relative my-12 aspect-video w-full">
-          <Link className="h-full w-full" href={""}>
+        <section className="my-12 aspect-video w-full">
+          <Link className="relative block h-full w-full" href={""}>
             <Image
               src={THUMBNAIL_1}
               alt=""
