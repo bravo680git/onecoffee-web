@@ -1,40 +1,26 @@
 import { CoffeeIcon, TiktokIcon } from "@/components/Icons";
 import { path } from "@/config/path";
-import { publicApi } from "@/services/api";
 import { CONTACT } from "@/utils/contact";
-import { Call, Facebook, Instagram, Location, Youtube } from "iconsax-react";
+import { Facebook, Instagram, Location } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
+import { MenuItem } from "./Header";
 
-const exploreItems = [
-  {
-    title: "Về chúng tôi",
-    url: "#",
-  },
-  {
-    title: "Sản phẩm",
-    url: path.products,
-  },
-  {
-    title: "Chuyện của ONe",
-    url: path.blogs,
-  },
-  {
-    title: "Khuyến mãi",
-    url: "#",
-  },
-];
-
-async function Footer() {
-  const news =
-    (await publicApi.getBlogList({ limit: "2" }))?.data?.blogs?.slice(0, 2) ??
-    [];
+async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
+  const exploreItems: MenuItem[] = [
+    {
+      title: "Sản phẩm",
+      path: path.products,
+      key: "product",
+    },
+    ...blogMenuItems,
+  ];
 
   return (
     <footer>
       <div className="min-h-[510px] bg-neutral-bg-footer py-28 xl:py-10">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-4 gap-5 xl:px-6 lg:grid-cols-2 sm:grid-cols-1">
-          <div>
+        <div className="mx-auto grid max-w-[1200px] grid-cols-5 gap-10 xl:px-6 lg:grid-cols-2 sm:grid-cols-1">
+          <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-4">
               <Link href="https://new3t.com">
                 <Image src="/new3t-logo.png" alt="" width={80} height={80} />
@@ -46,7 +32,9 @@ async function Footer() {
               </Link>
             </div>
             <p className="mt-3 text-neutral-text-secondary">
-              Cung cấp những sản phẩm chất lượng với giá cả ưu đãi nhất.
+              <b>ONe Coffee</b> không đơn giản là những hương vị nguyên bản tự
+              nhiên. Từng giọt cà phê, từng hương trà đều chứa đựng một phần của
+              trái tim và tâm hồn của <b>ONe</b> và bạn.
             </p>
             <div className="mt-4 flex gap-4">
               <Link
@@ -55,12 +43,12 @@ async function Footer() {
                    text-white transition-all hover:bg-primary-500/30">
                 <Facebook size={20} />
               </Link>
-              <Link
+              {/* <Link
                 href={CONTACT.youtube}
                 className="flex h-10 w-10 items-center justify-center rounded-md bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
                 <Youtube size={20} />
-              </Link>
+              </Link> */}
               <Link
                 href={CONTACT.instagram}
                 className="flex h-10 w-10 items-center justify-center rounded-md bg-black/50
@@ -80,8 +68,8 @@ async function Footer() {
             <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-text-secondary">
               {exploreItems.map((item) => (
                 <Link
-                  href={item.url}
-                  key={item.title}
+                  href={item.path}
+                  key={item.key}
                   className="flex items-center gap-2 transition-all hover:underline">
                   <CoffeeIcon />
                   <h3>{item.title}</h3>
@@ -107,12 +95,12 @@ async function Footer() {
           <div>
             <h2 className="text-lg text-white">Liên hệ</h2>
             <div className="mt-4 flex flex-col gap-2 text-neutral-text-secondary">
-              <a
+              {/* <a
                 href={`tel:${CONTACT.phone}`}
                 className="flex items-center gap-2 hover:underline">
                 <Call size={16} className="text-secondary-500" />
                 <span>{CONTACT.phone}</span>
-              </a>
+              </a> */}
               <a
                 href={`mailto:${CONTACT.email}`}
                 className="flex items-center gap-2 hover:underline">
@@ -143,7 +131,7 @@ async function Footer() {
           className="mx-auto flex min-h-[70px] max-w-[1200px] items-center justify-between 
         text-neutral-text-secondary xl:px-5 md:items-center md:py-4 sm:flex-col">
           <span>&copy; 2024 by New3T</span>
-          <span>Sản phẩm của công ty TNHH Thuận Tất Thành</span>
+          <span>Sản phẩm của công ty cổ phần Thuận Tất Thành</span>
         </div>
       </div>
     </footer>

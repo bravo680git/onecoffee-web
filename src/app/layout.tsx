@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import { Inter, Covered_By_Your_Grace } from "next/font/google";
-import "./globals.css";
 import clsx from "clsx";
+import type { Metadata } from "next";
+import { Covered_By_Your_Grace, Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 const grace = Covered_By_Your_Grace({
@@ -13,15 +13,12 @@ const grace = Covered_By_Your_Grace({
 export const metadata: Metadata = {
   title: {
     template: "%s | ONe Coffee",
-    absolute: "New3T",
+    absolute: "ONe Coffee",
   },
   description:
-    "New3T store, chuyên cung cấp các loại thực phẩm tươi ngon, bổ dưỡng với giá cả ưu đãi nhất",
+    "ONe Coffee không đơn giản là những hương vị nguyên bản tự nhiên. Từng giọt cà phê, từng hương trà đều chứa đựng một phần của trái tim và tâm hồn của ONe và bạn.",
   keywords:
-    "new3t, thuan tat thanh, gao st25, trai cay tuoi, caffe nguyên chất, cà phê",
-  openGraph: {
-    images: "/logo.png",
-  },
+    "ONe coffee, New3T, cà phê nguyên chất, ONer, cafe24h, cafe, tea, coffee shop, Quận 10, cư xá Bắc Hải, cafe Quận 10, cafe chữa lành, 37 Cửu Long",
 };
 
 export default function RootLayout({

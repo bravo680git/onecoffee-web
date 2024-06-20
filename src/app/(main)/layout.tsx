@@ -43,7 +43,7 @@ async function MainLayout({ children }: { children: React.ReactNode }) {
     <div>
       <Header menuItems={menuItems} />
       <main>{children}</main>
-      <Footer />
+      <Footer blogMenuItems={blogCategories} />
     </div>
   );
 }

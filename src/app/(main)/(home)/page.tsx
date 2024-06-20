@@ -7,10 +7,16 @@ import Slider from "./components/BannerSlider";
 import BlogItem from "./components/BlogItem";
 import StoreImageSlider from "./components/StoreImageSlider";
 import { STORE_IMGS, THUMBNAIL_1 } from "@/utils/contact";
+import { path } from "@/config/path";
+import { QueryKey } from "@/utils/constants";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: {
     absolute: "ONe coffee",
+  },
+  openGraph: {
+    images: `${headers().get("host")}/logo.png`,
   },
 };
 
@@ -53,13 +59,13 @@ export default async function Home() {
           </Link>
         </section>
 
-        <section className="grid grid-cols-4 gap-10 md:grid-cols-1">
-          <div className="col-span-3 md:order-1">
+        <section className="grid grid-cols-4 gap-10">
+          <div className="col-span-3 md:order-1 md:col-span-4">
             <StoreImageSlider items={STORE_IMGS} />
           </div>
-          <div className="flex flex-col items-end justify-center gap-3">
+          <div className="flex flex-col items-end justify-center gap-3 md:col-span-4">
             <h3 className="text-3xl font-semibold text-secondary-500">
-              ONe space
+              ONe Space
             </h3>
             <p className="text-right">
               Đến với không gian đầy sáng tạo của <strong>ONe coffee </strong>
@@ -71,14 +77,16 @@ export default async function Home() {
 
       <div className="mt-10 w-full bg-slate-200 pt-10">
         <section className="mx-auto mt-10 max-w-[1200px] pb-28 xl:px-4">
-          <h3 className="text-right text-2xl font-bold">ONe stories</h3>
+          <h3 className="text-right text-2xl font-bold">ONe Stories</h3>
           <div className="mb-6 ml-[40%] h-[1px] w-3/5 bg-neutral-text-secondary"></div>
           <div className="flex flex-col gap-10">
             {categoryBlogs.map((item) => (
               <div key={item.id}>
-                <h3 className="mb-4 font-grace text-xl font-semibold text-secondary-500 underline">
-                  #{item.name}
-                </h3>
+                <Link href={`${path.blogs}?${QueryKey.category}=${item.id}`}>
+                  <h3 className="mb-4 text-xl font-semibold text-secondary-500 transition-all hover:underline">
+                    #{item.name}
+                  </h3>
+                </Link>
                 <div
                   className="grid grid-cols-4 gap-6 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 
                   lg:[&>*:nth-child(4)]:invisible md:[&>*:nth-child(4)]:visible">
