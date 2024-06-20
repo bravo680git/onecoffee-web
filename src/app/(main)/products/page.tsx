@@ -7,15 +7,11 @@ import { generateProductFilter } from "../helper";
 import { ProductFilter } from "./components/ProductFilter";
 import ProductList, { ProductListLoading } from "./components/ProductList";
 import { ORDER_TYPE_DIST } from "./constants";
-import { headers } from "next/headers";
 
 const PAGE_SIZE = 12;
 
 export const metadata: Metadata = {
   title: "Sản phẩm",
-  openGraph: {
-    images: `${headers().get("host")}/logo.png`,
-  },
 };
 
 async function Products({ searchParams }: PageProps<[], QueryKey[]>) {

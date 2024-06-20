@@ -4,13 +4,9 @@ import BlogList, { BlogListLoading } from "./components/BlogList";
 import BlogsByCategory, {
   BlogsByCategoryLoading,
 } from "./components/BlogsByCategory";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Bài viết",
-  openGraph: {
-    images: `${headers().get("host")}/logo.png`,
-  },
 };
 
 function Blogs({ searchParams }: PageProps<[], ["cat-id"]>) {

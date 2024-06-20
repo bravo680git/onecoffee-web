@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     "ONe Coffee không đơn giản là những hương vị nguyên bản tự nhiên. Từng giọt cà phê, từng hương trà đều chứa đựng một phần của trái tim và tâm hồn của ONe và bạn.",
   keywords:
     "ONe coffee, New3T, cà phê nguyên chất, ONer, cafe24h, cafe, tea, coffee shop, Quận 10, cư xá Bắc Hải, cafe Quận 10, cafe chữa lành, 37 Cửu Long",
+  openGraph: {
+    images: `${process.env.HOST}/logo.png`,
+  },
 };
 
 export default function RootLayout({

@@ -9,14 +9,10 @@ import StoreImageSlider from "./components/StoreImageSlider";
 import { STORE_IMGS, THUMBNAIL_1 } from "@/utils/contact";
 import { path } from "@/config/path";
 import { QueryKey } from "@/utils/constants";
-import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: {
     absolute: "ONe coffee",
-  },
-  openGraph: {
-    images: `${headers().get("host")}/logo.png`,
   },
 };
 
