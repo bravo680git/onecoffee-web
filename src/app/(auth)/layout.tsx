@@ -34,7 +34,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer blogMenuItems={[]} />
     </div>
   );
 }
