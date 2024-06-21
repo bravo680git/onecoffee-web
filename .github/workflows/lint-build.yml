@@ -30,10 +30,10 @@ jobs:
           node-version: 20  
       - name: Install dependencies & build
         env:
-          BASE_URL: ${{ APP_BASE_URL }}
-          NEXT_PUBLIC_GG_CLIENT_ID: ${{ APP_NEXT_PUBLIC_GG_CLIENT_ID }}
-          ADMIN_DOMAIN: ${{ APP_ADMIN_DOMAIN }}
-          HOST: ${{ APP_HOST }}
+          BASE_URL: ${{ secrets.APP_BASE_URL }}
+          NEXT_PUBLIC_GG_CLIENT_ID: ${{ secrets.APP_NEXT_PUBLIC_GG_CLIENT_ID }}
+          ADMIN_DOMAIN: ${{ secrets.APP_ADMIN_DOMAIN }}
+          HOST: ${{ secrets.APP_HOST }}
         run: |
           yarn
           yarn build
