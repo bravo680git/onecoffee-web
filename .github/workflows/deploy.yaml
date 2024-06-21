@@ -11,12 +11,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Build docker image
-        env:
-          BASE_URL: ${{ secrets.APP_BASE_URL }}
-          NEXT_PUBLIC_GG_CLIENT_ID: ${{ secrets.APP_NEXT_PUBLIC_GG_CLIENT_ID }}
-          ADMIN_DOMAIN: ${{ secrets.APP_ADMIN_DOMAIN }}
-          HOST: ${{ secrets.APP_HOST }}
         run: |
+          echo "${{ secrets.ENVS }}" > .env
           docker build -t bravo680/onecoffee-web:latest .
       - name: Login to docker hub
         uses: docker/login-action@v3.2.0
