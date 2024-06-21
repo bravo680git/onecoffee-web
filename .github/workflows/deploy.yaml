@@ -55,11 +55,17 @@ jobs:
         run: |
           echo "$SSH_KEY" > key.pem
           chmod 600 key.pem
-          ssh -t -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
+          ssh -tt -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST << 'EOF'
             cd $WEB_FOLDER &&
-            docker compose down &&
-            docker rmi -f $IMAGE_NAME:$IMAGE_TAG &&
-            docker pull $IMAGE_NAME:$IMAGE_TAG &&
-            docker compose up -d
+            if [ -f docker-compose.yml ]; then
+              echo "docker-compose.yml exists, proceeding with deployment."
+              docker compose down &&
+              docker rmi -f $IMAGE_NAME:$IMAGE_TAG &&
+              docker pull $IMAGE_NAME:$IMAGE_TAG &&
+              docker compose up -d
+            else
+              echo "docker-compose.yml not found in $WEB_FOLDER"
+              exit 1
+            fi
             exit
           EOF
