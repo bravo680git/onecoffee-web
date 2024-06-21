@@ -19,8 +19,7 @@ jobs:
           echo "$SSH_KEY" > key.pem
           chmod 600 key.pem
           ssh -tt -o StrictHostKeyChecking=no -i key.pem $SSH_USER@$SSH_HOST \
-          "export IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG WEB_FOLDER=$WEB_FOLDER && \
-          cd $WEB_FOLDER && \
+          "cd $WEB_FOLDER && \
           if [ -f docker-compose.yaml ]; then \
             echo \"docker-compose.yml exists, proceeding with deployment.\" && \
             docker compose down && \
