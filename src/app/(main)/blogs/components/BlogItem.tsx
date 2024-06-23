@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 function LargeItem({ data }: { data: BlogType }) {
-  return (
+  return data.createdAt ? (
     <Link href={`${path.blogs}/${data.slug}`} className="block w-full">
       <div className="relative aspect-video w-full overflow-hidden rounded-xl md:rounded-md">
         <Image
@@ -26,7 +26,7 @@ function LargeItem({ data }: { data: BlogType }) {
         {fromNow(data.updatedAt)}
       </span>
     </Link>
-  );
+  ) : null;
 }
 
 function MediumItem({
@@ -36,7 +36,7 @@ function MediumItem({
   data: BlogType;
   showCategory?: boolean;
 }) {
-  return (
+  return data.createdAt ? (
     <Link
       href={`${path.blogs}/${data.slug}`}
       className="grid w-full grid-cols-3 gap-4">
@@ -50,9 +50,10 @@ function MediumItem({
       </div>
       <div className="col-span-2 flex flex-col gap-2 sm:gap-0">
         {showCategory && (
-          <Link href={`${path.blogs}?${QueryKey.category}=${data.category.id}`}>
+          <Link
+            href={`${path.blogs}?${QueryKey.category}=${data.category?.id}`}>
             <span className="font-semibold text-neutral-text-secondary hover:underline">
-              #{data.category.name}
+              #{data.category?.name}
             </span>
           </Link>
         )}
@@ -71,11 +72,11 @@ function MediumItem({
         </span>
       </div>
     </Link>
-  );
+  ) : null;
 }
 
 function SmallItem({ data }: { data: BlogType }) {
-  return (
+  return data.createdAt ? (
     <div className="grid w-full grid-cols-3 gap-4">
       <div className="relative col-span-1 aspect-video overflow-hidden rounded-md">
         <Image
@@ -96,7 +97,7 @@ function SmallItem({ data }: { data: BlogType }) {
         </span>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 export { LargeItem, MediumItem, SmallItem };

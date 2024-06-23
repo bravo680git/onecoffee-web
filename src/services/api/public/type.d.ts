@@ -48,6 +48,7 @@ type ProductType = {
     name: string;
     price: number;
   }[];
+  pin: boolean;
 };
 
 type ResponseMeta = {
@@ -111,6 +112,7 @@ type BlogType = {
   seoKeyword: string;
   seoDescription: string;
   updatedAt: string;
+  createdAt?: string;
 };
 
 type BlogQueries = {
