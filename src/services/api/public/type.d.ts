@@ -112,6 +112,7 @@ type BlogType = {
   seoKeyword: string;
   seoDescription: string;
   updatedAt: string;
+  createdAt?: string;
 };
 
 type BlogQueries = {

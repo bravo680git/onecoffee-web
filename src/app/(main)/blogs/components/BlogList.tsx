@@ -17,7 +17,7 @@ async function BlogList({ catId }: { catId?: string }) {
   )?.data;
 
   if (!data || !data.blogs.length) {
-    return <NotFound />;
+    return "Không có bài viết nào, vui lòng quay lại sau";
   }
 
   const firstItem = data.blogs[0];
