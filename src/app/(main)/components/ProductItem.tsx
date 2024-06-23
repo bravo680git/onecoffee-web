@@ -26,7 +26,7 @@ function ProductItem({
             fill
             className="rounded-md object-cover"
           />
-          <div className="absolute left-0 top-0 flex flex-col justify-center gap-2">
+          <div className="absolute left-0 top-0 flex flex-col items-center gap-2">
             {showPinIcon && data.pin && (
               <div className="">
                 <Image
