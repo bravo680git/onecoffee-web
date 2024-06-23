@@ -81,12 +81,12 @@ async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
             <h2 className="text-lg text-white">Điều khoản</h2>
             <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-text-secondary">
               <Link
-                href={""}
+                href={`${path.blogs}/dieu-khoan`}
                 className="flex items-center gap-2 transition-all hover:underline">
                 <h3>Điều khoản sử dụng</h3>
               </Link>
               <Link
-                href={""}
+                href={`${path.blogs}/quyen-rieng-tu`}
                 className="flex items-center gap-2 transition-all hover:underline">
                 <h3>Chính sách quyền riêng tư</h3>
               </Link>
