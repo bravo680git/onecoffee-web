@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const [bannerRes, productRes, blogRes] = await Promise.all([
     publicApi.getBannerList(),
-    publicApi.getProductList(),
+    publicApi.getProductList({ limit: "8", page: "1", filter: "pin:true" }),
     publicApi.getCategoryBlogs(4),
   ]).catch();
 
@@ -34,12 +34,12 @@ export default async function Home() {
       </section>
 
       <div className="mx-auto mt-10 max-w-[1200px] xl:px-4">
-        <h3 className="text-2xl font-bold">ONe HOT</h3>
+        <h3 className="text-2xl font-bold">ONe Highlights</h3>
         <div className="mb-6 h-[1px] w-3/5 bg-neutral-text-secondary"></div>
         {products.length > 0 && (
           <section className="mt-8 grid grid-cols-4 gap-8 lg:grid-cols-3 sm:grid-cols-2">
             {products.map((item) => (
-              <ProductItem key={item.id} data={item} />
+              <ProductItem key={item.id} data={item} showPinIcon={false} />
             ))}
           </section>
         )}

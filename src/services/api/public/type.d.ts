@@ -48,6 +48,7 @@ type ProductType = {
     name: string;
     price: number;
   }[];
+  pin: boolean;
 };
 
 type ResponseMeta = {

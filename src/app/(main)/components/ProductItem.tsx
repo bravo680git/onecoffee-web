@@ -8,15 +8,17 @@ import Link from "next/link";
 function ProductItem({
   data,
   className,
+  showPinIcon = true,
 }: {
   data: ProductType;
   className?: string;
+  showPinIcon?: boolean;
 }) {
   return (
     <Link
       className={clsx("flex w-full cursor-pointer flex-col", className)}
       href={`${path.products}/${data.slug}`}>
-      <div className="ripple bg aspect-square w-full overflow-hidden rounded-md  p-4">
+      <div className="ripple bg aspect-square w-full overflow-hidden rounded-md p-4">
         <div className="relative h-full w-full">
           <Image
             src={data.images?.[0]}
@@ -24,13 +26,24 @@ function ProductItem({
             fill
             className="rounded-md object-cover"
           />
-          {data.salePercent > 0 && (
-            <div
-              className="absolute right-2 top-2 flex h-10 w-10 items-center 
-            justify-center rounded-full bg-red-500 text-xs font-semibold text-white">
-              -{data.salePercent}%
-            </div>
-          )}
+          <div className="absolute left-0 top-0 flex flex-col justify-center gap-2">
+            {showPinIcon && data.pin && (
+              <div className="">
+                <Image
+                  src="/images/product/best-seller.png"
+                  alt=""
+                  width={48}
+                  height={48}
+                  quality={100}
+                />
+              </div>
+            )}
+            {data.salePercent > 0 && (
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary-500 text-xs font-semibold text-white">
+                -{data.salePercent}%
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <div className="mt-3 flex items-center gap-5">
