@@ -1,0 +1,26 @@
+inputs:
+  status: 
+    description: 'The status of the job (success or failure)'
+    required: true
+    default: 'success'
+  project:
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Send Telegram notification
+      if: ${{ inputs.status == 'success' }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELE_CHANNEL_ID }}
+        token: ${{ secrets.TELE_TOKEN }}
+        message: "🎉 CI/CD job successful! Workflow: ${{ github.workflow }} | Job: ${{ github.job }} | Project: ${{ inputs.project }}"
+
+    - name: Send Telegram notification
+      if: ${{ inputs.status == 'failure' }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELE_CHANNEL_ID }}
+        token: ${{ secrets.TELE_TOKEN }}
+        message: "❌ CI/CD job failed! Workflow: ${{ github.workflow }} | Job: ${{ github.job }} | Project: ${{ inputs.project }}"
