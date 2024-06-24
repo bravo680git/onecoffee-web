@@ -13,3 +13,5 @@ jobs:
         with:
           status: ${{ job.status }}
           project: test
+          token: ${{ secrets.TELE_TOKEN }}
+          to: ${{ secrets.TELE_CHANNEL_ID }}
