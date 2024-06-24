@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Notify to telegram
-        uses: ./.github/actions/notify.yaml
+        uses: ./.github/actions/notify
         with:
           status: ${{ job.status }}
           project: test
