@@ -28,15 +28,8 @@ jobs:
           pnpm i
           pnpm lint
 
-      - name: Send Telegram notification on completion
-        uses: ./.github/actions/notify.yml
-        with:
-          status: ${{ job.status }}
-          project: ONe Coffee web - production
-
   BuildAndPushImage:
     runs-on: ubuntu-latest
-    if: false
     needs: Lint
     steps:
       - name: Checkout repository
@@ -55,7 +48,6 @@ jobs:
   DeployToEC2:
     runs-on: ubuntu-latest
     needs: [BuildAndPushImage]
-    if: false
     steps:        
       - name: Setup SSH key
         run: |
@@ -82,6 +74,7 @@ jobs:
 
   NotifyOnSuccess:
     runs-on: ubuntu-latest
+    needs: DeployToEC2
     if: success()
     steps:
       - name: Notify Telegram on success
@@ -92,7 +85,8 @@ jobs:
           message: "🎉 CI/CD job successful! Workflow: ${{ github.workflow }} | Job: ${{ github.job }} | Project: $PROJECT"
 
   NotifyOnFailure:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-lates
+    needs: DeployToEC2t
     if: failure()
     steps:
       - name: Notify Telegram on failure
