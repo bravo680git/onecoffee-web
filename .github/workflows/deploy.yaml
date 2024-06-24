@@ -32,7 +32,7 @@ jobs:
         uses: ./.github/actions/notify
         with:
           status: ${{ job.status }}
-          project: $PROJECT
+          project: ${{ PROJECT }}
           token: ${{ secrets.TELE_TOKEN }}
           to: ${{ secrets.TELE_CHANNEL_ID }}
 
@@ -57,7 +57,7 @@ jobs:
         uses: ./.github/actions/notify
         with:
           status: ${{ job.status }}
-          project: $PROJECT
+          project: ${{ PROJECT }}
           token: ${{ secrets.TELE_TOKEN }}
           to: ${{ secrets.TELE_CHANNEL_ID }}
 
@@ -93,6 +93,6 @@ jobs:
         uses: ./.github/actions/notify
         with:
           status: ${{ job.status }}
-          project: $PROJECT
+          project: ${{ PROJECT }}
           token: ${{ secrets.TELE_TOKEN }}
           to: ${{ secrets.TELE_CHANNEL_ID }}
