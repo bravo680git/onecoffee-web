@@ -8,7 +8,7 @@ import BlogItem from "./components/BlogItem";
 import StoreImageSlider from "./components/StoreImageSlider";
 import { STORE_IMGS, THUMBNAIL_1 } from "@/utils/contact";
 import { path } from "@/config/path";
-import { QueryKey } from "@/utils/constants";
+import { IMG_BLUR_HASH, QueryKey } from "@/utils/constants";
 
 export const metadata: Metadata = {
   title: {
@@ -51,6 +51,8 @@ export default async function Home() {
               alt=""
               fill
               className="rounded-2xl object-cover object-center"
+              placeholder="blur"
+              blurDataURL={IMG_BLUR_HASH}
             />
           </Link>
         </section>

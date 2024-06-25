@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { IMG_BLUR_HASH } from "@/utils/constants";
 
 function ProductImageSlider({ images = [] }: { images: string[] }) {
   return (
@@ -31,6 +32,8 @@ function ProductImageSlider({ images = [] }: { images: string[] }) {
               fill
               className="object-contain object-center"
               quality={100}
+              placeholder="blur"
+              blurDataURL={IMG_BLUR_HASH}
             />
           </div>
         </div>

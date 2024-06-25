@@ -1,6 +1,6 @@
 import { path } from "@/config/path";
 import { BlogType } from "@/services/api";
-import { QueryKey } from "@/utils/constants";
+import { IMG_BLUR_HASH, QueryKey } from "@/utils/constants";
 import { fromNow, getPlainTextFromHtml } from "@/utils/functions";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +14,8 @@ function LargeItem({ data }: { data: BlogType }) {
           alt={data.title}
           fill
           className="object-cover"
+          placeholder="blur"
+          blurDataURL={IMG_BLUR_HASH}
         />
       </div>
       <div>
@@ -46,6 +48,8 @@ function MediumItem({
           alt={data.title}
           fill
           className="object-cover"
+          placeholder="blur"
+          blurDataURL={IMG_BLUR_HASH}
         />
       </div>
       <div className="col-span-2 flex flex-col gap-2 sm:gap-0">
@@ -84,6 +88,8 @@ function SmallItem({ data }: { data: BlogType }) {
           alt={data.title}
           fill
           className="object-cover"
+          placeholder="blur"
+          blurDataURL={IMG_BLUR_HASH}
         />
       </div>
       <div className="col-span-2 flex flex-col gap-1">

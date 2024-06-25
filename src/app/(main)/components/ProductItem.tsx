@@ -1,5 +1,6 @@
 import { path } from "@/config/path";
 import { ProductType } from "@/services/api/public/type";
+import { IMG_BLUR_HASH } from "@/utils/constants";
 import { transformCurrency } from "@/utils/functions";
 import clsx from "clsx";
 import Image from "next/image";
@@ -25,6 +26,8 @@ function ProductItem({
             alt=""
             fill
             className="rounded-md object-cover"
+            placeholder="blur"
+            blurDataURL={IMG_BLUR_HASH}
           />
           <div className="absolute left-0 top-0 flex flex-col items-center gap-2">
             {showPinIcon && data.pin && (

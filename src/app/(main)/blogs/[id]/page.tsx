@@ -2,6 +2,7 @@ import NotFound from "@/app/not-found";
 import "@/assets/css/quill.css";
 import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
+import { IMG_BLUR_HASH } from "@/utils/constants";
 import { fromNow } from "@/utils/functions";
 import clsx from "clsx";
 import { Metadata } from "next";
@@ -47,7 +48,8 @@ async function BlogDetail({ params }: PageProps<["id"], []>) {
             alt={data.title}
             fill
             className="object-cover"
-            quality={100}
+            placeholder="blur"
+            blurDataURL={IMG_BLUR_HASH}
           />
         ) : null}
       </div>

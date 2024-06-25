@@ -1,5 +1,6 @@
 import { path } from "@/config/path";
 import { BlogType } from "@/services/api";
+import { IMG_BLUR_HASH } from "@/utils/constants";
 import { fromNow, getPlainTextFromHtml } from "@/utils/functions";
 import clsx from "clsx";
 import Image from "next/image";
@@ -19,6 +20,8 @@ function BlogItem({ item, className }: { item: BlogType; className?: string }) {
           alt=""
           fill
           className="transition-all duration-500 group-hover:scale-105"
+          placeholder="blur"
+          blurDataURL={IMG_BLUR_HASH}
         />
       </div>
       <div className="flex flex-col gap-2 p-4 text-left">
