@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: ONe Coffee web CI/CD
 on:
   push:
     branches:
