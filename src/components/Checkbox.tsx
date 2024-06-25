@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { Check } from "iconsax-react";
 
 export type CheckboxProps = {
   label?: string;
@@ -17,7 +16,12 @@ function Checkbox({ label, value, onChange }: CheckboxProps) {
           "relative flex h-5 w-5 items-center justify-center overflow-hidden rounded-[4px] border border-slate-200",
         )}>
         <svg
-          className="z-10 text-white"
+          className={clsx(
+            "z-10 transition-all",
+            value
+              ? "rotate-0 text-white opacity-100"
+              : "rotate-90 text-primary-500 opacity-0",
+          )}
           stroke="currentColor"
           fill="currentColor"
           strokeWidth="0"

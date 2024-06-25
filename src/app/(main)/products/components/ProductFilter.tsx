@@ -100,6 +100,14 @@ function ProductFilter({
     push(`${pathname}?${search.toString()}`, { scroll: false });
   };
 
+  const handleReset = () => {
+    const search = new URLSearchParams(searchParams);
+    setValues([]);
+    setPriceFrom("");
+    setPriceTo("");
+    push(`${pathname}?${QueryKey.sort}=${search.get(QueryKey.sort)}`);
+  };
+
   useEffect(() => {
     const result = searchParams.get(QueryKey.category);
     setValues(result ? result.split(",").map((c) => +c) : []);
@@ -142,9 +150,14 @@ function ProductFilter({
         ))}
       </div>
 
-      <Button className="mt-3" type="primary" onClick={handleFilter}>
-        Áp dụng
-      </Button>
+      <div className="flex gap-2">
+        <Button className="mt-3" type="primary" onClick={handleFilter}>
+          Áp dụng
+        </Button>
+        <Button className="mt-3" type="outline" onClick={handleReset}>
+          Đặt lại
+        </Button>
+      </div>
     </div>
   );
 }
