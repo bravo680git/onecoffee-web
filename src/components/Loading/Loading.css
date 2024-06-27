@@ -132,7 +132,7 @@
     z-index: 99;
     overflow: hidden;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 .car {
