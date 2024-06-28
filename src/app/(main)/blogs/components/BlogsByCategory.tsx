@@ -1,15 +1,14 @@
+import { path } from "@/config/path";
+import { publicApi } from "@/services/api";
+import { QueryKey } from "@/utils/constants";
+import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import { SmallItem } from "./BlogItem";
-import { publicApi } from "@/services/api";
-import NotFound from "@/app/not-found";
-import Link from "next/link";
-import { path } from "@/config/path";
-import { QueryKey } from "@/utils/constants";
 
 async function BlogsByCategory() {
-  const items = (await publicApi.getCategoryBlogs())?.data?.blogs;
+  const items = (await publicApi.getCategoryBlogs(3))?.data?.blogs;
   if (!items) {
-    return <NotFound />;
+    return "Không có bài viết nào, vui lòng quay lại sau";
   }
 
   return (

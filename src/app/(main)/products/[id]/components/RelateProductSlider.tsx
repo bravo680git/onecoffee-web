@@ -8,7 +8,7 @@ function RelateProductSlider({ items }: { items: ProductType[] }) {
   return (
     <Slider
       dots
-      slidesToShow={6}
+      slidesToShow={5}
       slidesToScroll={1}
       infinite={false}
       autoplay
@@ -16,7 +16,7 @@ function RelateProductSlider({ items }: { items: ProductType[] }) {
       speed={1000}
       responsive={[
         {
-          breakpoint: 800,
+          breakpoint: 1280,
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,

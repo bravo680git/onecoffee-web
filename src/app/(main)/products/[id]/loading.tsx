@@ -47,9 +47,9 @@ function Loading() {
           <Skeleton count={10} />
         </section>
 
-        <section className="mt-8 w-full">
+        {/* <section className="mt-8 w-full">
           <Skeleton height={400} />
-        </section>
+        </section> */}
       </div>
     </div>
   );

@@ -1,15 +1,9 @@
 import "@/assets/css/quill.css";
-import { BreadcrumbItem } from "@/components/Breadcrumb";
-import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
-import { Star1 } from "iconsax-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import PageHeader from "../../components/PageHeader";
 import ProductImageSlider from "./components/ProductImageSlider";
 import ProductPrice from "./components/ProductPrice";
-import ProductRate, { ProductRateLoading } from "./components/ProductRate";
 import RelatedProducts, {
   RelatedProductsLoading,
 } from "./components/RelatedProducts";
