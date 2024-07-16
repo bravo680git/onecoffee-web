@@ -118,7 +118,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
         <div>
           <HambergerMenu size={24} onClick={() => setOpen(true)} />
         </div>
-        <Link href={path.home}>
+        <Link href={path.home} aria-label="Trang chủ">
           <Image src="/logo-full.png" alt="" width={120} height={80} />
         </Link>
 
@@ -143,7 +143,10 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
               className="absolute right-2 top-2 rotate-45 text-neutral-text-secondary"
               onClick={() => setOpen(false)}
             />
-            <Link href={path.home} className="flex items-center gap-2">
+            <Link
+              href={path.home}
+              className="flex items-center gap-2"
+              aria-label="Trang chủ">
               <Image src="/logo-full.png" width={200} height={60} alt="" />
             </Link>
             <ul className="mt-8 flex flex-col gap-2 font-semibold">
