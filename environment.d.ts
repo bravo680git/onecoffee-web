@@ -4,5 +4,6 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_GG_CLIENT_ID: string;
     readonly ADMIN_DOMAIN: string;
     readonly HOST: string;
+    readonly GA_ID: string;
   }
 }

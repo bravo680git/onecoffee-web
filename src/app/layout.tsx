@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google'
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Covered_By_Your_Grace, Inter } from "next/font/google";
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(inter.className, grace.variable)}>{children}</body>
+      <GoogleAnalytics gaId={process.env.GA_ID} />
     </html>
   );
 }
