@@ -52,6 +52,7 @@ function Slider({ items }: { items: SliderItem[] }) {
           <Link
             key={i}
             href={item.link}
+            aria-lable={item.caption ?? "Banner"}
             className="relative mx-auto h-[450px] w-full text-center sm:h-[200px]">
             <Image
               src={item.image}

@@ -45,7 +45,7 @@ export default async function Home() {
         )}
 
         <section className="my-12 aspect-video w-full">
-          <Link className="relative block h-full w-full" href={""}>
+          <Link className="relative block h-full w-full" href={""} aria-label="ONe Coffee topic">
             <Image
               src={THUMBNAIL_1}
               alt=""

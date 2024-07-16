@@ -22,11 +22,12 @@ async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
         <div className="mx-auto grid max-w-[1200px] grid-cols-5 gap-10 xl:px-6 lg:grid-cols-2 sm:grid-cols-1">
           <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-4">
-              <Link href="https://new3t.com">
+              <Link href="https://new3t.com" aria-label="New3T">
                 <Image src="/new3t-logo.png" alt="" width={80} height={80} />
               </Link>
               <Link
                 href={path.home}
+                aria-label="ONe Coffee"
                 className="flex h-10 w-full items-center gap-2">
                 <Image src="/logo-dark.png" alt="" height={40} width={160} />
               </Link>
@@ -38,6 +39,7 @@ async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
             </p>
             <div className="mt-4 flex gap-4">
               <Link
+                aria-label="ONe Facebook"
                 href={CONTACT.facebook}
                 className="flex h-10 w-10 items-center justify-center rounded-md bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
@@ -50,12 +52,14 @@ async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
                 <Youtube size={20} />
               </Link> */}
               <Link
+                aria-label="ONe Instagram"
                 href={CONTACT.instagram}
                 className="flex h-10 w-10 items-center justify-center rounded-md bg-black/50
                    text-white transition-all hover:bg-primary-500/30">
                 <Instagram size={20} />
               </Link>
               <Link
+                aria-label="ONe Tiktok"
                 href={CONTACT.tiktok}
                 className="flex h-10 w-10 items-center justify-center rounded-md bg-black/50
                    text-xl text-white transition-all hover:bg-primary-500/30">
@@ -119,6 +123,7 @@ async function Footer({ blogMenuItems = [] }: { blogMenuItems: MenuItem[] }) {
 
           <div className="mt-4 hidden aspect-video w-full sm:block">
             <iframe
+              title="Google map"
               src={CONTACT.embedMapUrl}
               width="100%"
               height="100%"
