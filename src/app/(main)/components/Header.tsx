@@ -52,7 +52,7 @@ function Header({ menuItems }: { menuItems: MenuItem[] }) {
           },
         )}>
         <Link
-          aria-lable="Trang chủ"
+          aria-label="Trang chủ"
           href={path.home}
           className="absolute left-[10%] flex h-16 w-64 items-center gap-2 xl:w-16">
           <Image
