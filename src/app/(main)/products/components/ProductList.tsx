@@ -14,12 +14,12 @@ async function ProductList({
 }: {
   queries: Record<string, string | undefined>;
   pageSize: number;
-  categories: Category["categories"];
+  categories: Category[];
 }) {
-  const { products, meta } =
+  const { data: products, meta } =
     (await publicApi
       .getProductList(queries)
-      .then((res) => res?.data)
+      .then((res) => res)
       .catch()) ?? {};
 
   const start = ((meta?.currentPage ?? 1) - 1) * pageSize + 1;

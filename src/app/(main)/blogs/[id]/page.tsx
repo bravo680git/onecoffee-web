@@ -14,7 +14,7 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }): Promise<Metadata> => {
-  const data = (await publicApi.getBlogDetail(params.id))?.data?.blog;
+  const data = (await publicApi.getBlogDetail(params.id))?.data;
   return {
     title: data?.title,
     description: data?.seoDescription,
@@ -27,7 +27,7 @@ export const generateMetadata = async ({
 
 async function BlogDetail({ params }: PageProps<["id"], []>) {
   const id = params.id;
-  const data = (await publicApi.getBlogDetail(id))?.data?.blog;
+  const data = (await publicApi.getBlogDetail(id))?.data;
 
   if (!data) {
     return <NotFound />;

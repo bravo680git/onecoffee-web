@@ -9,12 +9,12 @@ import Button from "@/components/Button";
 function BlogListPagination({
   firstPageItems,
   size,
-  total,
+  total = 0,
   showCategory,
 }: {
   firstPageItems: BlogType[];
   size: number;
-  total: number;
+  total?: number;
   showCategory?: boolean;
 }) {
   const [items, setItems] = useState(firstPageItems);

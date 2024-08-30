@@ -1,21 +1,17 @@
 import { UserInfo } from "../protected";
 
 export type Category = {
-  categories: {
-    id: number;
-    name: string;
-    parentId?: number;
-    image?: string;
-  }[];
+  id: number;
+  name: string;
+  parentId?: number;
+  image?: string;
 };
 
 type Banner = {
-  banners: {
-    id: number;
-    image: string;
-    caption?: string;
-    link: string;
-  }[];
+  id: number;
+  image: string;
+  caption?: string;
+  link: string;
 };
 
 type ProductType = {
@@ -44,7 +40,7 @@ type ProductType = {
     stockQuantity: number;
   }[];
   averageRate: number;
-  extraOptions: {
+  extraOptions?: {
     name: string;
     price: number;
   }[];
@@ -58,23 +54,14 @@ type ResponseMeta = {
   currentPage: number;
 };
 
-type ProductsResponse = {
-  products: ProductType[];
-  meta: ResponseMeta;
-};
-
-type ProductResponse = {
-  product: ProductType;
-  averageRate: number;
-  totalRate: number;
-};
-
 type ProductQueries = {
   name?: string;
   page?: string;
   limit?: string;
   sort?: string;
-  filter?: string;
+  category?: string;
+  price?: string;
+  pin?: string;
 };
 
 type Province = {
@@ -108,7 +95,7 @@ type BlogType = {
   content: string;
   thumbnail: string;
   categoryId: number;
-  category: Category["categories"][number];
+  category: Category;
   seoKeyword: string;
   seoDescription: string;
   updatedAt: string;
@@ -119,12 +106,7 @@ type BlogQueries = {
   page?: string;
   limit?: string;
   title?: string;
-  filter?: string;
-};
-
-type BlogsResponse = {
-  blogs: BlogType[];
-  meta: ResponseMeta;
+  category?: string;
 };
 
 type BlogsByCategoryType = {

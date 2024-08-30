@@ -6,7 +6,7 @@ import Skeleton from "react-loading-skeleton";
 import { SmallItem } from "./BlogItem";
 
 async function BlogsByCategory() {
-  const items = (await publicApi.getCategoryBlogs(3))?.data?.blogs;
+  const items = (await publicApi.getCategoryBlogs(3))?.data;
   if (!items) {
     return "Không có bài viết nào, vui lòng quay lại sau";
   }

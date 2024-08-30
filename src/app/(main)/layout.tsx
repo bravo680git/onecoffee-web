@@ -10,7 +10,7 @@ async function MainLayout({ children }: { children: React.ReactNode }) {
   const categories =
     (await publicApi
       .getCategoryList()
-      .then((data) => data?.data?.categories)
+      .then((data) => data?.data)
       .catch()) ?? [];
 
   const productCategories = generateMenuItem(

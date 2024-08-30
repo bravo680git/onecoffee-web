@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
 
-type ProductSlidersType = Category["categories"];
+type ProductSlidersType = Category[];
 
 function ProductSlider({ items = [] }: { items: ProductSlidersType }) {
   return (

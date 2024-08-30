@@ -20,7 +20,7 @@ const MSG = {
 function Login() {
   const { push } = useRouter();
   const setUserInfo = useUserStore((state) => state.setUserInfo);
-  const { msgApi, msgCtxHoler } = useMessage();
+  const { msgCtxHoler } = useMessage();
   const { modalCtxHoler, modelApi } = useModal();
 
   const [oldPassword, setOldPassword] = useState("");

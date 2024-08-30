@@ -7,8 +7,9 @@ type PageProps<
   searchParams: Record<S[number], string>;
 } & T;
 
-type BaseResponse<T = null> = {
+type BaseResponse<T = null, M = null> = {
   statusCode: number;
   message: string;
   data?: T;
+  meta: M;
 };

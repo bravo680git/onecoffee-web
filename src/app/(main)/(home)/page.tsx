@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 export default async function Home() {
   const [bannerRes, productRes, blogRes] = await Promise.all([
     publicApi.getBannerList(),
-    publicApi.getProductList({ limit: "8", page: "1", filter: "pin:true" }),
+    publicApi.getProductList({ limit: "8", page: "1", pin: "true" }),
     publicApi.getCategoryBlogs(4),
   ]).catch();
 
-  const banners = bannerRes?.data?.banners ?? [];
-  const products = productRes?.data?.products ?? [];
-  const categoryBlogs = blogRes?.data?.blogs ?? [];
+  const banners = bannerRes?.data ?? [];
+  const products = productRes?.data ?? [];
+  const categoryBlogs = blogRes?.data ?? [];
 
   return (
     <div className="w-full overflow-hidden">
@@ -45,7 +45,10 @@ export default async function Home() {
         )}
 
         <section className="my-12 aspect-video w-full">
-          <Link className="relative block h-full w-full" href={""} aria-label="ONe Coffee topic">
+          <Link
+            className="relative block h-full w-full"
+            href={""}
+            aria-label="ONe Coffee topic">
             <Image
               src={THUMBNAIL_1}
               alt=""

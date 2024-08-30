@@ -28,7 +28,7 @@ function ProductPrice({ data }: { data: ProductType }) {
     [],
   );
 
-  const extraPrice = extraOptions.reduce((acc, crr) => acc + crr.price, 0);
+  const extraPrice = extraOptions?.reduce((acc, crr) => acc + crr.price, 0);
 
   const handleSelectVariant = (value: string, index: number) => {
     const newVariants = [...variants];
@@ -45,13 +45,13 @@ function ProductPrice({ data }: { data: ProductType }) {
   };
 
   const handleSelectExtraOption = (
-    item: ProductType["extraOptions"][number],
+    item: NonNullable<ProductType["extraOptions"]>[number],
   ) => {
     let newItems: ProductType["extraOptions"];
-    if (extraOptions.includes(item)) {
+    if (extraOptions?.includes(item)) {
       newItems = extraOptions.filter((e) => e !== item);
     } else {
-      newItems = [...extraOptions, item];
+      newItems = [...(extraOptions ?? []), item];
     }
     setExtraOptions(newItems);
   };
@@ -140,7 +140,7 @@ function ProductPrice({ data }: { data: ProductType }) {
       {msgCtxHoler}
       <div className="mt-5 w-full">
         <span className="text-xl font-bold text-primary-500">
-          {transformCurrency(price + extraPrice, data.salePercent)}
+          {transformCurrency(price + (extraPrice ?? 0), data.salePercent)}
         </span>
         <div className="text-neutral-text-secondary">
           {data.salePercent > 0 && (
@@ -150,7 +150,7 @@ function ProductPrice({ data }: { data: ProductType }) {
             </>
           )}
         </div>
-        {(!!data.variantProps?.length || data.extraOptions.length > 0) && (
+        {(!!data.variantProps?.length || !!data.extraOptions?.length) && (
           <hr className="mt-5 text-neutral-text-secondary" />
         )}
         <div className="mt-5 flex flex-col gap-2">
@@ -178,7 +178,7 @@ function ProductPrice({ data }: { data: ProductType }) {
             </div>
           ))}
 
-          {data.extraOptions.length > 0 && (
+          {!!data.extraOptions?.length && (
             <div className="flex flex-col gap-3">
               <span className="font-semibold text-neutral-text-secondary">
                 Tùy chọn thêm
@@ -191,7 +191,7 @@ function ProductPrice({ data }: { data: ProductType }) {
                     "ripple w-fit rounded-md border border-slate-200 px-3 py-1.5 transition-all duration-300",
                     {
                       "border-2 !border-primary-500":
-                        extraOptions.includes(item),
+                        extraOptions?.includes(item),
                     },
                   )}>
                   {item.name}(+{transformCurrency(item.price)})

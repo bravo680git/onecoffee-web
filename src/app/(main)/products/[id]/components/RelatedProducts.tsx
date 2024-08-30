@@ -8,9 +8,9 @@ async function RelatedProducts({ item }: { item: ProductType }) {
   const items =
     (await publicApi
       .getProductList({
-        filter: `category:[${item.category.id}]`,
+        category: `${item.category.id}`,
       })
-      .then((res) => res?.data?.products?.filter((p) => p.id !== item.id))
+      .then((res) => res?.data?.filter((p) => p.id !== item.id))
       .catch()) ?? [];
 
   return (

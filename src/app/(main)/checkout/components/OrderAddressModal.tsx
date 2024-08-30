@@ -1,14 +1,14 @@
+import { updateUserInfo } from "@/app/action";
+import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useMessage } from "@/components/Message";
+import { useModal } from "@/components/Modal";
 import Select, { SelectProps } from "@/components/Select";
+import { CreateAddressPayload } from "@/services/api";
+import { useAddressStore } from "@/store/address";
+import { useUserStore } from "@/store/user";
 import clsx from "clsx";
-import {
-  Add,
-  ArrowLeft,
-  Building,
-  Home,
-  NotificationCircle,
-  Trash,
-} from "iconsax-react";
+import { Add, ArrowLeft, Building, Home, Trash } from "iconsax-react";
 import { useEffect, useState } from "react";
 import {
   createAddress,
@@ -18,13 +18,6 @@ import {
   getProvinces,
   getWardsByDistrict,
 } from "../action";
-import { CreateAddressPayload } from "@/services/api";
-import { useMessage } from "@/components/Message";
-import { useAddressStore } from "@/store/address";
-import { useUserStore } from "@/store/user";
-import { updateUserInfo } from "@/app/action";
-import { useModal } from "@/components/Modal";
-import Button from "@/components/Button";
 
 function OrderAddressListModal({
   open,
