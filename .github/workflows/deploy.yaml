@@ -6,7 +6,7 @@ on:
 env:
   IMAGE_NAME: bravo680/onecoffee-web
   IMAGE_TAG: latest
-  WEB_FOLDER: /var/www/onecoffee-web-demo
+  WEB_FOLDER: /var/www/onecoffee/user
 
 jobs:
   Lint:
