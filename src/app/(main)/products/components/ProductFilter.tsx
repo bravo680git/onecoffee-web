@@ -57,11 +57,7 @@ function OrderSelect() {
   );
 }
 
-function ProductFilter({
-  categories = [],
-}: {
-  categories: Category["categories"];
-}) {
+function ProductFilter({ categories = [] }: { categories: Category[] }) {
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const pathname = usePathname();
@@ -162,11 +158,7 @@ function ProductFilter({
   );
 }
 
-function ProductFilterBtn({
-  categories = [],
-}: {
-  categories: Category["categories"];
-}) {
+function ProductFilterBtn({ categories = [] }: { categories: Category[] }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

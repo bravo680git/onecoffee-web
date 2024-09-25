@@ -1,7 +1,7 @@
 import { Category } from "@/services/api/public/type";
 import { QueryKey } from "@/utils/constants";
 
-export const generateMenuItem = (path: string, data: Category["categories"]) =>
+export const generateMenuItem = (path: string, data: Category[]) =>
   data.map((item) => ({
     ...item,
     key: item.id.toString(),

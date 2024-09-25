@@ -10,7 +10,7 @@ export const loadMoreBlogs = async (page: number, size: number) => {
           page: page.toString(),
           limit: size.toString(),
         })
-      )?.data?.blogs ?? []
+      )?.data ?? []
     );
   } catch (error) {
     return [];
