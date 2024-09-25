@@ -13,7 +13,7 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }): Promise<Metadata> => {
-  const product = (await publicApi.getProductDetail(params.id))?.data?.product;
+  const product = (await publicApi.getProductDetail(params.id))?.data;
   return {
     title: product?.name,
     keywords: product?.seoKeyword,
@@ -26,14 +26,13 @@ export const generateMetadata = async ({
 
 async function ProductDetail({ params }: PageProps<["id"], []>) {
   const productId = params.id;
-  const data = await publicApi
+  const product = await publicApi
     .getProductDetail(productId)
     .then((res) => res?.data)
     .catch();
-  if (!data) {
+  if (!product) {
     return;
   }
-  const product = data.product;
 
   return (
     <div className="w-full py-60 lg:py-20">

@@ -1,6 +1,5 @@
 "use client";
 
-import { Banner } from "@/services/api";
 import { IMG_BLUR_HASH } from "@/utils/constants";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Image from "next/image";

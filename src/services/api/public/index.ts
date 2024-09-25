@@ -4,41 +4,43 @@ import {
   BlogQueries,
   BlogType,
   BlogsByCategoryType,
-  BlogsResponse,
   Category,
   District,
   ProductQueries,
   ProductRateType,
   ProductRatesResponse,
-  ProductResponse,
-  ProductsResponse,
+  ProductType,
   Province,
+  ResponseMeta,
   Ward,
 } from "./type";
 
 export const publicApi = {
   getCategoryList(q?: string, config?: ApiConfig) {
-    return publicApiClient<BaseResponse<Category>>("/category", {
+    return publicApiClient<BaseResponse<Category[]>>("/category", {
       ...config,
       next: { tags: ["category"] },
       query: { name: q },
     });
   },
   getBannerList(config?: ApiConfig) {
-    return publicApiClient<BaseResponse<Banner>>("/banner", {
+    return publicApiClient<BaseResponse<Banner[]>>("/banner", {
       ...config,
       next: { tags: ["banner"] },
     });
   },
   getProductList(query?: ProductQueries, config?: ApiConfig) {
-    return publicApiClient<BaseResponse<ProductsResponse>>("/product", {
-      ...config,
-      query,
-      next: { tags: ["product"] },
-    });
+    return publicApiClient<BaseResponse<ProductType[], ResponseMeta>>(
+      "/product",
+      {
+        ...config,
+        query,
+        next: { tags: ["product"] },
+      },
+    );
   },
   getProductDetail(id: string) {
-    return publicApiClient<BaseResponse<ProductResponse>>(`/product/${id}`, {
+    return publicApiClient<BaseResponse<ProductType>>(`/product/${id}`, {
       next: { tags: [`product-${id}`] },
     });
   },
@@ -70,19 +72,19 @@ export const publicApi = {
     );
   },
   getBlogList(query?: BlogQueries) {
-    return publicApiClient<BaseResponse<BlogsResponse>>("/blog", {
+    return publicApiClient<BaseResponse<BlogType[], ResponseMeta>>("/blog", {
       next: { tags: ["blog"] },
       query,
     });
   },
   getBlogDetail(slug: string) {
-    return publicApiClient<BaseResponse<{ blog: BlogType }>>(`/blog/${slug}`, {
+    return publicApiClient<BaseResponse<BlogType>>(`/blog/${slug}`, {
       next: { tags: [`blog-${slug}`] },
     });
   },
   getCategoryBlogs(limit = 3) {
-    return publicApiClient<BaseResponse<{ blogs: BlogsByCategoryType[] }>>(
-      "/blog/category-blog",
+    return publicApiClient<BaseResponse<BlogsByCategoryType[]>>(
+      "/blog/by-category",
       {
         query: { limit: limit.toString() },
         next: { tags: ["blog"] },
@@ -98,11 +100,10 @@ export type {
   ProductQueries,
   ProductRateType,
   ProductRatesResponse,
-  ProductResponse,
-  ProductsResponse,
   Province,
   Ward,
   BlogType,
   BlogQueries,
   BlogsByCategoryType,
+  ProductType,
 };

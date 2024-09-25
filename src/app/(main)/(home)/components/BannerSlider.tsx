@@ -10,7 +10,7 @@ import Link from "next/link";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { IMG_BLUR_HASH } from "@/utils/constants";
 
-export type SliderItem = Banner["banners"][number];
+export type SliderItem = Banner;
 
 function PrevArrow(props: any) {
   const { onClick } = props;

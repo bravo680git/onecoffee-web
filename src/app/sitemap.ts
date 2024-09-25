@@ -3,8 +3,8 @@ import { path } from "../config/path";
 import { publicApi } from "../services/api";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = (await publicApi.getProductList())?.data?.products ?? [];
-  const blogs = (await publicApi.getBlogList())?.data?.blogs ?? [];
+  const products = (await publicApi.getProductList())?.data ?? [];
+  const blogs = (await publicApi.getBlogList())?.data ?? [];
 
   return [
     {

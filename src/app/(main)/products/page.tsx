@@ -20,11 +20,8 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
     page: searchParams.page ?? "1",
     limit: PAGE_SIZE.toString(),
     sort: ORDER_TYPE_DIST[searchParams.sort],
-    filter: generateProductFilter(
-      searchParams.from,
-      searchParams.to,
-      searchParams["cat-id"],
-    ),
+    price: `${searchParams.from},${searchParams.to}`,
+    category: searchParams["cat-id"],
   };
 
   const key = Object.values(queries).join("");
@@ -33,9 +30,7 @@ async function Products({ searchParams }: PageProps<[], QueryKey[]>) {
     (await publicApi
       .getCategoryList()
       .then((res) =>
-        res?.data?.categories?.filter(
-          (item) => item.parentId === CATEGORY.PRODUCT,
-        ),
+        res?.data?.filter((item) => item.parentId === CATEGORY.PRODUCT),
       )
       .catch()) ?? [];
 

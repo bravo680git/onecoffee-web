@@ -1,4 +1,3 @@
-import NotFound from "@/app/not-found";
 import { publicApi } from "@/services/api";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -8,20 +7,19 @@ import BlogListPagination from "./BlogListPagination";
 const PAGE_SIZE = 12;
 
 async function BlogList({ catId }: { catId?: string }) {
-  const data = (
-    await publicApi.getBlogList({
-      filter: catId ? `category:[${catId}]` : undefined,
+  const { data, meta } =
+    (await publicApi.getBlogList({
+      category: `${catId}`,
       limit: PAGE_SIZE.toString(),
       page: "1",
-    })
-  )?.data;
+    })) ?? {};
 
-  if (!data || !data.blogs.length) {
+  if (!data || !data.length) {
     return "Không có bài viết nào, vui lòng quay lại sau";
   }
 
-  const firstItem = data.blogs[0];
-  const items = data.blogs.slice(1);
+  const firstItem = data[0];
+  const items = data.slice(1);
 
   return (
     <div className="col-span-2 lg:col-span-3">
@@ -43,9 +41,9 @@ async function BlogList({ catId }: { catId?: string }) {
       <BlogListPagination
         key={catId}
         showCategory={!catId}
-        firstPageItems={!catId ? items : data.blogs}
+        firstPageItems={!catId ? items : data}
         size={PAGE_SIZE}
-        total={data.meta.total}
+        total={meta?.total}
       />
     </div>
   );
