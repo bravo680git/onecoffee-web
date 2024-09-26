@@ -49,9 +49,8 @@ type ProductType = {
 
 type ResponseMeta = {
   total: number;
-  lastPage: number;
-  perPage: number;
-  currentPage: number;
+  size: number;
+  current: number;
 };
 
 type ProductQueries = {

@@ -22,9 +22,9 @@ async function ProductList({
       .then((res) => res)
       .catch()) ?? {};
 
-  const start = ((meta?.currentPage ?? 1) - 1) * pageSize + 1;
+  const start = ((meta?.current ?? 1) - 1) * pageSize + 1;
   const total = meta?.total ?? 0;
-  const end = Math.min(start + pageSize, total);
+  const end = Math.min(start + pageSize - 1, total);
   const pageCount = Math.ceil(total / pageSize);
 
   return (
@@ -48,10 +48,7 @@ async function ProductList({
             <ProductItem data={item} />
           </div>
         ))}
-        <Pagination
-          currentPage={meta?.currentPage ?? 1}
-          pageCount={pageCount}
-        />
+        <Pagination currentPage={meta?.current ?? 1} pageCount={pageCount} />
       </div>
     </div>
   );
