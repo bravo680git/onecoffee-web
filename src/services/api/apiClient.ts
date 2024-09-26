@@ -21,8 +21,12 @@ const generateQueryString = (query?: Record<string, string | undefined>) => {
   );
 };
 
-const logger = (req: Parameters<typeof protectedApiClient>, res: unknown) => {
-  console.log(">>");
+const logger = (
+  req: Parameters<typeof protectedApiClient>,
+  res: unknown,
+  isErr?: boolean,
+) => {
+  console.log(isErr ? "XXXXXXX" : "", ">>");
   console.log("Request: ", req[0]);
   console.log("Response: ", res);
 };
@@ -76,7 +80,13 @@ export async function publicApiClient<T = unknown>(
 
   const data = await fetch(url + queryString, {
     ...config,
-  }).then((res) => (res.ok ? (res.json() as T) : undefined));
+  }).then(async (res) => {
+    const resData = await res.json();
+    if (res.ok) {
+      return resData as T;
+    }
+    logger([path], resData);
+  });
 
   logger([path], data);
 
