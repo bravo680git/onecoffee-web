@@ -21,6 +21,12 @@ const generateQueryString = (query?: Record<string, string | undefined>) => {
   );
 };
 
+const logger = (req: Parameters<typeof protectedApiClient>, res: unknown) => {
+  console.log(">>");
+  console.log("Request: ", req[0]);
+  console.log("Response: ", res);
+};
+
 export async function protectedApiClient<T = unknown>(
   path: string,
   config?: ApiConfig & {
@@ -39,7 +45,7 @@ export async function protectedApiClient<T = unknown>(
       "Application/json";
   }
 
-  return fetch(url + queryString, {
+  const data = fetch(url + queryString, {
     ...config,
     headers: {
       ...requestHeader,
@@ -52,6 +58,10 @@ export async function protectedApiClient<T = unknown>(
 
     return res.ok ? (res.json() as T) : undefined;
   });
+
+  logger([path], data);
+
+  return data;
 }
 
 export async function publicApiClient<T = unknown>(
@@ -64,7 +74,11 @@ export async function publicApiClient<T = unknown>(
 
   const url = generateUrl(process.env.BASE_URL, path);
 
-  return fetch(url + queryString, {
+  const data = await fetch(url + queryString, {
     ...config,
   }).then((res) => (res.ok ? (res.json() as T) : undefined));
+
+  logger([path], data);
+
+  return data;
 }
