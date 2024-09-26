@@ -77,7 +77,7 @@ export async function publicApiClient<T = unknown>(
   const data = await fetch(url + queryString, {
     ...config,
   }).then(async (res) => {
-    logger(url, "begin");
+    logger(url, res);
     const resData = await res.json();
     if (res.ok) {
       return resData as T;
