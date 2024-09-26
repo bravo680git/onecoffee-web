@@ -9,6 +9,7 @@ import StoreImageSlider from "./components/StoreImageSlider";
 import { STORE_IMGS, THUMBNAIL_1 } from "@/utils/contact";
 import { path } from "@/config/path";
 import { IMG_BLUR_HASH, QueryKey } from "@/utils/constants";
+import HomeImg from "@/assets/images/home.png";
 
 export const metadata: Metadata = {
   title: {
@@ -44,16 +45,23 @@ export default async function Home() {
           </section>
         )}
 
-        <section className="my-12 aspect-video w-full">
+        <section className="my-12 flex w-full gap-12 align-bottom md:flex-col">
+          <div
+            className="mt-10 flex h-96 w-1/3 items-center justify-center rounded-2xl bg-primary-500 
+            text-4xl font-light text-white md:w-full sm:h-64">
+            <p className="p-5 sm:text-2xl">
+              Khác biệt từ những điều đơn giản nhất
+            </p>
+          </div>
           <Link
-            className="relative block h-full w-full"
+            className="relative block aspect-square flex-1"
             href={""}
             aria-label="ONe Coffee topic">
             <Image
-              src={THUMBNAIL_1}
+              src={HomeImg}
               alt=""
               fill
-              className="rounded-2xl object-cover object-center"
+              className="rounded-2xl object-cover"
               placeholder="blur"
               blurDataURL={IMG_BLUR_HASH}
             />
