@@ -93,7 +93,7 @@ type BlogType = {
   title: string;
   slug: string;
   content: string;
-  thumbnail: string;
+  thumbnail?: string;
   categoryId: number;
   category: Category;
   seoKeyword: string;

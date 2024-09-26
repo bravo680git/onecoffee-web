@@ -16,7 +16,7 @@ function BlogItem({ item, className }: { item: BlogType; className?: string }) {
       )}>
       <div className="relative aspect-video w-full overflow-hidden rounded-t-md">
         <Image
-          src={item.thumbnail}
+          src={item.thumbnail ?? IMG_BLUR_HASH}
           alt=""
           fill
           className="transition-all duration-500 group-hover:scale-105"

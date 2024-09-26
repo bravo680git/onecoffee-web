@@ -10,7 +10,7 @@ function LargeItem({ data }: { data: BlogType }) {
     <Link href={`${path.blogs}/${data.slug}`} className="block w-full">
       <div className="relative aspect-video w-full overflow-hidden rounded-xl md:rounded-md">
         <Image
-          src={data.thumbnail}
+          src={data.thumbnail ?? IMG_BLUR_HASH}
           alt={data.title}
           fill
           className="object-cover"
@@ -44,7 +44,7 @@ function MediumItem({
       className="grid w-full grid-cols-3 gap-4">
       <div className="relative col-span-1 aspect-video overflow-hidden rounded-md">
         <Image
-          src={data.thumbnail}
+          src={data.thumbnail ?? IMG_BLUR_HASH}
           alt={data.title}
           fill
           className="object-cover"
@@ -84,7 +84,7 @@ function SmallItem({ data }: { data: BlogType }) {
     <div className="grid w-full grid-cols-3 gap-4">
       <div className="relative col-span-1 aspect-video overflow-hidden rounded-md">
         <Image
-          src={data.thumbnail}
+          src={data.thumbnail ?? IMG_BLUR_HASH}
           alt={data.title}
           fill
           className="object-cover"
