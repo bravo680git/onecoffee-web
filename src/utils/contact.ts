@@ -14,7 +14,14 @@ export const CONTACT = {
 
 export const THUMBNAIL_1 = "https://cdn.nguyendt.dev/banner11716593784458.jpg";
 export const STORE_IMGS = [
-  "https://cdn.nguyendt.dev/place11716593441381.jpg",
-  "https://cdn.nguyendt.dev/place21716593500325.jpg",
-  "https://cdn.nguyendt.dev/place31716593521750.jpg",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0453.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0454.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0455.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0456.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0457.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0458.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0459.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0460.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0461.JPG",
+  "https://bravo680-work-test.s3.ap-southeast-1.amazonaws.com/one-web/IMG_0462.JPG",
 ];

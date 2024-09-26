@@ -21,12 +21,6 @@ const generateQueryString = (query?: Record<string, string | undefined>) => {
   );
 };
 
-const logger = (url: string, res: unknown, isErr?: boolean) => {
-  console.log(isErr ? "XXXXXXX" : "", ">>");
-  console.log("Request: ", url);
-  console.log("Response: ", res);
-};
-
 export async function protectedApiClient<T = unknown>(
   path: string,
   config?: ApiConfig & {
@@ -45,7 +39,7 @@ export async function protectedApiClient<T = unknown>(
       "Application/json";
   }
 
-  const data = fetch(url + queryString, {
+  return fetch(url + queryString, {
     ...config,
     headers: {
       ...requestHeader,
@@ -58,10 +52,6 @@ export async function protectedApiClient<T = unknown>(
 
     return res.ok ? (res.json() as T) : undefined;
   });
-
-  logger(url, data);
-
-  return data;
 }
 
 export async function publicApiClient<T = unknown>(
@@ -74,18 +64,7 @@ export async function publicApiClient<T = unknown>(
 
   const url = generateUrl(process.env.BASE_URL, path);
 
-  const data = await fetch(url + queryString, {
+  return fetch(url + queryString, {
     ...config,
-  }).then(async (res) => {
-    logger(url, res);
-    const resData = await res.json();
-    if (res.ok) {
-      return resData as T;
-    }
-    logger(url, resData);
-  });
-
-  logger(url, data);
-
-  return data;
+  }).then((res) => (res.ok ? (res.json() as T) : undefined));
 }
