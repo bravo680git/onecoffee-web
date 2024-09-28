@@ -1,6 +1,7 @@
 import "@/assets/css/quill.css";
 import { publicApi } from "@/services/api";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import ProductImageSlider from "./components/ProductImageSlider";
 import ProductPrice from "./components/ProductPrice";
@@ -31,7 +32,7 @@ async function ProductDetail({ params }: PageProps<["id"], []>) {
     .then((res) => res?.data)
     .catch();
   if (!product) {
-    return;
+    return notFound();
   }
 
   return (
