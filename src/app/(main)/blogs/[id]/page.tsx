@@ -1,4 +1,3 @@
-import NotFound from "@/app/not-found";
 import "@/assets/css/quill.css";
 import { path } from "@/config/path";
 import { publicApi } from "@/services/api";
@@ -8,6 +7,7 @@ import clsx from "clsx";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export const generateMetadata = async ({
   params,
@@ -30,7 +30,7 @@ async function BlogDetail({ params }: PageProps<["id"], []>) {
   const data = (await publicApi.getBlogDetail(id))?.data;
 
   if (!data) {
-    return <NotFound />;
+    return notFound();
   }
 
   return (
